@@ -1,11 +1,13 @@
 package com.exomatik.kapcake.Authentication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.exomatik.kapcake.MainActivity;
 import com.exomatik.kapcake.R;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -144,7 +146,8 @@ public class ActAuthPin extends AppCompatActivity {
             img3.setImageResource(R.drawable.border_hitam);
             img4.setImageResource(R.drawable.border_hitam);
 
-            Toast.makeText(this, "Pin : " + pin, Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(ActAuthPin.this, MainActivity.class));
+            finish();
         }
 
     }
