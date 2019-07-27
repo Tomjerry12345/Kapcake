@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Kapcake</string>
+
+    <string name="splash">Selamat Datang di Kapcake</string>
+    <string name="hint_auth_pin">A managers PIN is required to enter starting cash</string>
+    <string name="sign_in1">Masuk ke Kapcake</string>
+    <string name="sign_in2">Silahkan Masukkan Email dan Password</string>
+
+    <string name="text_email">Email</string>
+    <string name="text_email2">Email Anda...</string>
+    <string name="text_pass">Password</string>
+    <string name="text_pass2">Password Anda...</string>
+
+    <string name="text_login">Masuk</string>
+    <string name="text_sign_up">Buat Akun</string>
+
+    <string name="text_nothing_account">Belum punya akun?</string>
+</resources>
