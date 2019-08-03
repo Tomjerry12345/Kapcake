@@ -23,4 +23,7 @@
     <color name="orange2">#FF9A3E</color>
 
     <color name="background">#dddddd</color>
+
+    <color name="gray1">#f4f4f4</color>
+    <color name="gray2">#626e82</color>
 </resources>

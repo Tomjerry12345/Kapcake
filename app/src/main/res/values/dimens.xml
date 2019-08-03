@@ -13,8 +13,10 @@
     <dimen name="text_font">14.0sp</dimen>
     <dimen name="title_font">17.0sp</dimen>
     <dimen name="title_big_font">20.0sp</dimen>
+    <dimen name="title_very_big_font">24.0sp</dimen>
 
     <dimen name="navigation_drawer_width">240dp</dimen>
+    <dimen name="width3">3dp</dimen>
     <dimen name="width_40">50dp</dimen>
     <dimen name="width100">100dp</dimen>
     <dimen name="width240">240dp</dimen>

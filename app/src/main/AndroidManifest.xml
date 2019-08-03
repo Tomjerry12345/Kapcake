@@ -23,8 +23,12 @@
         <activity
             android:name=".Authentication.ActAuthPin"
             android:screenOrientation="landscape" />
-        <activity android:name=".Authentication.ActSignIn" />
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".Authentication.ActSignIn"
+            android:screenOrientation="landscape"
+            />
+        <activity android:name=".MainActivity"
+            android:screenOrientation="landscape"
+            ></activity>
     </application>
 
 </manifest>

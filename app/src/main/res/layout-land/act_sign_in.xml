@@ -53,41 +53,105 @@
                     android:layout_below="@+id/text_sign_in_1"
                     android:layout_marginTop="@dimen/margin_standard_big"
                     />
-                <EditText
+                <!--<EditText-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="@dimen/width50"-->
+                    <!--android:layout_below="@+id/text_sign_in_2"-->
+                    <!--android:background="@drawable/border_et_putih_hitam"-->
+                    <!--android:layout_marginTop="@dimen/margin_big"-->
+                    <!--android:hint="@string/text_email"-->
+                    <!--android:textColorHint="@color/hitamGray2"-->
+                    <!--android:textColor="@color/hitam"-->
+                    <!--android:paddingLeft="@dimen/margin_standard_big"-->
+                    <!--android:paddingRight="@dimen/margin_standard_big"-->
+                    <!--android:paddingTop="@dimen/margin_small"-->
+                    <!--android:paddingBottom="@dimen/margin_small"-->
+                    <!--android:id="@+id/et_email"-->
+                    <!--android:fontFamily="@font/roboto_regular"-->
+                    <!--android:maxLines="1"-->
+                    <!--android:inputType="textEmailAddress"-->
+                    <!--/>-->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/et_input_email"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/width50"
+                    android:layout_height="wrap_content"
+                    app:errorEnabled="true"
                     android:layout_below="@+id/text_sign_in_2"
-                    android:background="@drawable/border_et_putih_hitam"
-                    android:layout_marginTop="@dimen/margin_big"
-                    android:hint="@string/text_email"
                     android:textColorHint="@color/hitamGray2"
-                    android:textColor="@color/hitam"
-                    android:paddingLeft="@dimen/margin_standard_big"
-                    android:paddingRight="@dimen/margin_standard_big"
-                    android:paddingTop="@dimen/margin_small"
-                    android:paddingBottom="@dimen/margin_small"
-                    android:id="@+id/et_email"
-                    android:fontFamily="@font/roboto_regular"
-                    android:maxLines="1"
-                    />
-                <EditText
+                    android:paddingTop="@dimen/margin_standard"
+                    app:hintEnabled="false"
+                    >
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/width50"
+                        android:hint="@string/text_email"
+                        android:textColorHint="@color/hitamGray2"
+                        android:textColor="@color/hitam"
+                        android:textSize="@dimen/title_font"
+                        android:paddingLeft="@dimen/margin_standard_big"
+                        android:paddingRight="@dimen/margin_standard_big"
+                        android:paddingTop="@dimen/margin_small"
+                        android:paddingBottom="@dimen/margin_small"
+                        android:fontFamily="@font/roboto_regular"
+                        android:maxLines="1"
+                        android:inputType="textEmailAddress"
+                        android:background="@drawable/border_et_putih_hitam"
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
+                <!--<EditText-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="@dimen/width50"-->
+                    <!--android:layout_below="@+id/et_input_email"-->
+                    <!--android:background="@drawable/border_et_putih_hitam"-->
+                    <!--android:layout_marginTop="@dimen/margin_standard_big"-->
+                    <!--android:hint="@string/text_pass"-->
+                    <!--android:textColorHint="@color/hitamGray2"-->
+                    <!--android:textColor="@color/hitam"-->
+                    <!--android:paddingLeft="@dimen/margin_standard_big"-->
+                    <!--android:paddingRight="@dimen/margin_standard_big"-->
+                    <!--android:paddingTop="@dimen/margin_small"-->
+                    <!--android:paddingBottom="@dimen/margin_small"-->
+                    <!--android:id="@+id/et_pass"-->
+                    <!--android:fontFamily="@font/roboto_regular"-->
+                    <!--android:inputType="textPassword"-->
+                    <!--android:maxLines="1"-->
+                    <!--android:digits="@string/text_default"-->
+                    <!--/>-->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/et_input_pass"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/width50"
-                    android:layout_below="@+id/et_email"
-                    android:background="@drawable/border_et_putih_hitam"
-                    android:layout_marginTop="@dimen/margin_standard_big"
-                    android:hint="@string/text_pass"
+                    android:layout_height="wrap_content"
+                    app:errorEnabled="true"
+                    android:layout_below="@+id/et_input_email"
                     android:textColorHint="@color/hitamGray2"
-                    android:textColor="@color/hitam"
-                    android:paddingLeft="@dimen/margin_standard_big"
-                    android:paddingRight="@dimen/margin_standard_big"
                     android:paddingTop="@dimen/margin_small"
-                    android:paddingBottom="@dimen/margin_small"
-                    android:id="@+id/et_pass"
-                    android:fontFamily="@font/roboto_regular"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    />
+                    app:hintEnabled="false"
+                    >
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_pass"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/width50"
+                        android:background="@drawable/border_et_putih_hitam"
+                        android:hint="@string/text_pass"
+                        android:textColorHint="@color/hitamGray2"
+                        android:textColor="@color/hitam"
+                        android:textSize="@dimen/title_font"
+                        android:paddingLeft="@dimen/margin_standard_big"
+                        android:paddingRight="@dimen/margin_standard_big"
+                        android:paddingTop="@dimen/margin_small"
+                        android:paddingBottom="@dimen/margin_small"
+                        android:layout_marginBottom="@dimen/margin_small"
+                        android:fontFamily="@font/roboto_regular"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:digits="@string/digit_pass"
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/width40"
@@ -95,7 +159,7 @@
                     android:textColor="@color/putih"
                     android:textSize="@dimen/title_font"
                     android:background="@drawable/border_round_full_orange"
-                    android:layout_below="@+id/et_pass"
+                    android:layout_below="@+id/et_input_pass"
                     android:layout_marginTop="@dimen/width30"
                     android:id="@+id/btn_login"
                     android:fontFamily="@font/roboto_regular"
