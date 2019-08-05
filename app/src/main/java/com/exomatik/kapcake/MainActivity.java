@@ -2,19 +2,18 @@ package com.exomatik.kapcake;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
-import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
-import com.bumptech.glide.load.model.ModelLoader;
-import com.exomatik.kapcake.Authentication.ActSignIn;
 import com.exomatik.kapcake.Authentication.WebViewJavaScriptInterface;
 import com.exomatik.kapcake.Featured.UserSave;
-import com.exomatik.kapcake.Model.ModelUser;
 import com.google.gson.Gson;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     private UserSave userSave;
     private boolean jalan = true;
     public ProgressDialog progressDialog;
+    private boolean back = true;
+    private boolean tampil = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         init();
+        runnabelCekKoneksi();
 
         web.getSettings().setLoadsImagesAutomatically(true);
         web.getSettings().setJavaScriptEnabled(true);
@@ -50,9 +52,9 @@ public class MainActivity extends AppCompatActivity {
 
         web.loadUrl("https://kasir.kapcake.com/");
 
-        web.setWebViewClient(new WebViewClient(){
-            public void onPageFinished(WebView view, String weburl){
-                if (jalan){
+        web.setWebViewClient(new WebViewClient() {
+            public void onPageFinished(WebView view, String weburl) {
+                if (jalan) {
                     web.loadUrl("javascript:loginUser(" + new Gson().toJson(userSave.getKEY_USER()) + ")");
                     jalan = false;
                 }
@@ -62,10 +64,41 @@ public class MainActivity extends AppCompatActivity {
         web.addJavascriptInterface(webViewJS, "android");
     }
 
+    private void runnabelCekKoneksi() {
+        new CountDownTimer(300000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                if (back){
+                    cekKoneksi();
+                }
+            }
+
+            public void onFinish() {
+            }
+
+        }.start();
+    }
+
+    private void cekKoneksi() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+            tampil = true;
+        } else {
+            if (tampil){
+                Toast.makeText(this, "Mohon periksa koneksi internet anda", Toast.LENGTH_LONG).show();
+                tampil = false;
+            }
+        }
+    }
+
     private void init() {
         web = (WebView) findViewById(R.id.web);
         userSave = new UserSave(this);
-
     }
 
+    @Override
+    public void onBackPressed() {
+        back = false;
+        finish();
+    }
 }

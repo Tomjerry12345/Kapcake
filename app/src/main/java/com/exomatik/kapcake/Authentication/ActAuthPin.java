@@ -234,4 +234,8 @@ public class ActAuthPin extends AppCompatActivity {
 
         }.start();
     }
+
+    public void tambah(View view) {
+
+    }
 }

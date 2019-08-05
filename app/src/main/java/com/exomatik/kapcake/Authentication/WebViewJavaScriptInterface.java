@@ -57,4 +57,9 @@ public class WebViewJavaScriptInterface {
     public void progressDismiss(){
         progressDialog.dismiss();
     }
+
+    @JavascriptInterface
+    public void ToastMessage(String message){
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+    }
 }
