@@ -164,6 +164,7 @@ public class ActSignIn extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ModelUser> call, Throwable t) {
+                progressDialog.dismiss();
                 Snackbar snackbar = Snackbar
                         .make(v, t.getMessage().toString(), Snackbar.LENGTH_LONG);
                 snackbar.show();
