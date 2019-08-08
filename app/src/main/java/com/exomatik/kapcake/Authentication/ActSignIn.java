@@ -165,9 +165,16 @@ public class ActSignIn extends AppCompatActivity {
             @Override
             public void onFailure(Call<ModelUser> call, Throwable t) {
                 progressDialog.dismiss();
-                Snackbar snackbar = Snackbar
-                        .make(v, t.getMessage().toString(), Snackbar.LENGTH_LONG);
-                snackbar.show();
+                if (t.getMessage().toString().contains("Unable to resolve host")){
+                    Snackbar snackbar = Snackbar
+                            .make(v, "Mohon periksa koneksi Internet Anda", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+                else {
+                    Snackbar snackbar = Snackbar
+                            .make(v, t.getMessage().toString(), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
             }
         });
     }

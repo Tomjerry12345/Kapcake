@@ -30,6 +30,9 @@
         <activity android:name=".MainActivity"
             android:screenOrientation="landscape"
             ></activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="dab265d447c59d4fa283413fcbd75dee808cbcdc" />
     </application>
 
 </manifest>
