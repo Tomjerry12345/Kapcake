@@ -3,25 +3,21 @@ package com.exomatik.kapcake.Authentication;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.exomatik.kapcake.Featured.UserSave;
-import com.exomatik.kapcake.MainActivity;
 import com.exomatik.kapcake.Model.ModelUser;
 import com.exomatik.kapcake.R;
 import com.exomatik.kapcake.Retrofit.PostCekLogin;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-
-import java.util.ArrayList;
 
 import androidx.appcompat.app.AppCompatActivity;
 import retrofit2.Call;
@@ -41,6 +37,7 @@ public class ActSignIn extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        hideStatusBar();
         setContentView(R.layout.act_sign_in);
 
         init();
@@ -122,6 +119,12 @@ public class ActSignIn extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void hideStatusBar() {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
     private void init() {

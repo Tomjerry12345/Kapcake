@@ -1,10 +1,13 @@
 package com.exomatik.kapcake.Authentication;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -12,9 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.exomatik.kapcake.Featured.UserSave;
-import com.exomatik.kapcake.MainActivity;
+import com.exomatik.kapcake.Activity.MainActivity;
 import com.exomatik.kapcake.R;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -33,6 +35,8 @@ public class ActAuthPin extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        hideStatusBar();
         setContentView(R.layout.act_auth_pin);
 
         init();
@@ -125,6 +129,12 @@ public class ActAuthPin extends AppCompatActivity {
         });
     }
 
+    private void hideStatusBar() {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    }
+
     private void init() {
         textUser = (TextView) findViewById(R.id.text_hint);
         btn1 = (Button) findViewById(R.id.btn_1);
@@ -193,11 +203,6 @@ public class ActAuthPin extends AppCompatActivity {
                     img4.setImageResource(R.drawable.border_hitam_putih);
                     pin = null;
 
-//                    Snackbar snackbar = Snackbar
-//                            .make(v, , Snackbar.LENGTH_LONG);
-//
-//                    snackbar.show();
-
                     Toast.makeText(this, getResources().getString(R.string.error_pin_salah), Toast.LENGTH_SHORT).show();
 
                     if (coba == 3){
@@ -233,9 +238,5 @@ public class ActAuthPin extends AppCompatActivity {
             }
 
         }.start();
-    }
-
-    public void tambah(View view) {
-
     }
 }

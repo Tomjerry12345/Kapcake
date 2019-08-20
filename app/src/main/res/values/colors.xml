@@ -8,10 +8,10 @@
     <color name="green2">#ff60da4e</color>
     <color name="green3">#ff397630</color>
     <color name="green4">#21ff00</color>
-    <color name="hitam">#ff000000</color>
+    <color name="hitam">#000000</color>
     <color name="hitamGray">#ff393939</color>
     <color name="hitamGray2">#878787</color>
-    <color name="putih">#ffffffff</color>
+    <color name="putih">#ffffff</color>
     <color name="putihGelap1">#ffdfdfdf</color>
     <color name="putihGelap2">#ff858685</color>
     <color name="putihGelap3">#5a5b5a</color>
