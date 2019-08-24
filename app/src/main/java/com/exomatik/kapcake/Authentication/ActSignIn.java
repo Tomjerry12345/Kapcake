@@ -3,7 +3,6 @@ package com.exomatik.kapcake.Authentication;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -12,14 +11,20 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.exomatik.kapcake.Adapter.SwipeAdapter;
 import com.exomatik.kapcake.Featured.UserSave;
 import com.exomatik.kapcake.Model.ModelUser;
 import com.exomatik.kapcake.R;
 import com.exomatik.kapcake.Retrofit.PostCekLogin;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
+import com.santalu.autoviewpager.AutoViewPager;
+import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator;
+
+import java.util.ArrayList;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -32,6 +37,9 @@ public class ActSignIn extends AppCompatActivity {
     private TextInputLayout etInputEmail, etInputPass;
     private View v;
     private UserSave userSave;
+    private WormDotsIndicator dotsIndicator;
+    private AutoViewPager viewPager;
+    private SwipeAdapter swipeAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +47,47 @@ public class ActSignIn extends AppCompatActivity {
 
         hideStatusBar();
         setContentView(R.layout.act_sign_in);
-
         init();
+        setAdapter();
 
+        onClick();
+    }
+
+    private void init() {
+        btnLogin = (Button) findViewById(R.id.btn_login);
+        btnSignUp = (Button) findViewById(R.id.btn_sign_up);
+        etInputEmail = (TextInputLayout) findViewById(R.id.et_input_email);
+        etInputPass = (TextInputLayout) findViewById(R.id.et_input_pass);
+        v = (View) findViewById(android.R.id.content);
+        viewPager = (AutoViewPager) findViewById(R.id.viewPager);
+        dotsIndicator = (WormDotsIndicator) findViewById(R.id.dotsIndicator);
+
+        userSave = new UserSave(this);
+    }
+
+    private void setAdapter() {
+        String title[] = {"HALO IRFAN",
+                "HALO RICKY",
+                "HALO ANDI"};
+        String isi[] = {"Apa yang sedang anda pikirkan?",
+                "Apa yang sedang anda lakukan",
+                "Adaji dibikin kak?"};
+        swipeAdapter = new SwipeAdapter(this, title, isi);
+        viewPager.setOffscreenPageLimit(1);
+        viewPager.setAdapter(swipeAdapter);
+        dotsIndicator.setViewPager(viewPager);
+    }
+
+    private void hideStatusBar() {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    }
+
+    private void onClick() {
         etInputEmail.getEditText().setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                etInputEmail.setError(null);
                 etInputEmail.getEditText().setFocusable(false);
                 etInputPass.getEditText().setFocusable(true);
                 return false;
@@ -55,27 +97,11 @@ public class ActSignIn extends AppCompatActivity {
         etInputPass.getEditText().setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                etInputEmail.setError(null);
-                etInputPass.setError(null);
                 etInputEmail.getEditText().setFocusable(false);
                 etInputPass.getEditText().setFocusable(false);
                 etInputEmail.getEditText().setFocusableInTouchMode(true);
                 etInputPass.getEditText().setFocusableInTouchMode(true);
                 return false;
-            }
-        });
-
-        etInputEmail.getEditText().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                etInputEmail.setError(null);
-            }
-        });
-
-        etInputPass.getEditText().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                etInputPass.setError(null);
             }
         });
 
@@ -97,16 +123,19 @@ public class ActSignIn extends AppCompatActivity {
 
                 if (email.isEmpty() || pass.isEmpty() || pass.length() < 6){
                     if (email.isEmpty()){
-                        etInputEmail.setError(getResources().getString(R.string.error_data_kosong));
-                        etInputEmail.getEditText().setBackground(getResources().getDrawable(R.drawable.border_et_putih_hitam));
+                        Snackbar snackbar = Snackbar
+                                .make(v, "Email " + getResources().getString(R.string.error_data_kosong), Snackbar.LENGTH_LONG);
+                        snackbar.show();
                     }
                     if (pass.isEmpty()){
-                        etInputPass.setError(getResources().getString(R.string.error_data_kosong));
-                        etInputPass.getEditText().setBackground(getResources().getDrawable(R.drawable.border_et_putih_hitam));
+                        Snackbar snackbar = Snackbar
+                                .make(v, "Password " + getResources().getString(R.string.error_data_kosong), Snackbar.LENGTH_LONG);
+                        snackbar.show();
                     }
                     if (pass.length() < 6){
-                        etInputPass.setError(getResources().getString(R.string.error_password_kurang));
-                        etInputPass.getEditText().setBackground(getResources().getDrawable(R.drawable.border_et_putih_hitam));
+                        Snackbar snackbar = Snackbar
+                                .make(v, "Password " + getResources().getString(R.string.error_password_kurang), Snackbar.LENGTH_LONG);
+                        snackbar.show();
                     }
                 }
                 else {
@@ -119,22 +148,23 @@ public class ActSignIn extends AppCompatActivity {
                 }
             }
         });
-    }
 
-    private void hideStatusBar() {
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-    }
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-    private void init() {
-        btnLogin = (Button) findViewById(R.id.btn_login);
-        btnSignUp = (Button) findViewById(R.id.btn_sign_up);
-        etInputEmail = (TextInputLayout) findViewById(R.id.et_input_email);
-        etInputPass = (TextInputLayout) findViewById(R.id.et_input_pass);
-        v = (View) findViewById(android.R.id.content);
+            }
 
-        userSave = new UserSave(this);
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
+
     }
 
     private void postLoginUser(String email, String pass){

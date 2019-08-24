@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     public ProgressDialog progressDialog;
     private boolean back = true;
     private boolean tampil = true;
+    private boolean statusBluetooth = false;
     private Bluetooth bluetoothClass;
     private Print printClass;
 
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
         web.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
 
-        web.loadUrl("https://kasir.kapcake.com");
+        web.loadUrl("file:///android_asset/index.html");
 
         web.setWebViewClient(new WebViewClient() {
             public void onPageFinished(WebView view, String weburl) {
@@ -82,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         WebViewJavaScriptInterface webViewJS = new WebViewJavaScriptInterface(this, MainActivity.this
-                , progressDialog, bluetoothClass, printClass);
+                , progressDialog, bluetoothClass, printClass, statusBluetooth);
         web.addJavascriptInterface(webViewJS, "android");
     }
 
@@ -156,12 +157,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
 
-        // Don't forget to unregister the ACTION_FOUND receiver.
-        unregisterReceiver(bluetoothClass.receiverDevice);
-        try {
-            printClass.closeBT();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (statusBluetooth){
+            // Don't forget to unregister the ACTION_FOUND receiver.
+            unregisterReceiver(bluetoothClass.receiverDevice);
+            try {
+                printClass.closeBT();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            statusBluetooth = false;
         }
     }
 

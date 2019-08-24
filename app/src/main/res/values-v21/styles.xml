@@ -12,5 +12,8 @@
     <style name="AppCompat.CustomTheme.NoActionBar" parent="Theme.AppCompat.NoActionBar">
         <item name="android:statusBarColor">@color/putih</item>
         <item name="android:textColorPrimary">@color/hitam</item>
+        <item name="android:windowBackground">@color/putih</item>
+        <item name="android:textColorSecondaryInverse">@color/green1</item>
+        <item name="android:colorBackground">@color/colorPrimary</item>
     </style>
 </resources>

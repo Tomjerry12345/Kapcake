@@ -42,17 +42,19 @@ public class WebViewJavaScriptInterface {
     private Bluetooth bluetoothClass;
     private BluetoothAdapter bluetoothAdapter;
     private Print printClass;
+    private Boolean statusBluetooth;
     /*
      * Need a reference to the context in order to sent a post message
      */
 
     public WebViewJavaScriptInterface(Context context, Activity activity, ProgressDialog progressDialog
-            , Bluetooth bluetoothClass, Print printClass) {
+            , Bluetooth bluetoothClass, Print printClass, Boolean statusBluetooth) {
         this.context = context;
         this.activity = activity;
         this.progressDialog = progressDialog;
         this.bluetoothClass = bluetoothClass;
         this.printClass = printClass;
+        this.statusBluetooth = statusBluetooth;
 
         userSave = new UserSave(context);
     }
@@ -118,6 +120,7 @@ public class WebViewJavaScriptInterface {
     @JavascriptInterface
     public void connectingToBluetooth(String macAddress) {
         printClass = new Print(bluetoothAdapter.getRemoteDevice(macAddress), activity, bluetoothAdapter);
+        statusBluetooth = true;
 
         printClass.hubungkanDevice();
     }
@@ -146,6 +149,7 @@ public class WebViewJavaScriptInterface {
 
     @JavascriptInterface
     public void stopConnected() {
+        statusBluetooth = false;
         activity.unregisterReceiver(bluetoothClass.receiverDevice);
         try {
             printClass.closeBT();

@@ -27,7 +27,7 @@
         android:textColor="@color/hitam"
         android:textStyle="bold"
         android:textSize="@dimen/title_font"
-        android:fontFamily="@font/roboto_regular"
+        android:fontFamily="@font/monserrat_regular"
         android:maxLines="1"
         />
     <TextView
@@ -41,7 +41,7 @@
         android:textColor="@color/hitamGray"
         android:textStyle="bold"
         android:textSize="@dimen/text_font"
-        android:fontFamily="@font/roboto_regular"
+        android:fontFamily="@font/monserrat_regular"
         android:maxLines="2"
         />
     <ImageView

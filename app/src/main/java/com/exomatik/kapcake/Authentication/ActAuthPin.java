@@ -41,11 +41,47 @@ public class ActAuthPin extends AppCompatActivity {
 
         init();
 
+        onClick();
+    }
+
+    private void init() {
+        textUser = (TextView) findViewById(R.id.text_hint);
+        btn1 = (Button) findViewById(R.id.btn_1);
+        btn2 = (Button) findViewById(R.id.btn_2);
+        btn3 = (Button) findViewById(R.id.btn_3);
+        btn4 = (Button) findViewById(R.id.btn_4);
+        btn5 = (Button) findViewById(R.id.btn_5);
+        btn6 = (Button) findViewById(R.id.btn_6);
+        btn7 = (Button) findViewById(R.id.btn_7);
+        btn8 = (Button) findViewById(R.id.btn_8);
+        btn9 = (Button) findViewById(R.id.btn_9);
+        btn0 = (Button) findViewById(R.id.btn_0);
+        btnClear = (Button) findViewById(R.id.btn_clear);
+        img1 = (ImageView) findViewById(R.id.img_1);
+        img2 = (ImageView) findViewById(R.id.img_2);
+        img3 = (ImageView) findViewById(R.id.img_3);
+        img4 = (ImageView) findViewById(R.id.img_4);
+        btnLogout = (ImageButton) findViewById(R.id.btn_logout);
+
+        v = (View) findViewById(android.R.id.content);
+
+        userSave = new UserSave(this);
+
+        textUser.setText(userSave.getKEY_USER().getUser().getNama());
+
         img1.setImageResource(R.drawable.border_hitam_putih);
         img2.setImageResource(R.drawable.border_hitam_putih);
         img3.setImageResource(R.drawable.border_hitam_putih);
         img4.setImageResource(R.drawable.border_hitam_putih);
+    }
 
+    private void hideStatusBar() {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    }
+
+    private void onClick() {
         btnClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,38 +163,6 @@ public class ActAuthPin extends AppCompatActivity {
                 setText("0");
             }
         });
-    }
-
-    private void hideStatusBar() {
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-    }
-
-    private void init() {
-        textUser = (TextView) findViewById(R.id.text_hint);
-        btn1 = (Button) findViewById(R.id.btn_1);
-        btn2 = (Button) findViewById(R.id.btn_2);
-        btn3 = (Button) findViewById(R.id.btn_3);
-        btn4 = (Button) findViewById(R.id.btn_4);
-        btn5 = (Button) findViewById(R.id.btn_5);
-        btn6 = (Button) findViewById(R.id.btn_6);
-        btn7 = (Button) findViewById(R.id.btn_7);
-        btn8 = (Button) findViewById(R.id.btn_8);
-        btn9 = (Button) findViewById(R.id.btn_9);
-        btn0 = (Button) findViewById(R.id.btn_0);
-        btnClear = (Button) findViewById(R.id.btn_clear);
-        img1 = (ImageView) findViewById(R.id.img_1);
-        img2 = (ImageView) findViewById(R.id.img_2);
-        img3 = (ImageView) findViewById(R.id.img_3);
-        img4 = (ImageView) findViewById(R.id.img_4);
-        btnLogout = (ImageButton) findViewById(R.id.btn_logout);
-
-        v = (View) findViewById(android.R.id.content);
-
-        userSave = new UserSave(this);
-
-        textUser.setText(userSave.getKEY_USER().getUser().getNama());
     }
 
     private void setText(String value){
