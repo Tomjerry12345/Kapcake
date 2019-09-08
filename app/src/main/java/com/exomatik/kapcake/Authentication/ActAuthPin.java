@@ -1,6 +1,9 @@
 package com.exomatik.kapcake.Authentication;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -8,17 +11,25 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.exomatik.kapcake.Featured.CustomWebChromeClient;
 import com.exomatik.kapcake.Featured.UserSave;
 import com.exomatik.kapcake.Activity.MainActivity;
+import com.exomatik.kapcake.Featured.WebViewJavaScriptInterface;
 import com.exomatik.kapcake.R;
+import com.google.android.material.snackbar.Snackbar;
 
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import com.google.gson.Gson;
 
 public class ActAuthPin extends AppCompatActivity {
     private Button btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn0, btnClear;
@@ -29,8 +40,11 @@ public class ActAuthPin extends AppCompatActivity {
     private int coba = 0;
     private boolean jalan = true;
     private int timeCountDown = 30;
-    private View v;
+    private View view;
     private TextView textUser;
+    private CountDownTimer time;
+    private boolean timeRun = false;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +56,15 @@ public class ActAuthPin extends AppCompatActivity {
         init();
 
         onClick();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (timeRun){
+            time.cancel();
+        }
     }
 
     private void init() {
@@ -63,7 +86,7 @@ public class ActAuthPin extends AppCompatActivity {
         img4 = (ImageView) findViewById(R.id.img_4);
         btnLogout = (ImageButton) findViewById(R.id.btn_logout);
 
-        v = (View) findViewById(android.R.id.content);
+        view = (View) findViewById(android.R.id.content);
 
         userSave = new UserSave(this);
 
@@ -96,9 +119,7 @@ public class ActAuthPin extends AppCompatActivity {
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                userSave.setKEY_USER(null);
-                startActivity(new Intent(ActAuthPin.this, ActSignIn.class));
-                finish();
+               alertLogout();
             }
         });
 
@@ -165,6 +186,46 @@ public class ActAuthPin extends AppCompatActivity {
         });
     }
 
+    private void alertLogout() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(ActAuthPin.this);
+
+        alert.setTitle("Keluar");
+        alert.setMessage("Apakah anda yakin ingin keluar dari akun?");
+        alert.setPositiveButton("Iya", new DialogInterface.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(final DialogInterface dialog, int which) {
+                customSnackbar("Berhasil Logout", R.drawable.snakbar_blue);
+                userSave.setKEY_USER(null);
+                startActivity(new Intent(ActAuthPin.this, ActSignIn.class));
+                finish();
+            }
+        });
+        alert.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        alert.show();
+    }
+
+    private void customSnackbar(String text, int background) {
+        Snackbar snackbar = Snackbar.make(view, "", Snackbar.LENGTH_LONG);
+
+        // Get the Snackbar view
+        View view = snackbar.getView();
+
+        view.setBackground(ContextCompat.getDrawable(this, background));
+        TextView tv = (TextView) view.findViewById(com.google.android.material.R.id.snackbar_text);
+
+        tv.setTextColor(Color.parseColor("#FFFFFF"));
+
+        snackbar.setText(text);
+        snackbar.show();
+    }
+
     private void setText(String value){
         if (coba < 3){
             if (pin == null){
@@ -196,9 +257,7 @@ public class ActAuthPin extends AppCompatActivity {
                 img4.setImageResource(R.drawable.border_hitam);
 
                 if (pin.equals(Integer.toString(userSave.getKEY_USER().getUser().getPin()))){
-                    pin = null;
-                    startActivity(new Intent(ActAuthPin.this, MainActivity.class));
-                    finish();
+                    setWebView();
                 }else {
                     coba++;
                     img1.setImageResource(R.drawable.border_hitam_putih);
@@ -207,24 +266,66 @@ public class ActAuthPin extends AppCompatActivity {
                     img4.setImageResource(R.drawable.border_hitam_putih);
                     pin = null;
 
-                    Toast.makeText(this, getResources().getString(R.string.error_pin_salah), Toast.LENGTH_SHORT).show();
-
+                    customSnackbar(getResources().getString(R.string.error_pin_salah), R.drawable.snakbar_red);
                     if (coba == 3){
                         timer();
+                        timeRun = true;
                     }
                 }
             }
         }
         else {
-            Toast.makeText(this, getResources().getString(R.string.time_count_down)
+            customSnackbar(getResources().getString(R.string.time_count_down)
                     + " " + Integer.toString(timeCountDown)
-                    + " " + getResources().getString(R.string.time_count_down2), Toast.LENGTH_SHORT).show();
+                    + " " + getResources().getString(R.string.time_count_down2), R.drawable.snakbar_red);
         }
 
     }
 
+    public void progressShow(String message) {
+        progressDialog = new ProgressDialog(ActAuthPin.this);
+        progressDialog.setMessage(message);
+        progressDialog.setTitle("");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
+
+    private void setWebView() {
+        progressShow("Mohon tunggu");
+        MainActivity.web.clearCache(true);
+        MainActivity.web.clearHistory();
+
+        MainActivity.web.setWebChromeClient(new CustomWebChromeClient(this));
+        MainActivity.web.setWebViewClient(new WebViewClient());
+        MainActivity.web.getSettings().setLoadsImagesAutomatically(true);
+        MainActivity.web.getSettings().setJavaScriptEnabled(true);
+        MainActivity.web.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+        MainActivity.web.getSettings().setDomStorageEnabled(true);
+
+        MainActivity.web.getSettings().setSupportZoom(false);
+        MainActivity.web.getSettings().setBuiltInZoomControls(false);
+        MainActivity.web.getSettings().setDisplayZoomControls(false);
+
+        MainActivity.web.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+
+        MainActivity.web.loadUrl("file:///android_asset/index.html");
+
+        MainActivity.web.setWebViewClient(new WebViewClient() {
+            public void onPageFinished(WebView view, String weburl) {
+                pin = null;
+                progressDialog.dismiss();
+                finish();
+
+                if (MainActivity.jalan) {
+                    MainActivity.web.loadUrl("javascript:loginUser(" + new Gson().toJson(userSave.getKEY_USER()) + ")");
+                    MainActivity.jalan = false;
+                }
+            }
+        });
+    }
+
     private void timer(){
-        new CountDownTimer(30000, 1000) {
+        time = new CountDownTimer(30000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 timeCountDown--;
@@ -233,6 +334,7 @@ public class ActAuthPin extends AppCompatActivity {
                 if (timeCountDown == 0){
                     coba = 0;
                     timeCountDown = 30;
+                    timeRun = false;
                     cancel();
                 }
             }

@@ -976,7 +976,7 @@
         sidebarToggleOpacity = !sidebarToggleOpacity;
       });
       $('#modalpilihprinter').modal('show');
-      var urlDomain = "https://api.kapcake.com/";
+      var urlDomain = "https://api.telkomreg7.id/";
         coba();
 var dataPesanan = {
   "instagram": "hanindya", 
@@ -1067,7 +1067,7 @@ var dataPesanan = {
 // var login = function(){
 //   $.ajax({
 //     method: 'POST',
-//     url: urlDomain + 'public/api/kasir/login',
+//     url: urlDomain + 'api/kasir/login',
 //     header:{
 //       'Accept' : 'application/json'
 //     },
@@ -1220,7 +1220,7 @@ function setDataAwal(){
     var outlet_terpilih_id = JSON.parse(localStorage.getItem('data')).outlet_terpilih_id;  // ini sudah benar hanya perlu ditambahkan  di anroid save outlet terpilih
     $.ajax({
      method: 'GET',
-     url: urlDomain + 'public/api/kasir/outlet',
+     url: urlDomain + 'api/kasir/outlet',
      headers: {
        'Accept':'application/json',
        'Content-Type':'application/json',
@@ -1838,7 +1838,7 @@ $('#buttonModalSimpanPelanggan').click(function(){
  let no_hp = $('input[name=no_hp_pelanggan]').val();
  let email = $('input[name=email_pelanggan]').val();
  $.ajax({
-   url: urlDomain + 'public/api/kasir/pelanggan/'+getOutletTerpilih(),
+   url: urlDomain + 'api/kasir/pelanggan/'+getOutletTerpilih(),
    headers: {
      'Content-Type':'application/json',
      'Accept':'application/json',
@@ -2934,7 +2934,7 @@ function setDataPemesananStorageFormat(data){
 }
 function sinkronisasiGetDataPesanan(){    //    XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXx
  $.ajax({
-   url: urlDomain + 'public/api/kasir/pemesanan',
+   url: urlDomain + 'api/kasir/pemesanan',
    headers: {
            // 'Content-Type':'application/json',
            'Accept':'application/json',
@@ -2987,7 +2987,7 @@ async function sinkronisasiPostDataPesanan(){
  let data = await JSON.parse(localStorage.getItem('data'));
  let dataPemesanan = await setDataPemesananAPIFormat();
  $.ajax({
-   url: urlDomain + 'public/api/kasir/pemesanan',
+   url: urlDomain + 'api/kasir/pemesanan',
    headers: {
          // 'Accept':'application/json', 
          'Authorization':'Bearer '+getToken(),
@@ -3050,7 +3050,7 @@ async function sinkronisasiPostDataRiwayat(){
  let data = await JSON.parse(localStorage.getItem('data'));
  let dataRiwayat = await setDataRiwayatAPIFormat();
  $.ajax({
-   url: urlDomain + 'public/api/kasir/penjualan',
+   url: urlDomain + 'api/kasir/penjualan',
    headers: {
      'Accept':'application/json', 
      'Authorization':'Bearer '+getToken(),

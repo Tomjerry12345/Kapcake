@@ -1,34 +1,30 @@
 package com.exomatik.kapcake.Featured;
 
-import android.Manifest;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.Build;
 import android.util.Log;
+import android.view.View;
 import android.webkit.JavascriptInterface;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.exomatik.kapcake.Activity.GetKoneksi;
 import com.exomatik.kapcake.Authentication.ActSignIn;
 import com.exomatik.kapcake.Model.ModelPesanan;
 import com.exomatik.kapcake.R;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 
 /**
  * Created by IrfanRZ on 03/08/2019.
@@ -43,12 +39,14 @@ public class WebViewJavaScriptInterface {
     private BluetoothAdapter bluetoothAdapter;
     private Print printClass;
     private Boolean statusBluetooth;
+    private View view;
     /*
      * Need a reference to the context in order to sent a post message
      */
 
     public WebViewJavaScriptInterface(Context context, Activity activity, ProgressDialog progressDialog
-            , Bluetooth bluetoothClass, Print printClass, Boolean statusBluetooth) {
+            , Bluetooth bluetoothClass, Print printClass, Boolean statusBluetooth, View view) {
+        this.view = view;
         this.context = context;
         this.activity = activity;
         this.progressDialog = progressDialog;
@@ -59,16 +57,53 @@ public class WebViewJavaScriptInterface {
         userSave = new UserSave(context);
     }
 
+    private void customSnackbar(String text, int background) {
+        Snackbar snackbar = Snackbar.make(view, "", Snackbar.LENGTH_LONG);
+
+        // Get the Snackbar view
+        View view = snackbar.getView();
+
+        view.setBackground(ContextCompat.getDrawable(activity, background));
+        TextView tv = (TextView) view.findViewById(com.google.android.material.R.id.snackbar_text);
+
+        tv.setTextColor(Color.parseColor("#FFFFFF"));
+
+        snackbar.setText(text);
+        snackbar.show();
+    }
+
     /*
      * This method can be called from Android. @JavascriptInterface
      * required after SDK version 17.
      */
     @JavascriptInterface
     public void logout() {
-        userSave.setKEY_USER(null);
-        activity.startActivity(new Intent(context, ActSignIn.class));
-        activity.finish();
-        Toast.makeText(context, context.getResources().getString(R.string.text_berhasil_logout), Toast.LENGTH_SHORT).show();
+        alertLogout();
+    }
+
+    private void alertLogout() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(activity);
+
+        alert.setTitle("Keluar");
+        alert.setMessage("Apakah anda yakin ingin keluar dari akun?");
+        alert.setPositiveButton("Iya", new DialogInterface.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(final DialogInterface dialog, int which) {
+                userSave.setKEY_USER(null);
+                activity.startActivity(new Intent(context, ActSignIn.class));
+                activity.finish();
+                customSnackbar(context.getResources().getString(R.string.text_berhasil_logout), R.drawable.snakbar_blue);
+            }
+        });
+        alert.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        alert.show();
     }
 
     @JavascriptInterface
@@ -87,7 +122,7 @@ public class WebViewJavaScriptInterface {
 
     @JavascriptInterface
     public void ToastMessage(String message) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        customSnackbar(message, R.drawable.snakbar_blue);
     }
 
     @JavascriptInterface

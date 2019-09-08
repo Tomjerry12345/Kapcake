@@ -34,15 +34,12 @@ public class SplashScreen extends AppCompatActivity {
         {
             public void run()
             {
-                Intent localIntent = null;
                 if (userSave.getKEY_USER() == null){
-                     localIntent = new Intent(SplashScreen.this, ActSignIn.class);
+                    startActivity(new Intent(SplashScreen.this, ActSignIn.class));
                 }else {
-                    localIntent = new Intent(SplashScreen.this, ActAuthPin.class);
+                    MainActivity.toAuth = true;
+                    startActivity(new Intent(SplashScreen.this, MainActivity.class));
                 }
-                //berpindah activity
-                startActivity(localIntent);
-                //menghentikan activity sekarang
                 finish();
             }
         }, 2000L);

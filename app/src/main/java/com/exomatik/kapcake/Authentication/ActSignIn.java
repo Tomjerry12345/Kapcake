@@ -2,6 +2,7 @@ package com.exomatik.kapcake.Authentication;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -11,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.exomatik.kapcake.Activity.MainActivity;
 import com.exomatik.kapcake.Adapter.SwipeAdapter;
 import com.exomatik.kapcake.Featured.UserSave;
 import com.exomatik.kapcake.Model.ModelUser;
@@ -21,9 +23,8 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.santalu.autoviewpager.AutoViewPager;
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator;
 
-import java.util.ArrayList;
-
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,7 +36,7 @@ public class ActSignIn extends AppCompatActivity {
     private Button btnLogin, btnSignUp;
     private ProgressDialog progressDialog;
     private TextInputLayout etInputEmail, etInputPass;
-    private View v;
+    private View view;
     private UserSave userSave;
     private WormDotsIndicator dotsIndicator;
     private AutoViewPager viewPager;
@@ -58,7 +59,7 @@ public class ActSignIn extends AppCompatActivity {
         btnSignUp = (Button) findViewById(R.id.btn_sign_up);
         etInputEmail = (TextInputLayout) findViewById(R.id.et_input_email);
         etInputPass = (TextInputLayout) findViewById(R.id.et_input_pass);
-        v = (View) findViewById(android.R.id.content);
+        view = (View) findViewById(android.R.id.content);
         viewPager = (AutoViewPager) findViewById(R.id.viewPager);
         dotsIndicator = (WormDotsIndicator) findViewById(R.id.dotsIndicator);
 
@@ -123,19 +124,13 @@ public class ActSignIn extends AppCompatActivity {
 
                 if (email.isEmpty() || pass.isEmpty() || pass.length() < 6){
                     if (email.isEmpty()){
-                        Snackbar snackbar = Snackbar
-                                .make(v, "Email " + getResources().getString(R.string.error_data_kosong), Snackbar.LENGTH_LONG);
-                        snackbar.show();
+                        customSnackbar("Email " + getResources().getString(R.string.error_data_kosong), R.drawable.snakbar_red);
                     }
-                    if (pass.isEmpty()){
-                        Snackbar snackbar = Snackbar
-                                .make(v, "Password " + getResources().getString(R.string.error_data_kosong), Snackbar.LENGTH_LONG);
-                        snackbar.show();
+                    else if (pass.isEmpty()){
+                        customSnackbar("Password " + getResources().getString(R.string.error_data_kosong), R.drawable.snakbar_red);
                     }
-                    if (pass.length() < 6){
-                        Snackbar snackbar = Snackbar
-                                .make(v, "Password " + getResources().getString(R.string.error_password_kurang), Snackbar.LENGTH_LONG);
-                        snackbar.show();
+                    else if (pass.length() < 6){
+                        customSnackbar("Password " + getResources().getString(R.string.error_password_kurang), R.drawable.snakbar_red);
                     }
                 }
                 else {
@@ -167,6 +162,21 @@ public class ActSignIn extends AppCompatActivity {
 
     }
 
+    private void customSnackbar(String text, int background) {
+        Snackbar snackbar = Snackbar.make(view, "", Snackbar.LENGTH_LONG);
+
+        // Get the Snackbar view
+        View view = snackbar.getView();
+
+        view.setBackground(ContextCompat.getDrawable(this, background));
+        TextView tv = (TextView) view.findViewById(com.google.android.material.R.id.snackbar_text);
+
+        tv.setTextColor(Color.parseColor("#FFFFFF"));
+
+        snackbar.setText(text);
+        snackbar.show();
+    }
+
     private void postLoginUser(String email, String pass){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(PostCekLogin.BASE_URL)
@@ -182,13 +192,12 @@ public class ActSignIn extends AppCompatActivity {
                 ModelUser films = response.body();
 
                 if (films == null){
-                    Snackbar snackbar = Snackbar
-                            .make(v, getResources().getString(R.string.error_email_not_found), Snackbar.LENGTH_LONG);
-                    snackbar.show();
+                    customSnackbar(getResources().getString(R.string.error_email_not_found), R.drawable.snakbar_red);
                 }
                 else {
                     userSave.setKEY_USER(films);
-                    startActivity(new Intent(ActSignIn.this, ActAuthPin.class));
+                    MainActivity.toAuth = true;
+                    startActivity(new Intent(ActSignIn.this, MainActivity.class));
                     finish();
                 }
 
@@ -199,14 +208,10 @@ public class ActSignIn extends AppCompatActivity {
             public void onFailure(Call<ModelUser> call, Throwable t) {
                 progressDialog.dismiss();
                 if (t.getMessage().toString().contains("Unable to resolve host")){
-                    Snackbar snackbar = Snackbar
-                            .make(v, "Mohon periksa koneksi Internet Anda", Snackbar.LENGTH_LONG);
-                    snackbar.show();
+                    customSnackbar("Mohon periksa koneksi Internet Anda", R.drawable.snakbar_red);
                 }
                 else {
-                    Snackbar snackbar = Snackbar
-                            .make(v, t.getMessage().toString(), Snackbar.LENGTH_LONG);
-                    snackbar.show();
+                    customSnackbar(t.getMessage().toString(), R.drawable.snakbar_red);
                 }
             }
         });

@@ -11,7 +11,7 @@ import retrofit2.http.Url;
  */
 
 public interface PostCekLogin {
-    String BASE_URL = "https://api.kapcake.com/public/api/";
+    String BASE_URL = "https://api.telkomreg7.id/api/";
 
     @POST
     Call<ModelUser> searchMovie(@Url String url);

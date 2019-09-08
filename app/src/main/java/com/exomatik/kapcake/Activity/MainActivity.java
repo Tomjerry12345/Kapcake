@@ -9,6 +9,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -20,31 +21,37 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.exomatik.kapcake.Authentication.ActAuthPin;
 import com.exomatik.kapcake.Featured.Bluetooth;
 import com.exomatik.kapcake.Featured.CustomWebChromeClient;
 import com.exomatik.kapcake.Featured.Print;
 import com.exomatik.kapcake.Featured.WebViewJavaScriptInterface;
 import com.exomatik.kapcake.Featured.UserSave;
 import com.exomatik.kapcake.R;
-import com.google.gson.Gson;
+import com.google.android.material.snackbar.Snackbar;
+
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 public class MainActivity extends AppCompatActivity {
-    private WebView web;
+    public static WebView web;
+    public static boolean toAuth = false;
+    public static boolean jalan = true;
     private UserSave userSave;
-    private boolean jalan = true;
     public ProgressDialog progressDialog;
     private boolean back = true;
     private boolean tampil = true;
     private boolean statusBluetooth = false;
     private Bluetooth bluetoothClass;
     private Print printClass;
+    private View view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,36 +62,49 @@ public class MainActivity extends AppCompatActivity {
 
         init();
         runnabelCekKoneksi();
+//        web.clearCache(true);
+//        web.clearHistory();
+//
+//        web.setWebChromeClient(new CustomWebChromeClient(this));
+//        web.setWebViewClient(new WebViewClient());
+//        web.getSettings().setLoadsImagesAutomatically(true);
+//        web.getSettings().setJavaScriptEnabled(true);
+//        web.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+//        web.getSettings().setDomStorageEnabled(true);
+//
+//        web.getSettings().setSupportZoom(false);
+//        web.getSettings().setBuiltInZoomControls(false);
+//        web.getSettings().setDisplayZoomControls(false);
+//
+//        web.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+//
+//        web.loadUrl("file:///android_asset/index.html");
+//
+//        web.setWebViewClient(new WebViewClient() {
+//            public void onPageFinished(WebView view, String weburl) {
+//                if (jalan) {
+//                    web.loadUrl("javascript:loginUser(" + new Gson().toJson(userSave.getKEY_USER()) + ")");
+//                    jalan = false;
+//                }
+//            }
+//        });
+//        WebViewJavaScriptInterface webViewJS = new WebViewJavaScriptInterface(this, MainActivity.this
+//                , progressDialog, bluetoothClass, printClass, statusBluetooth, view);
+//        web.addJavascriptInterface(webViewJS, "android");
+    }
 
-        web.clearCache(true);
-        web.clearHistory();
-
-        web.setWebChromeClient(new CustomWebChromeClient(this));
-        web.setWebViewClient(new WebViewClient());
-        web.getSettings().setLoadsImagesAutomatically(true);
-        web.getSettings().setJavaScriptEnabled(true);
-        web.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-        web.getSettings().setDomStorageEnabled(true);
-
-        web.getSettings().setSupportZoom(false);
-        web.getSettings().setBuiltInZoomControls(false);
-        web.getSettings().setDisplayZoomControls(false);
-
-        web.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
-
-        web.loadUrl("file:///android_asset/index.html");
-
-        web.setWebViewClient(new WebViewClient() {
-            public void onPageFinished(WebView view, String weburl) {
-                if (jalan) {
-                    web.loadUrl("javascript:loginUser(" + new Gson().toJson(userSave.getKEY_USER()) + ")");
-                    jalan = false;
-                }
-            }
-        });
-        WebViewJavaScriptInterface webViewJS = new WebViewJavaScriptInterface(this, MainActivity.this
-                , progressDialog, bluetoothClass, printClass, statusBluetooth);
-        web.addJavascriptInterface(webViewJS, "android");
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (toAuth){
+            startActivity(new Intent(MainActivity.this, ActAuthPin.class));
+            toAuth = false;
+        }
+        else {
+            WebViewJavaScriptInterface webViewJS = new WebViewJavaScriptInterface(this, MainActivity.this
+                    , progressDialog, bluetoothClass, printClass, statusBluetooth, view);
+            MainActivity.web.addJavascriptInterface(webViewJS, "android");
+        }
     }
 
     private void runnabelCekKoneksi() {
@@ -101,6 +121,21 @@ public class MainActivity extends AppCompatActivity {
         }.start();
     }
 
+    private void customSnackbar(String text, int background) {
+        Snackbar snackbar = Snackbar.make(view, "", Snackbar.LENGTH_LONG);
+
+        // Get the Snackbar view
+        View view = snackbar.getView();
+
+        view.setBackground(ContextCompat.getDrawable(this, background));
+        TextView tv = (TextView) view.findViewById(com.google.android.material.R.id.snackbar_text);
+
+        tv.setTextColor(Color.parseColor("#FFFFFF"));
+
+        snackbar.setText(text);
+        snackbar.show();
+    }
+
     private void cekKoneksi() {
         ConnectivityManager connectivityManager = (ConnectivityManager) MainActivity.this.getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -110,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
                 tampil = true;
             } else {
                 if (tampil) {
-                    Toast.makeText(this, "Mohon periksa koneksi internet anda", Toast.LENGTH_LONG).show();
+                    customSnackbar("Mohon periksa koneksi internet anda", R.drawable.snakbar_red);
                     tampil = false;
                 }
             }
@@ -119,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void init() {
         web = (WebView) findViewById(R.id.web);
+        view  = (View) findViewById(android.R.id.content);
         userSave = new UserSave(this);
         bluetoothClass = new Bluetooth(this, web);
     }
