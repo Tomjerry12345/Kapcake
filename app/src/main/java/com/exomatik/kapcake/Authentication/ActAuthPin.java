@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -33,6 +34,7 @@ import com.google.gson.Gson;
 
 public class ActAuthPin extends AppCompatActivity {
     private Button btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn0, btnClear;
+    private ProgressDialog progressDialog;
     private ImageView img1, img2, img3, img4;
     private String pin;
     private UserSave userSave;
@@ -44,7 +46,6 @@ public class ActAuthPin extends AppCompatActivity {
     private TextView textUser;
     private CountDownTimer time;
     private boolean timeRun = false;
-    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +97,8 @@ public class ActAuthPin extends AppCompatActivity {
         img2.setImageResource(R.drawable.border_hitam_putih);
         img3.setImageResource(R.drawable.border_hitam_putih);
         img4.setImageResource(R.drawable.border_hitam_putih);
+
+        overridePendingTransition(0, 0);
     }
 
     private void hideStatusBar() {
@@ -196,9 +199,8 @@ public class ActAuthPin extends AppCompatActivity {
             @Override
             public void onClick(final DialogInterface dialog, int which) {
                 customSnackbar("Berhasil Logout", R.drawable.snakbar_blue);
-                userSave.setKEY_USER(null);
-                startActivity(new Intent(ActAuthPin.this, ActSignIn.class));
                 finish();
+                MainActivity.toAuth = 2;
             }
         });
         alert.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
@@ -283,10 +285,10 @@ public class ActAuthPin extends AppCompatActivity {
     }
 
     public void progressShow(String message) {
-        progressDialog = new ProgressDialog(ActAuthPin.this);
+        progressDialog = new ProgressDialog(ActAuthPin.this, R.style.MyProgressDialogTheme);
         progressDialog.setMessage(message);
-        progressDialog.setTitle("");
         progressDialog.setCancelable(false);
+
         progressDialog.show();
     }
 
@@ -313,13 +315,21 @@ public class ActAuthPin extends AppCompatActivity {
         MainActivity.web.setWebViewClient(new WebViewClient() {
             public void onPageFinished(WebView view, String weburl) {
                 pin = null;
-                progressDialog.dismiss();
-                finish();
+                MainActivity.toAuth = 0;
 
                 if (MainActivity.jalan) {
                     MainActivity.web.loadUrl("javascript:loginUser(" + new Gson().toJson(userSave.getKEY_USER()) + ")");
                     MainActivity.jalan = false;
                 }
+
+                new Handler().postDelayed(new Runnable()
+                {
+                    public void run()
+                    {
+                        progressDialog.dismiss();
+                        finish();
+                    }
+                }, 2000L);
             }
         });
     }

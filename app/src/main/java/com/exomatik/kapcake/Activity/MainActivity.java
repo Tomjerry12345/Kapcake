@@ -15,6 +15,7 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -25,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.exomatik.kapcake.Authentication.ActAuthPin;
+import com.exomatik.kapcake.Authentication.ActSignIn;
 import com.exomatik.kapcake.Featured.Bluetooth;
 import com.exomatik.kapcake.Featured.CustomWebChromeClient;
 import com.exomatik.kapcake.Featured.Print;
@@ -42,7 +44,7 @@ import androidx.core.content.ContextCompat;
 
 public class MainActivity extends AppCompatActivity {
     public static WebView web;
-    public static boolean toAuth = false;
+    public static int toAuth = 0;
     public static boolean jalan = true;
     private UserSave userSave;
     public ProgressDialog progressDialog;
@@ -96,14 +98,24 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (toAuth){
-            startActivity(new Intent(MainActivity.this, ActAuthPin.class));
-            toAuth = false;
+
+        if (toAuth == 1){
+            Intent intent = new Intent(getApplicationContext(), ActAuthPin.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivity(intent);
+            toAuth = 0;
+        }
+        else if (toAuth == 2){
+            finish();
+            userSave.setKEY_USER(null);
+            Intent intent = new Intent(getApplicationContext(), ActSignIn.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivity(intent);
         }
         else {
             WebViewJavaScriptInterface webViewJS = new WebViewJavaScriptInterface(this, MainActivity.this
                     , progressDialog, bluetoothClass, printClass, statusBluetooth, view);
-            MainActivity.web.addJavascriptInterface(webViewJS, "android");
+            web.addJavascriptInterface(webViewJS, "android");
         }
     }
 
@@ -157,6 +169,9 @@ public class MainActivity extends AppCompatActivity {
         view  = (View) findViewById(android.R.id.content);
         userSave = new UserSave(this);
         bluetoothClass = new Bluetooth(this, web);
+
+        overridePendingTransition(0, 0);
+
     }
 
     @Override

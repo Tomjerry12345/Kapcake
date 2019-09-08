@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.exomatik.kapcake.Activity.SplashScreen"
-    android:background="@color/putih"
+    android:background="@drawable/bg_splash"
     >
     <ImageView
         android:layout_width="match_parent"

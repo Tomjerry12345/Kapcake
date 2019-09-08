@@ -9,7 +9,7 @@
     <color name="green3">#ff397630</color>
     <color name="green4">#21ff00</color>
     <color name="hitam">#000000</color>
-    <color name="hitamGray">#ff393939</color>
+    <color name="hitamGray">#393939</color>
     <color name="hitamGray2">#878787</color>
     <color name="putih">#ffffff</color>
     <color name="putihGelap1">#ffdfdfdf</color>
@@ -30,4 +30,11 @@
 
     <color name="gray1">#f4f4f4</color>
     <color name="gray2">#626e82</color>
+
+    <color name="customThemePrimary">#ff6b00</color>
+    <color name="customThemePrimaryDark">#FF9A3E</color>
+    <color name="customThemeAccent">#ff6b00</color>
+    <color name="customThemeBackground">#ff393939</color>
+    <color name="customThemeForeground">#878787</color>
+    <color name="customThemeNavColor">#ff6b00</color>
 </resources>

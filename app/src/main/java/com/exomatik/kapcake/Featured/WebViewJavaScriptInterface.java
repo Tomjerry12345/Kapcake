@@ -110,7 +110,6 @@ public class WebViewJavaScriptInterface {
     public void progressShow(String title, String message) {
         progressDialog = new ProgressDialog(activity);
         progressDialog.setMessage(title);
-        progressDialog.setTitle(message);
         progressDialog.setCancelable(false);
         progressDialog.show();
     }

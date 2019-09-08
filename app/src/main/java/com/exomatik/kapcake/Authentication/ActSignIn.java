@@ -64,6 +64,7 @@ public class ActSignIn extends AppCompatActivity {
         dotsIndicator = (WormDotsIndicator) findViewById(R.id.dotsIndicator);
 
         userSave = new UserSave(this);
+        overridePendingTransition(0, 0);
     }
 
     private void setAdapter() {
@@ -136,7 +137,6 @@ public class ActSignIn extends AppCompatActivity {
                 else {
                     progressDialog = new ProgressDialog(ActSignIn.this);
                     progressDialog.setMessage(getResources().getString(R.string.progress_title1));
-                    progressDialog.setTitle(getResources().getString(R.string.progress_text1));
                     progressDialog.setCancelable(false);
                     progressDialog.show();
                     postLoginUser(email, pass);
@@ -196,8 +196,10 @@ public class ActSignIn extends AppCompatActivity {
                 }
                 else {
                     userSave.setKEY_USER(films);
-                    MainActivity.toAuth = true;
-                    startActivity(new Intent(ActSignIn.this, MainActivity.class));
+                    MainActivity.toAuth = 1;
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivity(intent);
                     finish();
                 }
 

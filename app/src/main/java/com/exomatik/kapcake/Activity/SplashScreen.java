@@ -35,10 +35,14 @@ public class SplashScreen extends AppCompatActivity {
             public void run()
             {
                 if (userSave.getKEY_USER() == null){
-                    startActivity(new Intent(SplashScreen.this, ActSignIn.class));
+                    Intent intent = new Intent(getApplicationContext(), ActSignIn.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivity(intent);
                 }else {
-                    MainActivity.toAuth = true;
-                    startActivity(new Intent(SplashScreen.this, MainActivity.class));
+                    MainActivity.toAuth = 1;
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivity(intent);
                 }
                 finish();
             }
@@ -47,6 +51,7 @@ public class SplashScreen extends AppCompatActivity {
 
     private void init() {
         userSave = new UserSave(this);
+        overridePendingTransition(0, 0);
     }
 
     private void hideStatusBar() {
