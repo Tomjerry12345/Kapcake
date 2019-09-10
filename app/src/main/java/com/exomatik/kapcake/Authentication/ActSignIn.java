@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -195,12 +196,17 @@ public class ActSignIn extends AppCompatActivity {
                     customSnackbar(getResources().getString(R.string.error_email_not_found), R.drawable.snakbar_red);
                 }
                 else {
-                    userSave.setKEY_USER(films);
-                    MainActivity.toAuth = 1;
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    startActivity(intent);
-                    finish();
+                    if (films.getUser().getPin() != null){
+                        userSave.setKEY_USER(films);
+                        MainActivity.toAuth = 1;
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivity(intent);
+                        finish();
+                    }
+                    else {
+                        customSnackbar("Mohon maaf, data user anda tidak valid", R.drawable.snakbar_red);
+                    }
                 }
 
                 progressDialog.dismiss();

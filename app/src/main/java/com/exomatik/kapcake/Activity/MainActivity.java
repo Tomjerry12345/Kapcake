@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
 //        WebViewJavaScriptInterface webViewJS = new WebViewJavaScriptInterface(this, MainActivity.this
 //                , progressDialog, bluetoothClass, printClass, statusBluetooth, view);
 //        web.addJavascriptInterface(webViewJS, "android");
+
     }
 
     @Override
@@ -100,12 +101,14 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         if (toAuth == 1){
+            Log.e("Tag", "To Auth");
             Intent intent = new Intent(getApplicationContext(), ActAuthPin.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(intent);
             toAuth = 0;
         }
         else if (toAuth == 2){
+            Log.e("Tag", "To Sign IN");
             finish();
             userSave.setKEY_USER(null);
             Intent intent = new Intent(getApplicationContext(), ActSignIn.class);
@@ -113,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
         else {
+            Log.e("Tag", "JS Running");
             WebViewJavaScriptInterface webViewJS = new WebViewJavaScriptInterface(this, MainActivity.this
                     , progressDialog, bluetoothClass, printClass, statusBluetooth, view);
             web.addJavascriptInterface(webViewJS, "android");

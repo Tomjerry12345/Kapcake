@@ -190,7 +190,7 @@ public class ActAuthPin extends AppCompatActivity {
     }
 
     private void alertLogout() {
-        AlertDialog.Builder alert = new AlertDialog.Builder(ActAuthPin.this);
+        AlertDialog.Builder alert = new AlertDialog.Builder(ActAuthPin.this, R.style.MyProgressDialogTheme);
 
         alert.setTitle("Keluar");
         alert.setMessage("Apakah anda yakin ingin keluar dari akun?");
@@ -258,6 +258,7 @@ public class ActAuthPin extends AppCompatActivity {
                 img3.setImageResource(R.drawable.border_hitam);
                 img4.setImageResource(R.drawable.border_hitam);
 
+                Log.e("Pin", Integer.toString(userSave.getKEY_USER().getUser().getPin()));
                 if (pin.equals(Integer.toString(userSave.getKEY_USER().getUser().getPin()))){
                     setWebView();
                 }else {
@@ -310,8 +311,9 @@ public class ActAuthPin extends AppCompatActivity {
 
         MainActivity.web.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
 
-        MainActivity.web.loadUrl("file:///android_asset/index.html");
-
+//        MainActivity.web.loadUrl("file:///android_asset/index.html");
+//
+        MainActivity.web.loadUrl("https://kasir.kapcake.com/");
         MainActivity.web.setWebViewClient(new WebViewClient() {
             public void onPageFinished(WebView view, String weburl) {
                 pin = null;

@@ -108,7 +108,7 @@ public class WebViewJavaScriptInterface {
 
     @JavascriptInterface
     public void progressShow(String title, String message) {
-        progressDialog = new ProgressDialog(activity);
+        progressDialog = new ProgressDialog(activity, R.style.MyProgressDialogTheme);
         progressDialog.setMessage(title);
         progressDialog.setCancelable(false);
         progressDialog.show();
