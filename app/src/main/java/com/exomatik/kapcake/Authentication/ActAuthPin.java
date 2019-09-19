@@ -200,7 +200,9 @@ public class ActAuthPin extends AppCompatActivity {
             public void onClick(final DialogInterface dialog, int which) {
                 customSnackbar("Berhasil Logout", R.drawable.snakbar_blue);
                 finish();
-                MainActivity.toAuth = 2;
+                userSave.setKEY_USER(null);
+                Intent intent = new Intent(getApplicationContext(), ActSignIn.class);
+                startActivity(intent);
             }
         });
         alert.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
@@ -260,7 +262,9 @@ public class ActAuthPin extends AppCompatActivity {
 
                 Log.e("Pin", Integer.toString(userSave.getKEY_USER().getUser().getPin()));
                 if (pin.equals(Integer.toString(userSave.getKEY_USER().getUser().getPin()))){
-                    setWebView();
+//                    setWebView();
+                    startActivity(new Intent(ActAuthPin.this, MainActivity.class));
+                    finish();
                 }else {
                     coba++;
                     img1.setImageResource(R.drawable.border_hitam_putih);
@@ -294,46 +298,46 @@ public class ActAuthPin extends AppCompatActivity {
     }
 
     private void setWebView() {
-        progressShow("Mohon tunggu");
-        MainActivity.web.clearCache(true);
-        MainActivity.web.clearHistory();
-
-        MainActivity.web.setWebChromeClient(new CustomWebChromeClient(this));
-        MainActivity.web.setWebViewClient(new WebViewClient());
-        MainActivity.web.getSettings().setLoadsImagesAutomatically(true);
-        MainActivity.web.getSettings().setJavaScriptEnabled(true);
-        MainActivity.web.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-        MainActivity.web.getSettings().setDomStorageEnabled(true);
-
-        MainActivity.web.getSettings().setSupportZoom(false);
-        MainActivity.web.getSettings().setBuiltInZoomControls(false);
-        MainActivity.web.getSettings().setDisplayZoomControls(false);
-
-        MainActivity.web.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+//        progressShow("Mohon tunggu");
+//        MainActivity.web.clearCache(true);
+//        MainActivity.web.clearHistory();
+//
+//        MainActivity.web.setWebChromeClient(new CustomWebChromeClient(this));
+//        MainActivity.web.setWebViewClient(new WebViewClient());
+//        MainActivity.web.getSettings().setLoadsImagesAutomatically(true);
+//        MainActivity.web.getSettings().setJavaScriptEnabled(true);
+//        MainActivity.web.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+//        MainActivity.web.getSettings().setDomStorageEnabled(true);
+//
+//        MainActivity.web.getSettings().setSupportZoom(false);
+//        MainActivity.web.getSettings().setBuiltInZoomControls(false);
+//        MainActivity.web.getSettings().setDisplayZoomControls(false);
+//
+//        MainActivity.web.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
 
 //        MainActivity.web.loadUrl("file:///android_asset/index.html");
 //
-        MainActivity.web.loadUrl("https://kasir.kapcake.com/");
-        MainActivity.web.setWebViewClient(new WebViewClient() {
-            public void onPageFinished(WebView view, String weburl) {
-                pin = null;
-                MainActivity.toAuth = 0;
-
-                if (MainActivity.jalan) {
-                    MainActivity.web.loadUrl("javascript:loginUser(" + new Gson().toJson(userSave.getKEY_USER()) + ")");
-                    MainActivity.jalan = false;
-                }
-
-                new Handler().postDelayed(new Runnable()
-                {
-                    public void run()
-                    {
-                        progressDialog.dismiss();
-                        finish();
-                    }
-                }, 2000L);
-            }
-        });
+//        MainActivity.web.loadUrl("https://kasir.kapcake.com/");
+//        MainActivity.web.setWebViewClient(new WebViewClient() {
+//            public void onPageFinished(WebView view, String weburl) {
+//                pin = null;
+//                MainActivity.toAuth = 0;
+//
+//                if (MainActivity.jalan) {
+//                    MainActivity.web.loadUrl("javascript:loginUser(" + new Gson().toJson(userSave.getKEY_USER()) + ")");
+//                    MainActivity.jalan = false;
+//                }
+//
+//                new Handler().postDelayed(new Runnable()
+//                {
+//                    public void run()
+//                    {
+//                        progressDialog.dismiss();
+//                        finish();
+//                    }
+//                }, 2000L);
+//            }
+//        });
     }
 
     private void timer(){

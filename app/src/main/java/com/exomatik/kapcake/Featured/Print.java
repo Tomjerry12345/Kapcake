@@ -2,27 +2,35 @@ package com.exomatik.kapcake.Featured;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.icu.text.SimpleDateFormat;
 import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
+import android.webkit.WebView;
 import android.widget.Toast;
 
 import com.exomatik.kapcake.Model.Menu;
+import com.exomatik.kapcake.Model.ModelBluetooth;
 import com.exomatik.kapcake.Model.ModelPesanan;
 import com.exomatik.kapcake.Model.Pesanan;
 import com.exomatik.kapcake.R;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Calendar;
 import java.util.Date;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -41,11 +49,15 @@ public class Print {
     private byte[] readBuffer;
     private int readBufferPosition;
     private Thread workerThread;
+    private ProgressDialog progressDialog;
+    private WebView web;
 
-    public Print(BluetoothDevice bluetoothDevice, Activity activity, BluetoothAdapter bluetoothAdapter) {
+    public Print(BluetoothDevice bluetoothDevice, Activity activity, BluetoothAdapter bluetoothAdapter, ProgressDialog progressDialog, WebView web) {
         this.bluetoothDevice = bluetoothDevice;
         this.activity = activity;
         this.bluetoothAdapter = bluetoothAdapter;
+        this.progressDialog = progressDialog;
+        this.web = web;
     }
 
     public void printData(ModelPesanan listPesanan){
@@ -450,10 +462,13 @@ public class Print {
     }
 
     public void hubungkanDevice(){
-        bluetoothAdapter.cancelDiscovery();
+        if (bluetoothAdapter != null){
+            bluetoothAdapter.cancelDiscovery();
+        }
 
         if (bluetoothDevice.getBondState() == BluetoothDevice.BOND_BONDED) {
             Toast.makeText(activity, "Sudah terhubung", Toast.LENGTH_SHORT).show();
+            waitAndStopProgress();
             try {
                 Log.e("Connecting","trying");
                 openBT();
@@ -461,9 +476,63 @@ public class Print {
                 Log.e("Error", e.getMessage().toString());
             }
         } else {
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                bluetoothDevice.createBond();
+                boolean isBonded = false;
+
+                try {
+                    isBonded = bluetoothDevice.createBond();
+                    if (isBonded){
+                        waitAndStopProgress();
+                        Set<BluetoothDevice> pairedDevice = bluetoothAdapter.getBondedDevices();
+
+                        if (pairedDevice.size() > 0 ){
+                            Toast.makeText(activity, "Menghubungkan", Toast.LENGTH_SHORT).show();
+                            IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
+                            activity.registerReceiver(deviceConnected, filter);
+                        }
+                        else {
+                            Toast.makeText(activity, "Gagal menghubungkan", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    else {
+                        waitAndStopProgress();
+                        Toast.makeText(activity, "Gagal menghubungkan", Toast.LENGTH_SHORT).show();
+                    }
+
+                }catch (Exception e){
+                    waitAndStopProgress();
+                    Toast.makeText(activity, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                }
             }
         }
+    }
+
+    public BroadcastReceiver deviceConnected = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
+
+            if (action.equals(BluetoothDevice.ACTION_BOND_STATE_CHANGED)) {
+                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+
+                if (device.getBondState() == BluetoothDevice.BOND_BONDED){
+                    Toast.makeText(context, "Berhasil Terhubung", Toast.LENGTH_SHORT).show();
+                    web.loadUrl("javascript:konfirmasiBluetoothTerhubung()");
+                }
+
+            }
+
+        }
+    };
+
+    private void waitAndStopProgress(){
+        new Handler().postDelayed(new Runnable()
+        {
+            public void run()
+            {
+                progressDialog.dismiss();
+            }
+        }, 3000L);
     }
 }

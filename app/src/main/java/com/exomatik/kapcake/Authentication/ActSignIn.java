@@ -136,7 +136,7 @@ public class ActSignIn extends AppCompatActivity {
                     }
                 }
                 else {
-                    progressDialog = new ProgressDialog(ActSignIn.this);
+                    progressDialog = new ProgressDialog(ActSignIn.this, R.style.MyProgressDialogTheme);
                     progressDialog.setMessage(getResources().getString(R.string.progress_title1));
                     progressDialog.setCancelable(false);
                     progressDialog.show();
@@ -198,8 +198,7 @@ public class ActSignIn extends AppCompatActivity {
                 else {
                     if (films.getUser().getPin() != null){
                         userSave.setKEY_USER(films);
-                        MainActivity.toAuth = 1;
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), ActAuthPin.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(intent);
                         finish();

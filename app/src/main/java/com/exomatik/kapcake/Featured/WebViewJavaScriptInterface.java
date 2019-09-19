@@ -11,6 +11,7 @@ import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,12 +41,13 @@ public class WebViewJavaScriptInterface {
     private Print printClass;
     private Boolean statusBluetooth;
     private View view;
+    private WebView web;
     /*
      * Need a reference to the context in order to sent a post message
      */
 
     public WebViewJavaScriptInterface(Context context, Activity activity, ProgressDialog progressDialog
-            , Bluetooth bluetoothClass, Print printClass, Boolean statusBluetooth, View view) {
+            , Bluetooth bluetoothClass, Print printClass, Boolean statusBluetooth, View view, WebView web) {
         this.view = view;
         this.context = context;
         this.activity = activity;
@@ -53,6 +55,7 @@ public class WebViewJavaScriptInterface {
         this.bluetoothClass = bluetoothClass;
         this.printClass = printClass;
         this.statusBluetooth = statusBluetooth;
+        this.web = web;
 
         userSave = new UserSave(context);
     }
@@ -82,7 +85,7 @@ public class WebViewJavaScriptInterface {
     }
 
     private void alertLogout() {
-        AlertDialog.Builder alert = new AlertDialog.Builder(activity);
+        AlertDialog.Builder alert = new AlertDialog.Builder(activity, R.style.MyProgressDialogTheme);
 
         alert.setTitle("Keluar");
         alert.setMessage("Apakah anda yakin ingin keluar dari akun?");
@@ -153,7 +156,8 @@ public class WebViewJavaScriptInterface {
 
     @JavascriptInterface
     public void connectingToBluetooth(String macAddress) {
-        printClass = new Print(bluetoothAdapter.getRemoteDevice(macAddress), activity, bluetoothAdapter);
+        progressShow("Mohon Tunggu", "");
+        printClass = new Print(bluetoothAdapter.getRemoteDevice(macAddress), activity, bluetoothAdapter, progressDialog, web);
         statusBluetooth = true;
 
         printClass.hubungkanDevice();

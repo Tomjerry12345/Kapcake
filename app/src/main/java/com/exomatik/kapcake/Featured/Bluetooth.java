@@ -88,6 +88,8 @@ public class Bluetooth {
             if (action.equals(BluetoothDevice.ACTION_FOUND)) {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 
+                final int sizeBTBefore = listDevice.size();
+
                 if (listDevice.size() != 0) {
                     boolean tidakAda = true;
 
@@ -104,8 +106,11 @@ public class Bluetooth {
                     listDevice.add(new ModelBluetooth(device.getName(), device.getAddress()));
                 }
 
-                web.loadUrl("javascript:setListPrinterDitemukan(" + new Gson().toJson(listDevice) + ")");
+                if (listDevice.size() > sizeBTBefore){
+                    web.loadUrl("javascript:setListPrinterDitemukan(" + new Gson().toJson(listDevice) + ")");
+                }
             }
+
         }
     };
 }

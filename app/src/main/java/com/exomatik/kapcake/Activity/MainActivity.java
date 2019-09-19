@@ -34,6 +34,7 @@ import com.exomatik.kapcake.Featured.WebViewJavaScriptInterface;
 import com.exomatik.kapcake.Featured.UserSave;
 import com.exomatik.kapcake.R;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
 
 
 import java.io.IOException;
@@ -41,11 +42,12 @@ import java.util.ArrayList;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class MainActivity extends AppCompatActivity {
-    public static WebView web;
-    public static int toAuth = 0;
-    public static boolean jalan = true;
+    private WebView web;
+    private int toAuth = 0;
+    private boolean jalan = true;
     private UserSave userSave;
     public ProgressDialog progressDialog;
     private boolean back = true;
@@ -54,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     private Bluetooth bluetoothClass;
     private Print printClass;
     private View view;
+    private SwipeRefreshLayout swipeRefresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,64 +66,90 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         init();
+        progressShow("Mohon tunggu");
         runnabelCekKoneksi();
-//        web.clearCache(true);
-//        web.clearHistory();
-//
-//        web.setWebChromeClient(new CustomWebChromeClient(this));
-//        web.setWebViewClient(new WebViewClient());
-//        web.getSettings().setLoadsImagesAutomatically(true);
-//        web.getSettings().setJavaScriptEnabled(true);
-//        web.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-//        web.getSettings().setDomStorageEnabled(true);
-//
-//        web.getSettings().setSupportZoom(false);
-//        web.getSettings().setBuiltInZoomControls(false);
-//        web.getSettings().setDisplayZoomControls(false);
-//
-//        web.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
-//
-//        web.loadUrl("file:///android_asset/index.html");
-//
-//        web.setWebViewClient(new WebViewClient() {
-//            public void onPageFinished(WebView view, String weburl) {
-//                if (jalan) {
-//                    web.loadUrl("javascript:loginUser(" + new Gson().toJson(userSave.getKEY_USER()) + ")");
-//                    jalan = false;
-//                }
-//            }
-//        });
-//        WebViewJavaScriptInterface webViewJS = new WebViewJavaScriptInterface(this, MainActivity.this
-//                , progressDialog, bluetoothClass, printClass, statusBluetooth, view);
-//        web.addJavascriptInterface(webViewJS, "android");
+        setWebView();
 
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                setWebView();
+                swipeRefresh.setRefreshing(false);
+            }
+        });
+    }
+
+    private void setWebView() {
+        web.clearFormData();
+        web.clearMatches();
+        web.clearSslPreferences();
+        web.clearAnimation();
+        web.clearFocus();
+        web.clearDisappearingChildren();
+        web.clearCache(true);
+        web.clearHistory();
+
+        web.setWebChromeClient(new CustomWebChromeClient(this));
+        web.setWebViewClient(new WebViewClient());
+        web.getSettings().setLoadsImagesAutomatically(true);
+        web.getSettings().setJavaScriptEnabled(true);
+        web.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+        web.getSettings().setDomStorageEnabled(true);
+
+        web.getSettings().setSupportZoom(false);
+        web.getSettings().setBuiltInZoomControls(false);
+        web.getSettings().setDisplayZoomControls(false);
+
+        web.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+
+//        web.loadUrl("file:///android_asset/index.html");
+        web.loadUrl("https://kasir.kapcake.com/");
+        web.setWebViewClient(new WebViewClient() {
+            public void onPageFinished(WebView view, String weburl) {
+                if (jalan) {
+                    web.loadUrl("javascript:loginUser(" + new Gson().toJson(userSave.getKEY_USER()) + ")");
+                    progressDialog.dismiss();
+                    jalan = false;
+                }
+            }
+        });
+        WebViewJavaScriptInterface webViewJS = new WebViewJavaScriptInterface(this, MainActivity.this
+                , progressDialog, bluetoothClass, printClass, statusBluetooth, view, web);
+        web.addJavascriptInterface(webViewJS, "android");
+    }
+
+    private void progressShow(String title) {
+        progressDialog = new ProgressDialog(MainActivity.this, R.style.MyProgressDialogTheme);
+        progressDialog.setMessage(title);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        if (toAuth == 1){
-            Log.e("Tag", "To Auth");
-            Intent intent = new Intent(getApplicationContext(), ActAuthPin.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivity(intent);
-            toAuth = 0;
-        }
-        else if (toAuth == 2){
-            Log.e("Tag", "To Sign IN");
-            finish();
-            userSave.setKEY_USER(null);
-            Intent intent = new Intent(getApplicationContext(), ActSignIn.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivity(intent);
-        }
-        else {
-            Log.e("Tag", "JS Running");
-            WebViewJavaScriptInterface webViewJS = new WebViewJavaScriptInterface(this, MainActivity.this
-                    , progressDialog, bluetoothClass, printClass, statusBluetooth, view);
-            web.addJavascriptInterface(webViewJS, "android");
-        }
+//        if (toAuth == 1){
+//            Log.e("Tag", "To Auth");
+//            Intent intent = new Intent(getApplicationContext(), ActAuthPin.class);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+//            startActivity(intent);
+//            toAuth = 0;
+//        }
+//        else if (toAuth == 2){
+//            Log.e("Tag", "To Sign IN");
+//            finish();
+//            userSave.setKEY_USER(null);
+//            Intent intent = new Intent(getApplicationContext(), ActSignIn.class);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+//            startActivity(intent);
+//        }
+//        else {
+//            Log.e("Tag", "JS Running");
+//            WebViewJavaScriptInterface webViewJS = new WebViewJavaScriptInterface(this, MainActivity.this
+//                    , progressDialog, bluetoothClass, printClass, statusBluetooth, view);
+//            web.addJavascriptInterface(webViewJS, "android");
+//        }
     }
 
     private void runnabelCekKoneksi() {
@@ -170,12 +199,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void init() {
         web = (WebView) findViewById(R.id.web);
+        swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
         view  = (View) findViewById(android.R.id.content);
+
         userSave = new UserSave(this);
         bluetoothClass = new Bluetooth(this, web);
 
         overridePendingTransition(0, 0);
-
     }
 
     @Override
