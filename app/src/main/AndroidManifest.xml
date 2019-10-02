@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.exomatik.kapcake">
+    package="com.kapcake.pos">
 
     <uses-feature android:name="android.hardware.bluetooth"/>
+
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED"
         tools:ignore="ProtectedPermissions" />
 
@@ -22,7 +25,7 @@
         android:usesCleartextTraffic="true"
         >
         <activity
-            android:name=".Activity.SplashScreen"
+            android:name="com.kapcake.pos.Activity.SplashScreen"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.Design.CustomNoActionBar"
             >
@@ -33,17 +36,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Authentication.ActAuthPin"
+            android:name="com.kapcake.pos.Authentication.ActAuthPin"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.Design.CustomNoActionBar"
             />
         <activity
-            android:name=".Authentication.ActSignIn"
+            android:name="com.kapcake.pos.Authentication.ActSignIn"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.Design.CustomNoActionBar"
             />
         <activity
-            android:name=".Activity.MainActivity"
+            android:name="com.kapcake.pos.Activity.MainActivity"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.Design.CustomNoActionBar"
 
@@ -53,7 +56,7 @@
             android:name="io.fabric.ApiKey"
             android:value="dab265d447c59d4fa283413fcbd75dee808cbcdc" />
 
-        <activity android:name=".Activity.GetKoneksi"></activity>
+        <activity android:name="com.kapcake.pos.Activity.GetKoneksi"></activity>
     </application>
 
 </manifest>

@@ -4,8 +4,8 @@
 	margin-bottom: 0;
 	background-color: transparent;
 	white-space: nowrap;
-	overflow-x: auto;
-	margin-top: 1rem;
+	overflow-x: scroll;
+	/*margin-top: 3px !important;*/
 }
 
 .mui-tabs__bar > li {
@@ -14,7 +14,7 @@
 
 .mui-tabs__bar > li > a {
 	display: block;
-	padding: 7px 20px;
+	padding: 10px 28px 9px;
 	white-space: nowrap;
 	font-weight: 700;
 	font-size: 14px;
@@ -27,9 +27,12 @@
 }
 
 .mui-tabs__bar > li.mui--is-active {
-	background: #2196F3;
-	color: #fff;
-	border-radius: .3rem;
+	background: #fff;
+	border-bottom: 3px solid #4399de;
+    /*color: #fff;*/
+    color: #333;
+    /*border-radius: 11px;*/
+    line-height: 1.5rem;
 }
 
 .mui-tabs__bar.mui-tabs__bar--justified {
@@ -49,8 +52,8 @@
 }
 
 .meja-option-active{
-	background: #8ca8fd;
-	border-color: #8ca8fd !important;
+	background: #f1f1f1;
+	border-color: #e1e1e1 !important;
 }
 
 .hide-scroll::-webkit-scrollbar {
@@ -154,3 +157,17 @@
   color: #333 !important;
 }
 
+.card-box{
+	-webkit-box-shadow: 0px 1px 3px 0px #ddd;
+	-moz-box-shadow: 0px 1px 3px 0px #ddd;
+	box-shadow: 0px 1px 3px 0px #ddd;
+	border-radius: 1rem !important;
+}
+
+.text-999{
+	color:#9E9E9E;
+}
+
+.modal-content{
+	border-radius: 7px;
+}

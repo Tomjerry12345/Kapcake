@@ -18,11 +18,11 @@ repositories {
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.exomatik.kapcake"
+        applicationId "com.pos.pos"
         minSdkVersion 22
         targetSdkVersion 28
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -59,4 +59,6 @@ dependencies {
 
     implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:3.0.3'
     implementation 'com.github.santalu:auto-viewpager:1.0.8'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.8.0'
+    testImplementation 'junit:junit:4.12'
 }

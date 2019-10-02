@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/putih"
     android:orientation="horizontal"
-    tools:context="com.exomatik.kapcake.Authentication.ActSignIn">
+    tools:context="com.kapcake.pos.Authentication.ActSignIn">
 
     <RelativeLayout
         android:layout_width="0dp"
