@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kapcake.pos.Adapter.SwipeAdapter;
@@ -42,6 +43,7 @@ public class ActSignIn extends AppCompatActivity {
     private WormDotsIndicator dotsIndicator;
     private AutoViewPager viewPager;
     private SwipeAdapter swipeAdapter;
+    private ImageView imgSwipe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +60,7 @@ public class ActSignIn extends AppCompatActivity {
     private void init() {
         btnLogin = (Button) findViewById(R.id.btn_login);
         btnSignUp = (Button) findViewById(R.id.btn_sign_up);
+        imgSwipe = (ImageView) findViewById(R.id.imgSwipe);
         etInputEmail = (TextInputLayout) findViewById(R.id.et_input_email);
         etInputPass = (TextInputLayout) findViewById(R.id.et_input_pass);
         view = (View) findViewById(android.R.id.content);
@@ -66,15 +69,21 @@ public class ActSignIn extends AppCompatActivity {
 
         userSave = new UserSave(this);
         overridePendingTransition(0, 0);
+        imgSwipe.setImageResource(R.drawable.logo_white);
     }
 
     private void setAdapter() {
-        String title[] = {"HALO IRFAN",
-                "HALO RICKY",
-                "HALO ANDI"};
-        String isi[] = {"Apa yang sedang anda pikirkan?",
-                "Apa yang sedang anda lakukan",
-                "Adaji dibikin kak?"};
+        String isi[] = {"Tingkatkan pendapatan usaha Anda dengan Kapcake POS",
+                "Tampilan Kapcake yang mudah digunakan oleh siapapun",
+                "Atur menu dengan mudah mulai dari harga, foto, kategori, variasi dan jumlah sesuai kebutuhan",
+                "Memudahkan pengguna dalam mengatur stok barang dan inventory secara akurat"
+        };
+        String title[] = {"Kapcake Point of Sale",
+                "Sangat Mudah!",
+                "Pengaturan Menu",
+                "Manajemen Stok"
+        };
+
         swipeAdapter = new SwipeAdapter(this, title, isi);
         viewPager.setOffscreenPageLimit(1);
         viewPager.setAdapter(swipeAdapter);
@@ -111,7 +120,7 @@ public class ActSignIn extends AppCompatActivity {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String url = "https://backoffice.kapcake.com/register";
+                String url = "https://backoffice.kapcake.com/daftar";
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(url));
                 startActivity(i);

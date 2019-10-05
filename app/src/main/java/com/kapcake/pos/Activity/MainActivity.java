@@ -69,14 +69,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setWebView() {
-        web.clearFormData();
-        web.clearMatches();
-        web.clearSslPreferences();
-        web.clearAnimation();
-        web.clearFocus();
-        web.clearDisappearingChildren();
-        web.clearCache(true);
-        web.clearHistory();
+//        web.clearFormData();
+//        web.clearMatches();
+//        web.clearSslPreferences();
+//        web.clearAnimation();
+//        web.clearFocus();
+//        web.clearDisappearingChildren();
+//        web.clearCache(true);
+//        web.clearHistory();
 
         web.setWebChromeClient(new CustomWebChromeClient(this));
         web.setWebViewClient(new WebViewClient());

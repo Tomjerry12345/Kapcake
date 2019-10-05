@@ -34,11 +34,14 @@ public class User {
     @SerializedName("email")
     @Expose
     private String email;
+    @SerializedName("no_urut")
+    @Expose
+    private Integer no_urut;
 
     public User() {
     }
 
-    public User(String nama, Integer bisnisId, Integer pin, String telpon, Integer isSuperAdmin, Integer id, List<Outlet> outlet, String alamat, String email) {
+    public User(String nama, Integer bisnisId, Integer pin, String telpon, Integer isSuperAdmin, Integer id, List<Outlet> outlet, String alamat, String email, Integer no_urut) {
         this.nama = nama;
         this.bisnisId = bisnisId;
         this.pin = pin;
@@ -48,6 +51,15 @@ public class User {
         this.outlet = outlet;
         this.alamat = alamat;
         this.email = email;
+        this.no_urut = no_urut;
+    }
+
+    public Integer getNo_urut() {
+        return no_urut;
+    }
+
+    public void setNo_urut(Integer no_urut) {
+        this.no_urut = no_urut;
     }
 
     public String getNama() {

@@ -17,19 +17,44 @@
         android:background="@drawable/gradient_orange"
         android:elevation="@dimen/margin_big"
         >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/width60"
+            android:orientation="horizontal"
+            android:id="@+id/lnSwipe"
+            android:layout_marginTop="@dimen/width170"
+            android:layout_marginBottom="@dimen/margin_large"
+            >
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"
+                />
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="@dimen/width60"
+                android:layout_weight="0.5"
+                android:id="@+id/imgSwipe"
+                android:layout_centerHorizontal="true"
+                />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                />
+        </LinearLayout>
         <com.santalu.autoviewpager.AutoViewPager
             android:id="@+id/viewPager"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/width120"
-            android:layout_marginBottom="@dimen/width50"
+            android:layout_below="@+id/lnSwipe"
+            android:layout_above="@+id/dotsIndicator"
             android:layout_marginLeft="@dimen/width50"
             android:layout_marginRight="@dimen/width100"
             android:overScrollMode="never"
             app:avp_autoScroll="true"
             app:avp_duration="5000"
             app:avp_indeterminate="true"
-            android:layout_centerVertical="true"
             >
 
         </com.santalu.autoviewpager.AutoViewPager>
@@ -68,23 +93,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/width60"
                 android:layout_marginRight="@dimen/width80"
-                android:layout_marginTop="@dimen/width30"
                 android:layout_marginBottom="@dimen/width30"
                 >
 
-                <ImageView
-                    android:id="@+id/img_user"
-                    android:layout_width="@dimen/width100"
-                    android:layout_height="@dimen/width100"
-                    android:layout_centerHorizontal="true"
-                    android:background="@drawable/border_circle_gray"
-                    android:src="@drawable/ic_person_white"
-                    />
                 <TextView
                     android:id="@+id/text_sign_in_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/img_user"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/margin_sign_in"
                     android:fontFamily="@font/monserrat_regular"

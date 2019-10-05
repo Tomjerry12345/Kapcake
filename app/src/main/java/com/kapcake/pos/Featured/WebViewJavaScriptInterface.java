@@ -181,7 +181,7 @@ public class WebViewJavaScriptInterface {
                         pin, userSave.getKEY_USER().getUser().getTelpon(),
                         userSave.getKEY_USER().getUser().getIsSuperAdmin(), userSave.getKEY_USER().getUser().getId(),
                         userSave.getKEY_USER().getUser().getOutlet(), userSave.getKEY_USER().getUser().getAlamat(),
-                        userSave.getKEY_USER().getUser().getEmail())));
+                        userSave.getKEY_USER().getUser().getEmail(), userSave.getKEY_USER().getUser().getNo_urut())));
     }
 
     @JavascriptInterface
