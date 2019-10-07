@@ -10,6 +10,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -43,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
     private boolean jalan = true;
     private UserSave userSave;
     public ProgressDialog progressDialog;
-    private boolean back = true;
     private boolean tampil = true;
     private Bluetooth bluetoothClass;
     private Print printClass;
@@ -53,6 +53,9 @@ public class MainActivity extends AppCompatActivity {
     private BluetoothAdapter bluetoothAdapter;
     public static boolean searching = true;
     public static String macAddress = null;
+    public static ProgressDialog progressDialog2;
+    private boolean paused = false;
+    private boolean exit = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,14 +72,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setWebView() {
-//        web.clearFormData();
-//        web.clearMatches();
-//        web.clearSslPreferences();
-//        web.clearAnimation();
-//        web.clearFocus();
-//        web.clearDisappearingChildren();
-//        web.clearCache(true);
-//        web.clearHistory();
 
         web.setWebChromeClient(new CustomWebChromeClient(this));
         web.setWebViewClient(new WebViewClient());
@@ -92,16 +87,15 @@ public class MainActivity extends AppCompatActivity {
         web.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
 
         web.loadUrl("file:///android_asset/index.html");
-//        web.loadUrl("http://192.168.43.196/kapcake/kasir/index.html");
-//        web.loadUrl("http://192.168.137.84/kapcake/kasir/index.html");
-//        web.loadUrl("https://kasir.kapcake.com/");
         web.setWebViewClient(new WebViewClient() {
             public void onPageFinished(WebView view, String weburl) {
                 if (jalan) {
                     web.loadUrl("javascript:loginUser(" + new Gson().toJson(userSave.getKEY_USER()) + ", "
                             + userSave.getKEY_KODE() + ")");
-                    progressDialog.dismiss();
                     jalan = false;
+                }
+                if (progressDialog != null){
+                    progressDialog.dismiss();
                 }
             }
         });
@@ -118,38 +112,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onPause() {
+        super.onPause();
 
-//        if (toAuth == 1){
-//            Log.e("Tag", "To Auth");
-//            Intent intent = new Intent(getApplicationContext(), ActAuthPin.class);
-//            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-//            startActivity(intent);
-//            toAuth = 0;
-//        }
-//        else if (toAuth == 2){
-//            Log.e("Tag", "To Sign IN");
-//            finish();
-//            userSave.setKEY_USER(null);
-//            Intent intent = new Intent(getApplicationContext(), ActSignIn.class);
-//            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-//            startActivity(intent);
-//        }
-//        else {
-//            Log.e("Tag", "JS Running");
-//            WebViewJavaScriptInterface webViewJS = new WebViewJavaScriptInterface(this, MainActivity.this
-//                    , progressDialog, bluetoothClass, printClass, statusBluetooth, view);
-//            web.addJavascriptInterface(webViewJS, "android");
-//        }
+        if (progressDialog != null){
+            progressDialog.dismiss();
+        }
     }
 
     private void runnabelCekKoneksi() {
         new CountDownTimer(300000, 1000) {
             public void onTick(long millisUntilFinished) {
-                if (back) {
-                    cekKoneksi();
-                }
+                cekKoneksi();
             }
 
             public void onFinish() {
@@ -195,14 +169,34 @@ public class MainActivity extends AppCompatActivity {
 
         userSave = new UserSave(this);
         bluetoothClass = new Bluetooth(this, web, listDevice);
-
-        overridePendingTransition(0, 0);
     }
 
     @Override
     public void onBackPressed() {
-        back = false;
-        finish();
+        if (exit) {
+            minimizeApp();
+            return;
+        } else {
+            Toast toast = Toast.makeText(MainActivity.this, "Tekan Cepat 2 Kali untuk Minimize", Toast.LENGTH_SHORT);
+            toast.show();
+            exit = true;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    exit = false;
+                }
+            }, 2000);
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.e("Stop", "Yes");
+    }
+
+    public void minimizeApp() {
+        moveTaskToBack(true);
     }
 
     private void hideStatusBar() {
@@ -213,24 +207,30 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        paused = false;
         switch (requestCode) {
             case 0:
                 if (resultCode == Activity.RESULT_OK) {
                     Toast.makeText(this, "Bluetooth aktif", Toast.LENGTH_SHORT).show();
 
                     if (searching) {
+                        progressDialog.dismiss();
                         bluetoothClass.btnDiscover();
                     } else {
+                        progressShow("Mohon tunggu...");
                         ModelSocket dataSocket = null;
                         for (int a = 0; a < listSocket.size(); a++) {
                             if (listSocket.get(a).getMacAddress().equals(macAddress)) {
                                 dataSocket = listSocket.get(a);
                             }
                         }
-                        printClass = new Print(bluetoothAdapter.getRemoteDevice(macAddress), MainActivity.this, bluetoothAdapter, progressDialog, web, dataSocket);
+
+                        progressDialog.dismiss();
+                        printClass = new Print(bluetoothAdapter.getRemoteDevice(macAddress), MainActivity.this, bluetoothAdapter, progressDialog2, web, dataSocket);
                         printClass.hubungkanDevice(macAddress);
                     }
                 } else {
+                    progressDialog.dismiss();
                     Toast.makeText(this, "Bluetooth tidak aktif", Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -243,6 +243,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.e("Destroy", "Yes");
 
         searching = true;
         macAddress = null;

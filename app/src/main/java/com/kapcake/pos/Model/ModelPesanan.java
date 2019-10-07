@@ -10,6 +10,9 @@ public class ModelPesanan {
     @SerializedName("instagram")
     @Expose
     private String instagram;
+    @SerializedName("url_logo")
+    @Expose
+    private String url_logo;
     @SerializedName("waktu_proses")
     @Expose
     private String waktuProses;
@@ -130,7 +133,7 @@ public class ModelPesanan {
      * @param jumlahBiayaTambahan
      * @param alamat
      */
-    public ModelPesanan(String instagram, String waktuProses, String twitter, String kembalian, List<Pesanan> pesanan, String jumlahPajak, String tanggalProses, String total, String alamat, String namaOutlet, String kodePemesanan, String namaPajak, String totalPajak, String catatan, String totalBiayaTambahan, String website, String namaDiskon, String jumlahBiayaTambahan, String namaUser, String facebook, String telpon, String noPemesanan, String subtotal, String namaPelayan, String namaBiayaTambahan, String totalDiskon, String tunai, String jumlahDiskon) {
+    public ModelPesanan(String instagram, String waktuProses, String twitter, String kembalian, List<Pesanan> pesanan, String jumlahPajak, String tanggalProses, String total, String alamat, String namaOutlet, String kodePemesanan, String namaPajak, String totalPajak, String catatan, String totalBiayaTambahan, String website, String namaDiskon, String jumlahBiayaTambahan, String namaUser, String facebook, String telpon, String noPemesanan, String subtotal, String namaPelayan, String namaBiayaTambahan, String totalDiskon, String tunai, String jumlahDiskon, String url_logo) {
         super();
         this.instagram = instagram;
         this.waktuProses = waktuProses;
@@ -160,6 +163,15 @@ public class ModelPesanan {
         this.totalDiskon = totalDiskon;
         this.tunai = tunai;
         this.jumlahDiskon = jumlahDiskon;
+        this.url_logo= url_logo;
+    }
+
+    public String getUrl_logo() {
+        return url_logo;
+    }
+
+    public void setUrl_logo(String url_logo) {
+        this.url_logo = url_logo;
     }
 
     public String getInstagram() {

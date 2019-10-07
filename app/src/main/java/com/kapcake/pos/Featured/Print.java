@@ -22,6 +22,9 @@ import com.kapcake.pos.Model.Pesanan;
 import com.kapcake.pos.R;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Date;
 
 /**
@@ -82,7 +85,7 @@ public class Print {
     }
 
     @TargetApi(Build.VERSION_CODES.N)
-    public void tesPrint(String namaOutlet, String hp, String alamat, String tipe, String macAddress) {
+    public void tesPrint(String namaOutlet, String hp, String alamat, String tipe, String macAddress, String urlFoto) {
         if (socketBluetooth == null) {
             Log.e("SCB", "null");
             for (int a = 0; a < MainActivity.listSocket.size(); a++) {
@@ -95,7 +98,7 @@ public class Print {
 
         if (socketBluetooth.getMmOutputStream() != null) {
             Log.e("Data output socket", "tidak null");
-            printPhoto(R.drawable.logo_kue);
+            printPhoto(urlFoto);
             printCustom("\n", 3, 1);
             printCustom(namaOutlet, 3, 1);
             printCustom("\n", 0, 1);
@@ -135,7 +138,7 @@ public class Print {
 
     private void tampilanHeaderAtas(ModelPesanan listData) {
         //foto
-        printPhoto(R.drawable.logo_kue);
+        printPhoto(listData.getUrl_logo());
 
         //nama warkop
         printCustom("\n" + listData.getNamaOutlet(), 3, 1);
@@ -313,20 +316,70 @@ public class Print {
     }
 
     //print photo
-    public void printPhoto(int img) {
+    public void printPhoto(String img) {
         try {
-            Bitmap bmp = BitmapFactory.decodeResource(activity.getResources(),
-                    img);
-            if (bmp != null) {
-                byte[] command = Utils.decodeBitmap(bmp);
-                socketBluetooth.getMmOutputStream().write(PrinterCommands.ESC_ALIGN_CENTER);
-                socketBluetooth.getMmOutputStream().write(command);
-            } else {
-                Log.e("Print Photo error", "the file isn't exists");
+            if (img == null){
+                Bitmap bmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.logo_kue);
+                if (bmp != null) {
+                    byte[] command = Utils.decodeBitmap(bmp);
+                    socketBluetooth.getMmOutputStream().write(PrinterCommands.ESC_ALIGN_CENTER);
+                    socketBluetooth.getMmOutputStream().write(command);
+                } else {
+                    Log.e("Print Photo error", "the file isn't exists");
+                }
             }
+            else if (img.isEmpty()){
+                Bitmap bmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.logo_kue);
+                if (bmp != null) {
+                    byte[] command = Utils.decodeBitmap(bmp);
+                    socketBluetooth.getMmOutputStream().write(PrinterCommands.ESC_ALIGN_CENTER);
+                    socketBluetooth.getMmOutputStream().write(command);
+                } else {
+                    Log.e("Print Photo error", "the file isn't exists");
+                }
+            }
+            else if (img == ""){
+                Bitmap bmp = BitmapFactory.decodeResource(activity.getResources(), R.drawable.logo_kue);
+                if (bmp != null) {
+                    byte[] command = Utils.decodeBitmap(bmp);
+                    socketBluetooth.getMmOutputStream().write(PrinterCommands.ESC_ALIGN_CENTER);
+                    socketBluetooth.getMmOutputStream().write(command);
+                } else {
+                    Log.e("Print Photo error", "the file isn't exists");
+                }
+            }
+            else {
+                Bitmap bmp = getBitmapFromURL(img);
+                if (bmp != null) {
+                    byte[] command = Utils.decodeBitmap(bmp);
+                    socketBluetooth.getMmOutputStream().write(PrinterCommands.ESC_ALIGN_CENTER);
+                    socketBluetooth.getMmOutputStream().write(command);
+                } else {
+                    Log.e("Print Photo error", "the file isn't exists");
+                }
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
             Log.e("PrintTools", e.getMessage().toString());
+        }
+    }
+
+    public static Bitmap getBitmapFromURL(String src) {
+        try {
+            URL url = new URL(src);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            myBitmap = myBitmap.createScaledBitmap(myBitmap, 100, 100, true);
+            Log.e("Height", Integer.toString(myBitmap.getHeight()));
+            Log.e("Width", Integer.toString(myBitmap.getWidth()));
+            return myBitmap;
+        } catch (IOException e) {
+            // Log exception
+            return null;
         }
     }
 
@@ -380,6 +433,7 @@ public class Print {
     }
 
     public void hubungkanDevice(String macAddress) {
+
         if (bluetoothAdapter != null) {
             bluetoothAdapter.cancelDiscovery();
         }
@@ -394,6 +448,7 @@ public class Print {
                     bluetoothDevice.createBond();
                     if (bluetoothDevice.getBondState() == BluetoothDevice.BOND_BONDED){
                         waitAndStopProgress();
+                        Log.e("Konfig", "show");
                         Toast.makeText(activity, "Konfigurasi Bluetooth", Toast.LENGTH_LONG).show();
                         web.post(new Runnable() {
                             @Override

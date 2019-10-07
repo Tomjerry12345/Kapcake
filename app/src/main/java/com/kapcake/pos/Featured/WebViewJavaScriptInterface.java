@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kapcake.pos.Activity.MainActivity;
+import com.kapcake.pos.Authentication.ActAuthPin;
 import com.kapcake.pos.Authentication.ActSignIn;
 import com.kapcake.pos.Model.ModelLogout;
 import com.kapcake.pos.Model.ModelPesanan;
@@ -97,31 +98,48 @@ public class WebViewJavaScriptInterface {
      * This method can be called from Android. @JavascriptInterface
      * required after SDK version 17.
      */
-    @JavascriptInterface
-    public void logout() {
-        alertLogout();
-    }
-
-    private void alertLogout() {
+    private void alertLogout(int request) {
         AlertDialog.Builder alert = new AlertDialog.Builder(activity, R.style.MyProgressDialogTheme);
 
-        alert.setTitle("Keluar");
-        alert.setMessage("Apakah anda yakin ingin keluar dari akun?");
-        alert.setPositiveButton("Iya", new DialogInterface.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
-            @Override
-            public void onClick(final DialogInterface dialog, int which) {
-                postLogoutUser();
-            }
-        });
-        alert.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+        if (request == 1){
+            alert.setTitle("Keluar");
+            alert.setMessage("Apakah anda yakin ingin keluar dari akun?");
+            alert.setPositiveButton("Iya", new DialogInterface.OnClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.M)
+                @Override
+                public void onClick(final DialogInterface dialog, int which) {
+                    postLogoutUser();
+                }
+            });
+            alert.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
 
-        alert.show();
+            alert.show();
+        }
+        else if (request == 2) {
+            alert.setTitle("Keluar");
+            alert.setMessage("Apakah anda yakin ingin keluar?");
+            alert.setPositiveButton("Iya", new DialogInterface.OnClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.M)
+                @Override
+                public void onClick(final DialogInterface dialog, int which) {
+                    activity.startActivity(new Intent(activity, ActAuthPin.class));
+                    activity.finish();
+                }
+            });
+            alert.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+
+            alert.show();
+        }
     }
 
     private void postLogoutUser() {
@@ -162,6 +180,7 @@ public class WebViewJavaScriptInterface {
         userSave.setKEY_TANGGAL("0");
         userSave.setKEY_USER(null);
         progressDismiss();
+        Log.e("Saya", "Sign in");
         activity.startActivity(new Intent(context, ActSignIn.class));
         activity.finish();
     }
@@ -235,6 +254,16 @@ public class WebViewJavaScriptInterface {
     }
 
     @JavascriptInterface
+    public void logoutToPIN() {
+        alertLogout(2);
+    }
+
+    @JavascriptInterface
+    public void logout() {
+        alertLogout(1);
+    }
+
+    @JavascriptInterface
     public void cekAndRequestBluetooth() {
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (bluetoothAdapter == null) {
@@ -298,7 +327,7 @@ public class WebViewJavaScriptInterface {
     private void timerProgress() {
         new Handler().postDelayed(new Runnable() {
             public void run() {
-                if (result){
+                if (result) {
                     printClass = null;
                     bluetoothAdapter = null;
 
@@ -327,6 +356,7 @@ public class WebViewJavaScriptInterface {
             activity.startActivityForResult(intent, 0);
             Toast.makeText(context, "Menyalakan", Toast.LENGTH_SHORT).show();
             Log.e("bluetooth", " Aktif");
+            MainActivity.progressDialog2 = progressDialog;
             MainActivity.searching = false;
             MainActivity.macAddress = macAddress;
 
@@ -334,8 +364,8 @@ public class WebViewJavaScriptInterface {
     }
 
     @JavascriptInterface
-    public void printPesanan(String message, String macAddress) {
-        ModelPesanan obj = new Gson().fromJson(message, ModelPesanan.class);
+    public void printPesanan(String message, final String macAddress) {
+        final ModelPesanan obj = new Gson().fromJson(message, ModelPesanan.class);
 
         if (bluetoothAdapter == null) {
             bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -345,20 +375,31 @@ public class WebViewJavaScriptInterface {
             if (macAddress.isEmpty()) {
                 Toast.makeText(context, "Mac Address Printer Tujuan tidak ada", Toast.LENGTH_SHORT).show();
             } else {
-                ModelSocket dataSocket = null;
-                for (int a = 0; a < MainActivity.listSocket.size(); a++) {
-                    if (MainActivity.listSocket.get(a).getMacAddress().equals(macAddress)) {
-                        dataSocket = MainActivity.listSocket.get(a);
-                    }
-                }
+                progressShow("Mohon Tunggu", "");
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+                        ModelSocket dataSocket = null;
+                        for (int a = 0; a < MainActivity.listSocket.size(); a++) {
+                            if (MainActivity.listSocket.get(a).getMacAddress().equals(macAddress)) {
+                                dataSocket = MainActivity.listSocket.get(a);
+                            }
+                        }
+                        if (dataSocket != null){
+                            printClass = new Print(bluetoothAdapter.getRemoteDevice(macAddress), activity, bluetoothAdapter, progressDialog, web, dataSocket);
+                            printClass.printData(obj, macAddress, dataSocket);
+//                        if (dataSocket != null) {
+//                        } else {
+//                            printClass.hubungkanDevice(macAddress);
+//                        }
+                            progressDismiss();
+                        }
+                        else {
+                            progressDismiss();
+                            Toast.makeText(context, "Belum ada printer yang terhubung", Toast.LENGTH_SHORT).show();
+                        }
 
-                printClass = new Print(bluetoothAdapter.getRemoteDevice(macAddress), activity, bluetoothAdapter, progressDialog, web, dataSocket);
-                if (dataSocket != null) {
-                    printClass.printData(obj, macAddress, dataSocket);
-                } else {
-                    printClass.hubungkanDevice(macAddress);
-                }
-                progressDismiss();
+                    }
+                }, 2000L);
             }
         } else {
             Toast.makeText(context, "Bluetooth tidak aktif", Toast.LENGTH_SHORT).show();
@@ -366,7 +407,7 @@ public class WebViewJavaScriptInterface {
     }
 
     @JavascriptInterface
-    public void tesPrint(String namaOutlet, String hp, String alamat, String tipe, String macAddress) {
+    public void tesPrint(String namaOutlet, String hp, String alamat, String tipe, String macAddress, final String urlFoto) {
         Log.e("Mac", macAddress);
         if (namaOutlet.isEmpty()) {
             namaOutlet = "Kapcake";
@@ -389,33 +430,47 @@ public class WebViewJavaScriptInterface {
             }
             if (bluetoothAdapter.isEnabled()) {
                 progressShow("Mohon Tunggu", "");
-                ModelSocket dataSocket = null;
-                for (int a = 0; a < MainActivity.listSocket.size(); a++) {
-                    if (MainActivity.listSocket.get(a).getMacAddress().equals(macAddress)) {
-                        dataSocket = MainActivity.listSocket.get(a);
-                    }
-                }
+                Log.e("Progress", "Show");
+                final String finalMacAddress = macAddress;
+                final String finalNamaOutlet = namaOutlet;
+                final String finalHp = hp;
+                final String finalAlamat = alamat;
+                final String finalTipe = tipe;
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+                        Log.e("Progress", "Jalan");
+                        ModelSocket dataSocket = null;
+                        for (int a = 0; a < MainActivity.listSocket.size(); a++) {
+                            if (MainActivity.listSocket.get(a).getMacAddress().equals(finalMacAddress)) {
+                                dataSocket = MainActivity.listSocket.get(a);
+                            }
+                        }
 
-                if (dataSocket == null) {
-                    printClass = new Print(bluetoothAdapter.getRemoteDevice(macAddress), activity, bluetoothAdapter, progressDialog, web, dataSocket);
-                    printClass.hubungkanDevice(macAddress);
-                    ModelSocket socket = null;
-                    for (int a = 0; a < MainActivity.listSocket.size(); a++) {
-                        if (MainActivity.listSocket.get(a).getMacAddress().equals(macAddress)) {
-                            socket = MainActivity.listSocket.get(a);
+                        if (dataSocket == null) {
+                            printClass = new Print(bluetoothAdapter.getRemoteDevice(finalMacAddress), activity, bluetoothAdapter, progressDialog, web, dataSocket);
+                            printClass.hubungkanDevice(finalMacAddress);
+                            ModelSocket socket = null;
+                            for (int a = 0; a < MainActivity.listSocket.size(); a++) {
+                                if (MainActivity.listSocket.get(a).getMacAddress().equals(finalMacAddress)) {
+                                    socket = MainActivity.listSocket.get(a);
+                                }
+                            }
+
+                            if (socket == null) {
+                                Log.e("DSock", "Masih null");
+                                progressDialog.dismiss();
+                                Toast.makeText(context, "Gagal mendapatkan socket bluetooth", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Log.e("DSock", "tidak null");
+                                printClass.tesPrint(finalNamaOutlet, finalHp, finalAlamat, finalTipe, finalMacAddress, urlFoto);
+                            }
+                        } else {
+                            printClass = new Print(bluetoothAdapter.getRemoteDevice(finalMacAddress), activity, bluetoothAdapter, progressDialog, web, dataSocket);
+                            printClass.tesPrint(finalNamaOutlet, finalHp, finalAlamat, finalTipe, finalMacAddress, urlFoto);
                         }
                     }
+                }, 2000L);
 
-                    if (socket == null) {
-                        Log.e("DSock", "Masih null");
-                    } else {
-                        Log.e("DSock", "tidak null");
-                    }
-                    printClass.tesPrint(namaOutlet, hp, alamat, tipe, macAddress);
-                } else {
-                    printClass = new Print(bluetoothAdapter.getRemoteDevice(macAddress), activity, bluetoothAdapter, progressDialog, web, dataSocket);
-                    printClass.tesPrint(namaOutlet, hp, alamat, tipe, macAddress);
-                }
             } else {
                 Toast.makeText(context, "Bluetooth tidak aktif", Toast.LENGTH_SHORT).show();
             }

@@ -6,32 +6,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-
   <title>Kapcake POS</title>
-
-  <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-  <!-- <link href="https://fonts.googleapis.com/css?family=Mukta&display=swap" rel="stylesheet"> -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
-  <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.css" rel="stylesheet">
   <link href="css/custom.css" rel="stylesheet">
   <link href="css/bootoast.css" rel="stylesheet" type="text/css">
   <link href="css/jtoggler.css" rel="stylesheet" type="text/css">
-
-  <!-- Bootstrap core JavaScript-->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Core plugin JavaScript-->
   <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-  <!-- Custom scripts for all pages-->
   <script src="js/sb-admin-2.js"></script>
-
-  <script src="js/bootoast.js"></script>
   <script src="js/jtoggler.js"></script>
-  
   <style type="text/css">
     .dropbtn {
       background-color: #4CAF50;
@@ -64,8 +50,12 @@
     .bg-grey-1{
       background: #fafafa;
     }
-
-
+    .status-sukses{
+      color:#36c28f ;
+    }
+    .status-batal{
+      color:#ff897e;
+    }
     .md-button {
       overflow: hidden;
       transform: translate3d(0, 0, 0);
@@ -148,25 +138,16 @@
     }
 
     .meja{
-      min-width: 145px !important;
-      max-height: 161px !important;
-    /*  -webkit-box-shadow: 0px 0px 9px -9px rgba(0,0,0,0.75);
-      -moz-box-shadow: 0px 0px 9px -9px rgba(0,0,0,0.75);
-      box-shadow: 0px 0px 9px -9px rgba(0,0,0,0.75);*/
-      max-width: 148px;
+      border: 1px solid #e4e4e4;
       border-radius: 20px !important;
-      border-bottom: 4px solid #e87d34 !important;
+      background: #f9b88c  !important;
     }
     .meja h3{
-      padding: 1rem;
-      border-radius: 19px;
-      width: 93px;
+      padding: .8rem;
       position: absolute;
-      top: 8px;
-      left: 8px;
     }
     .meja-aktif{
-      background-color: #f1f1f1;
+      background-color: #f9b78a;
     }
     
     .cross-button:hover{
@@ -188,6 +169,18 @@
     .nav-link.active{
       background: #ae5d26 !important;
     }
+
+    .modal{
+      padding-left: 0 !important;
+    }
+    body{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
   </style>
 </head>
 
@@ -195,42 +188,34 @@
   <div id="sidebarToggleOpacity" class="position-abs h-100 w-100 t-0 l-0" style=" display: none;  background: rgba(0, 0, 0, 0.48); z-index: 1000; "></div>
   <div id="wrapper">
     <ul class="navbar-nav bg-warning sidebar sidebar-dark accordion toggled fixed-top" style="box-shadow: 7px 0 5px -4px #ccc;">
-      <!-- Sidebar - Brand -->
       <div class="sidebar-brand d-flex align-items-center" href="index.html">
         <div class="sidebar-brand-icon ro">
-          <!-- Sidebar Toggler (Sidebar) -->
           <div class="align-items-center" id="sidebarToggle">
             <i class="fas fa-fw fa-bars"></i>
           </div>
         </div>
         <div class="sidebar-brand-text mx-3">Kapcake</div>
       </div>
-      <!-- Divider -->
       <hr class="sidebar-divider my-0">
-      <!-- Nav Item - Dashboard -->
       <div>
-        <!-- MENU KASIR-->
         <li class="nav-item">
           <a class="nav-link md-button" href="#" onclick="page('kasir')">
             <i class="fas fa-fw fa-receipt"></i>
             <span>Kasir</span>
           </a>
         </li>
-        <!-- MENU Pesanan -->
         <li class="nav-item">
           <a class="nav-link md-button" href="#"  onclick="page('pesanan')">
             <i class="fas fa-fw fa-cart-arrow-down"></i>
             <span>Pesanan</span>
           </a>
         </li>
-        <!-- MENU RIWAYAT -->
         <li class="nav-item">
           <a class="nav-link md-button" href="#" onclick="page('riwayat')">
             <i class="fas fa-fw fa-history"></i>
             <span>Riwayat</span>
           </a>
         </li>
-        <!-- PENGATURAN -->
         <li class="nav-item">
           <a class="nav-link md-button" href="#" onclick="page('pengaturan')">
             <i class="fas fa-fw fa-cog"></i>
@@ -239,7 +224,7 @@
         </li>
         <div class="position-abs b-0">
           <li class="nav-item">
-            <a class="nav-link md-button" href="#" onclick="logoutUser()">
+            <a class="nav-link md-button" href="#" onclick="logoutToPIN()">
               <i class="fas fa-fw fa-power-off"></i>
               <span>Keluar</span>
             </a>
@@ -247,10 +232,7 @@
         </div>
       </div>
     </ul>
-    <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
-
-      <!-- KASIR -->
       <div id="kasir" style="display: block;">
         <div class="px-2 pt-2 pb-0 navbar navbar-expand navbar-light topbar" style="position: fixed; left: 4.5rem; width: calc(65% - 4.5rem); background: #fff; ">
           <div class="input-group rounded-lg" style="background: #f1f1f1">
@@ -263,17 +245,14 @@
                   </div>
               </div>
         </div>
-        <!-- Begin Page Content -->
         <div class="container-fluid" style="position: fixed; left: 4.5rem; top: 3.5rem; height: calc(100vH - 3.5rem); width: calc(65% - 4.5rem);">
           <div style="position: fixed; left:inherit; top:3.5rem; background: #fafafa; height: calc(100vh - 3rem); width: inherit;">
-            <!-- PENCARIAN -->
             <div  style=" position: fixed;  left:inherit; top:3.5rem; background: #fff; height: 3.5rem; width: inherit; vertical-align: middle;z-index: 2;border-bottom: 2px solid #eee;"  class="p-2">
               
               <ul class="mui-tabs__bar hide-scroll m-0 " id="listKategoriMenu" style="margin-bottom: 0 !important;">
                 <li class="mui--is-active"><a>Semua</a></li>
               </ul>
             </div>
-            <!-- /BATAS PENCARIAN -->
 
             <div id="main-list" style=" position: fixed;  left:inherit; top:7rem; background: transparent; height: calc(100vH - 7rem); width: inherit; overflow-y: auto" class="p-2 hide-scroll">
               <div class="row" style="margin-right: 0; margin-left: 0;" id="listMenu">
@@ -281,10 +260,9 @@
               </div>
             </div>
           </div>
-        </div> <!-- /.container-fluid -->
+        </div>
         <div style="position: fixed; right:0; top:0;  background: #fff; height: 100vh; width: 35%;">
           <div class="navbar navbar-expand navbar-light topbar border-left" style=" position: fixed; right: 0; background: #fff; z-index: 51; width: inherit;">
-            <!-- <h6 class="m-0  text-dark">No. Pesanan #099223  </h6> -->
             <h6 class="m-0 pt-2 text-dark" id="kode_pemesanan">Pesanan </h6>
             <div class="dropdown no-arrow" style="position: absolute;right: 1.3rem">
               <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -302,10 +280,10 @@
             <!-- BILL CUSTOMER INFORMATION  -->
             <div  style=" position: fixed; right:inherit; top:3.5rem; background: transparent; height: 3.5rem; width: inherit; vertical-align: middle;border-bottom: 2px solid #eee;"  class="p-2 border-left">
               <div class="d-flex">
-               <!--  <div class="px-3 py-2 w-50 mr-1 rounded-lg text-truncate" style="color:#6e707e; background: #f1f1f1;" data-toggle="modal"  data-target="#modalpilihpelanggan"> 
+                <div class="px-3 py-2 w-50 mr-1 rounded-lg text-truncate text-center" id="btnModalPelanggan" style="color:#6e707e; background: #f1f1f1;" > 
                   <i class="fa fa-user pr-2"></i> <span id="namaPelanggan">Pelanggan</span>
-                </div> -->
-                <div class="px-3 py-2 w-100 rounded-lg text-truncate text-center" style="color:#6e707e; background: #f1f1f1;" id="btnmodalpilihmeja" data-toggle="modal" data-target="#modalpilihmeja"> 
+                </div>
+                <div class="px-3 py-2 w-50 rounded-lg text-truncate text-center" style="color:#6e707e; background: #f1f1f1;" id="btnmodalpilihmeja" data-toggle="modal" data-target="#modalpilihmeja"> 
                   <i class="fa fa-utensils pr-2"></i> <span id="namaMeja">Tanpa Meja</span>
                 </div>
               </div>
@@ -324,34 +302,28 @@
                   <div class="font-weight-bold text-sm">Subtotal</div>
                 </div>
                 <div class="px-2 py-1">
-                  <div class="font-weight-bold text-sm">Rp&nbsp;<span id="pesananSubtotalText">0</span></div>
+                  <div class="font-weight-bold text-sm"><span id="pesananSubtotalText">0</span></div>
                 </div>
               </div>
               <div class="d-flex align-items-stretch flex-row" id="pesananDiskon">
                 <div class="px-2 py-1 flex-grow-1">
                   <span id="pesananDiskonLabel">Diskon </span>
                 </div>
-                <div class="px-2 py-1">
-                  Rp&nbsp;<span id="pesananDiskonText">0</span>
-                </div>
+                <div class="px-2 py-1"><span id="pesananDiskonText">0</span></div>
               </div>
 
               <div class="d-flex align-items-stretch flex-row" id="pesananBiayaTambahan">
                 <div class="px-2 py-1 flex-grow-1">
                   <span id="pesananBiayaTambahanLabel">Biaya Tambahan</span>
                 </div>
-                <div class="px-2 py-1">
-                  Rp&nbsp;<span id="pesananBiayaTambahanText">0</span>
-                </div>
+                <div class="px-2 py-1"><span id="pesananBiayaTambahanText">0</span></div>
               </div>
 
               <div class="d-flex align-items-stretch flex-row" id="pesananPajak">
                 <div class="px-2 py-1 flex-grow-1">
                   <span id="pesananPajakLabel">Pajak</span>
                 </div>
-                <div class="px-2 py-1">
-                  Rp&nbsp;<span id="pesananPajakText">0</span>
-                </div>
+                <div class="px-2 py-1"><span id="pesananPajakText">0</span></div>
               </div>
 
               <div class="d-flex align-items-stretch flex-row mt-2">
@@ -432,9 +404,9 @@
             </div>
 
             <!-- ORDR LIST  -->
-            <div style=" left:inherit; top:7rem;  background: transparent; height: calc(100vH - 7rem); width: inherit; overflow-y: auto" class="p-0 position-fixed hide-scroll  border-left">
+            <div style=" left:inherit; top:7rem;  background: transparent; height: calc(100vH - 7rem); width: inherit; overflow-y: auto" class="p-0 position-fixed hide-scroll  border-left" id="list-riwayat-div">
               <ul class="list-group list-group-flush" id="list-riwayat">
-                <!-- isi riwayat pesanan -->
+                <!-- is' riwayat pesanan -->
               </ul>
             </div>
           </div>
@@ -494,9 +466,6 @@
                 <li class="list-group-item px-3 py-4 border-bottom md-button"  onclick="setHTMLDetailHalamanPengaturan('sinkronisasi')">
                   <div class="my-0 ml-4">Sinkronisasi Data</div>
                 </li>
-                <li class="list-group-item px-3 py-4 border-bottom md-button" onclick="setHTMLDetailHalamanPengaturan('pengaturan_outlet')">
-                  <div class="my-0 ml-4">Pengaturan Outlet</div>
-                </li>
                 <li class="list-group-item px-3 py-2 bg-grey-1">
                   <div class="m-0 text-default">Bantuan</div>
                 </li>
@@ -508,6 +477,11 @@
                 </li>
                 <li class="list-group-item px-3 py-4 border-bottom md-button" onclick="setHTMLDetailHalamanPengaturan('tentang')">
                   <div class="my-0 ml-4">Tentang</div>
+                </li>
+                <li class="list-group-item px-3 py-3 border-bottom md-button" onclick="logoutUser()">
+                  <div class="my-0 mx-0">
+                    <div class="btn py-2 btn-outline-danger btn-block text-center">Keluar</div>
+                  </div>
                 </li>
               </ul>
             </div>
@@ -661,29 +635,29 @@
                   <div class="d-flex">
                     <div class="text-left" style="line-height:1.75rem;width:90%">
                       <p class="mb-0 font-weight-bold">Sinkronisasi Semua Data</p>
-                      <p class="mb-0 text-999"><small>Terakhir disinkronkan 10/09/2019 10:55 PM</small></p>
+                      <p class="mb-0 text-999"><small id="teksSinkronisasiDataOutlet">Terakhir disinkronkan 10/09/2019 10:55 PM</small></p>
                     </div>
                     <div class="text-right">
                       <i class="fas fa-sync text-info btn-sinkronisasi" data-index="outlet" style="font-size: 1.6rem;line-height: 2.26;"></i>
                     </div>
                   </div>
                 </li>
-       <!--          <li class="list-group-item py-3 list-sinkronisasi" data-index="pelanggan">
+                <li class="list-group-item py-3 list-sinkronisasi" data-index="pelanggan">
                   <div class="d-flex">
                     <div class="text-left" style="line-height:1.75rem;width:90%">
                       <p class="mb-0 font-weight-bold">Sinkronisasi Pelanggan</p>
-                      <p class="mb-0 text-999"><small>Terakhir disinkronkan 10/09/2019 10:55 PM</small></p>
+                      <p class="mb-0 text-999"><small id="teksSinkronisasiDataPelanggan">Terakhir disinkronkan 10/09/2019 10:55 PM</small></p>
                     </div>
                     <div class="text-right">
                       <i class="fas fa-sync text-info btn-sinkronisasi" data-index="pelanggan" style="font-size: 1.6rem;line-height: 2.26;"></i>
                     </div>
                   </div>
-                </li> -->
+                </li>
                 <li class="list-group-item py-3 list-sinkronisasi" data-index="produk" >
                   <div class="d-flex">
                     <div class="text-left" style="line-height:1.75rem;width:90%">
                       <p class="mb-0 font-weight-bold">Sinkronisasi Menu</p>
-                      <p class="mb-0 text-999"><small>Terakhir disinkronkan 10/09/2019 10:55 PM</small></p>
+                      <p class="mb-0 text-999"><small id="teksSinkronisasiDataProduk">Terakhir disinkronkan 10/09/2019 10:55 PM</small></p>
                     </div>
                     <div class="text-right">
                       <i class="fas fa-sync text-info btn-sinkronisasi" data-index="produk" style="font-size: 1.6rem;line-height: 2.26;"></i>
@@ -694,7 +668,7 @@
                   <div class="d-flex">
                     <div class="text-left" style="line-height:1.75rem;width:90%">
                       <p class="mb-0 font-weight-bold">Sinkronisasi Pesanan Tersimpan</p>
-                      <p class="mb-0 text-999"><small>Terakhir disinkronkan 10/09/2019 10:55 PM</small></p>
+                      <p class="mb-0 text-999"><small  id="teksSinkronisasiDataPesananTersimpan">Terakhir disinkronkan 10/09/2019 10:55 PM</small></p>
                     </div>
                     <div class="text-right">
                       <i class="fas fa-sync text-info btn-sinkronisasi" data-index="pesanan_tersimpan" style="font-size: 1.6rem;line-height: 2.26;"></i>
@@ -705,8 +679,10 @@
                   <div class="d-flex">
                     <div class="text-left" style="line-height:1.75rem;width:90%">
                       <p class="mb-0 font-weight-bold">Sinkronisasi Riwayat</p>
-                      <p class="mb-0 text-999"><small>Terakhir disinkronkan 10/09/2019 10:55 PM</small></p>
+                      <p class="mb-0 text-999"><small  id="teksSinkronisasiDataRiwayat">Terakhir disinkronkan 10/09/2019 10:55 PM</small></p>
                     </div>
+
+
                     <div class="text-right">
                       <i class="fas fa-sync text-info btn-sinkronisasi" data-index="riwayat" style="font-size: 1.6rem;line-height: 2.26;"></i>
                     </div>
@@ -751,7 +727,7 @@
               </ul>
             </div>
           </div>
-          <div style=" position: fixed; right:inherit; bottom:0;height: 3.5rem; width: inherit; background: #fff; box-shadow: 0 -3px 6px -5px #777;" id="divbtntambahprinter" class="py-2 px-3 hide-scroll text-right border-left border-top">
+          <div style=" position: fixed; right:inherit; bottom:0;height: 3.5rem; width: inherit; background: #fff; box-shadow: 0 -2px 4px -4px #777;" id="divbtntambahprinter" class="py-2 px-3 hide-scroll text-right border-left border-top">
             <button class="btn btn-info rounded-sm px-5 h-100" id="btnTambahPrinter">Tambah Printer</button>
           </div>
         </div>
@@ -813,16 +789,19 @@
   </div>
   <!-- Modal PILIH PELANGGAN-->
   <div class="modal" id="modalpilihpelanggan" tabindex="-1" role="dialog" aria-labelledby="modalpilihpelanggan" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable modal-dialog-centered" role="document">
       <div class="modal-content border-0" style="height: 90%">
         <div class="modal-header">
-          <a href="#" class="btn p-1" id="btnModalKembaliPelanggan">
-            <i class="fa fa-arrow-left"></i>
-          </a>
-          <p class="h5 modal-title" style="margin: 0 auto;" id="modalpilihpelanggantitle">Pelanggan</p>
-          <button style="margin: -15px !important;" type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+          <div class="row" style="width: 101% !important">
+            <div class="col-4">
+              <button class="btn btn-outline-info rounded-sm px-4" id="btnModalTutupPelanggan" type="button"  data-dismiss="modal" aria-label="Close"> Tutup </button>
+            </div>
+            <div class="col-4 text-center h5 mb-0 mt-1">Pelanggan</div>
+            <div class="col-4 text-right pr-0">
+              <button class="btn btn-outline-info rounded-sm px-4" id="btnModalKembaliPelanggan" type="button"> Kembali </button>
+              <button class="btn btn-outline-info rounded-sm  px-4" id="buttonModalTambahPelanggan"> Tambah </button>
+            </div>
+          </div>
         </div>
         <ul class="list-group rounded-0" id="pencarianModalPelanggan">
           <li class="list-group-item p-0">
@@ -830,14 +809,21 @@
               <div class="input-group-prepend border-0" style="background: transparent;">
                 <span class="input-group-text border-0"  id="basic-addon1"  style="background: transparent;"><i class="fa fa-search"></i></span>
               </div>
-              <input type="text" class="form-control border-0" placeholder="Pencarian..."  style="background: transparent;"/>
+              <input type="text" class="form-control border-0" placeholder="Pencarian..." id="pencarian_modal_pelanggan"  style="background: transparent; padding:.7rem .6rem;"/>
+            </div>
+          </li>
+          <li class="list-group-item" style=" background: #e4e4e4;">
+            <div class="row">
+              <div class="col-4 font-weight-bold">Pelanggan</div>
+              <div class="col-4 text-center font-weight-bold">No HP</div>
+              <div class="col-4 text-right font-weight-bold">Email</div>
             </div>
           </li>
         </ul>
         <div class="modal-body p-0" id="modalpilihpelangganbodylist">
         </div>
         <div class="modal-body p-0" id="modalpilihpelangganbodyinput">
-          <div class="row mx-2 my-4">
+          <div class="row m-4">
             <div class="col-12 mb-3">
               <label>Nama Pelanggan</label>
               <input class="form-control rounded-sm" name="nama_pelanggan" type="text" placeholder="Nama">
@@ -853,8 +839,7 @@
           </div>
         </div>
         <ul class="list-group rounded-0 border-top">
-          <li class="list-group-item text-center bg-info text-white pointer " style="border-radius: 7px; margin:5px;padding:0.5rem;" id="buttonModalTambahPelanggan">Tambah Pelanggan</li>
-          <li class="list-group-item font-weight-bold text-center bg-info text-white pointer" style="display: none;border-radius: 7px; margin:5px;padding:0.5rem;" id="buttonModalSimpanPelanggan">Simpan</li>
+          <li class="list-group-item font-weight-bold text-center bg-info text-white pointer" style="display: none;border-radius: 7px; margin:5px;padding:0.7rem;" id="buttonModalSimpanPelanggan">Simpan</li>
         </ul>
       </div>
     </div>
@@ -865,16 +850,21 @@
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
       <div class="modal-content border-0" style="height: 90%">
         <div class="modal-header">
-          <p class="h5 modal-title" style="margin: 0 auto;">Diskon Transaksi</p>
-          <button style="margin: -15px !important;" type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+          <div class="row" style="width: 101% !important">
+            <div class="col-3">
+              <button class="btn btn-outline-info rounded-sm px-4" type="button"  data-dismiss="modal" aria-label="Close"> Tutup </button>
+            </div>
+            <div class="col-6 text-center h5 mb-0 mt-1">Diskon Transaksi</div>
+            <div class="col-3 text-right pr-0">
+              &nbsp;
+            </div>
+          </div>
         </div>
         <div class="modal-body p-0" id="modalpilihdiskonbody">
 
         </div>
         <ul class="list-group rounded-0 border-top">
-          <li class="list-group-item font-weight-bold text-center bg-info text-white pointer" style="border-radius: 7px; margin:5px;padding:0.5rem;" id="buttonModalPilihDiskon">Pilih</li>
+          <li class="list-group-item font-weight-bold text-center bg-info text-white pointer" style="border-radius: 7px; margin:5px;padding:0.7rem;" id="buttonModalPilihDiskon">Pilih</li>
         </ul>
       </div>
     </div>
@@ -885,16 +875,21 @@
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
       <div class="modal-content border-0" style="height: 90%;">
         <div class="modal-header">
-          <p class="h5 modal-title" style="margin: 0 auto;" id="modalpilihbiayatambahantitle">Biaya Transaksi</p>
-          <button style="margin: -15px !important;" type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+           <div class="row" style="width: 101% !important">
+            <div class="col-3">
+              <button class="btn btn-outline-info rounded-sm px-4" type="button"  data-dismiss="modal" aria-label="Close"> Tutup </button>
+            </div>
+            <div class="col-6 text-center h5 mb-0 mt-1">Biaya Tambahan</div>
+            <div class="col-3 text-right pr-0">
+              &nbsp;
+            </div>
+          </div>
         </div>
         <div class="modal-body p-0" id="modalpilihbiayatambahanbody">
 
         </div>
         <ul class="list-group rounded-0 border-top">
-          <li class="list-group-item font-weight-bold text-center bg-info text-white pointer" style="border-radius: 7px; margin:5px;padding:0.5rem;" id="buttonModalPilihBiayaTambahan">Pilih</li>
+          <li class="list-group-item font-weight-bold text-center bg-info text-white pointer" style="border-radius: 7px; margin:5px;padding:0.7rem;" id="buttonModalPilihBiayaTambahan">Pilih</li>
         </ul>
       </div>
     </div>
@@ -905,20 +900,24 @@
     <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered" role="document" >
       <div class="modal-content border-0" style="height: 90%">
         <div class="modal-header">
-          <h5 class="modal-title" style="margin: 0 auto;">Letak Meja</h5>
-          <button style="margin: -15px !important;" type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+          <div class="row" style="width: 101% !important">
+            <div class="col-3">
+              <button class="btn btn-outline-info rounded-sm px-4" type="button"  data-dismiss="modal" aria-label="Close"> Tutup </button>
+            </div>
+            <div class="col-6 text-center h5 mb-0 mt-1">Letak Meja</div>
+            <div class="col-3 text-right pr-0">
+              &nbsp;
+            </div>
+          </div>
         </div>
         <div class="modal-body p-4">
-          <div class="p-0 mb-3 w-100 hide-scroll" style=" width: calc(65% - 4.5rem); background: #fff; overflow-x: scroll;position: relative;">
-            <ul class="mui-tabs__bar  m-0" id="listKategoriMeja">
+          <div class="p-0 mb-1 w-100 hide-scroll" style=" width: calc(65% - 4.5rem); background: #fff; overflow-x: scroll;position: relative;">
+            <ul class="mui-tabs__bar hide-scroll m-0" id="listKategoriMeja">
             </ul>
           </div>
           <div id="listMeja">
-         
+            
           </div>
-
         </div>
       </div>
     </div>
@@ -927,12 +926,17 @@
   <!-- Modal PEMBAYARAN -->
   <div class="modal" id="modalpembayaran"  role="dialog" aria-labelledby="modalpembayaran" aria-hidden="true">
     <div class="modal-dialog modal-lg  modal-dialog-centered" role="document">
-      <div class="modal-content border-0" style="height: 90vH;">
+      <div class="modal-content border-0" style="height: 95vH;">
         <div class="modal-header">
-          <h5 class="modal-title" style="margin: 0 auto;">Pembayaran</h5>
-          <button style="margin: -15px !important;" type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+          <div class="row" style="width: 101% !important">
+            <div class="col-3">
+              <button class="btn btn-outline-info rounded-sm px-4" type="button"  data-dismiss="modal" aria-label="Close"> Tutup </button>
+            </div>
+            <div class="col-6 text-center h5 mb-0 mt-1">Pembayaran</div>
+            <div class="col-3 text-right pr-0">
+              &nbsp;
+            </div>
+          </div>
         </div>
         <div class="modal-body p-0">
           <div class="d-flex w-100 h-100">
@@ -947,33 +951,33 @@
               <div class="hide-scroll" style="position: absolute; height: auto; overflow-y: scroll; top:59px; bottom:217px; left: -1px; right: 0" id="listPesananPembayaran">
                
               </div>
-              <div class="" style="position: absolute; height: 217px;  bottom: 0; width: auto; left:-1px; right:0;">
+              <div class="" style="position: absolute; height: 211px;  bottom: 0; width: auto; left:-1px; right:0;">
                 <ul class="list-group">
-                  <li class="list-group-item list-group-pembayaran-padding border-right-0 border-left-0">
+                  <li class="list-group-item list-group-pembayaran-padding py-1 border-right-0 border-left-0">
                     <div class="d-flex">
                       <div class="w-50 text-left">Subtotal</div>
                       <div class="w-50 text-right" id="subtotalPembayaran">10.000</div>
                     </div>
                   </li>
-                  <li class="list-group-item list-group-pembayaran-padding border-right-0 border-left-0" id="diskonListPembayaran">
+                  <li class="list-group-item list-group-pembayaran-padding py-1 border-right-0 border-left-0" id="diskonListPembayaran">
                     <div class="d-flex">
                       <div class="w-50 text-left">Diskon</div>
                       <div class="w-50 text-right" id="diskonTotalPembayaran">10.000</div>
                     </div>
                   </li>
-                  <li class="list-group-item list-group-pembayaran-padding border-right-0 border-left-0" id="biayaTambahanListPembayaran">
+                  <li class="list-group-item list-group-pembayaran-padding py-1 border-right-0 border-left-0" id="biayaTambahanListPembayaran">
                     <div class="d-flex">
                       <div class="w-50 text-left">Biaya Tambahan</div>
                       <div class="w-50 text-right" id="biayaTambahanTotalPembayaran">10.000</div>
                     </div>
                   </li>
-                  <li class="list-group-item list-group-pembayaran-padding border-right-0 border-left-0" id="pajakListPembayaran">
+                  <li class="list-group-item list-group-pembayaran-padding py-1 border-right-0 border-left-0" id="pajakListPembayaran">
                     <div class="d-flex">
                       <div class="w-50 text-left">Pajak</div>
                       <div class="w-50 text-right" id="pajakTotalPembayaran">10.000</div>
                     </div>
                   </li>
-                  <li class="list-group-item list-group-pembayaran-padding border-right-0 border-left-0">
+                  <li class="list-group-item list-group-pembayaran-padding py-1 border-right-0 border-left-0">
                     <div class="d-flex">
                       <div class="w-50 text-left">Total</div>
                       <div class="w-50 text-right font-weight-bold" id="totalPembayaran">10.000</div>
@@ -1003,32 +1007,30 @@
               </div>
 
               <div class="w-100 position-relative">
-                <div class="row mb-3 mx-0">
-                  <div class="col pr-1 pl-0">
-                    <div class="btn bg-cyan text-white btn-block py-2 opsi-nominal-pembayaran" data-reset="0" data-value="20000">20.000</div>
+                <div class="row mx-0">
+                  <div class="col-lg-3 col-md-4 col-sm-6 px-1">
+                    <div class="btn bg-cyan text-white btn-block py-2 mb-3 opsi-nominal-pembayaran" id="uangpasPembayaran" data-reset="1" data-value="Uang Pas">Uang Pas</div>
                   </div>
-                  <div class="col px-1">
-                    <div class="btn bg-cyan text-white btn-block py-2 opsi-nominal-pembayaran" data-reset="0" data-value="50000">50.000</div>
+                  <div class="col-lg-3 col-md-4 col-sm-6 px-1">
+                    <div class="btn bg-cyan text-white btn-block py-2 mb-3 opsi-nominal-pembayaran" data-reset="0" data-value="20000">20.000</div>
                   </div>
-                  <div class="col px-1">
-                    <div class="btn bg-cyan text-white btn-block py-2 opsi-nominal-pembayaran" data-reset="0" data-value="100000">100.000</div>
+                  <div class="col-lg-3 col-md-4 col-sm-6 px-1">
+                    <div class="btn bg-cyan text-white btn-block py-2 mb-3 opsi-nominal-pembayaran" data-reset="0" data-value="50000">50.000</div>
                   </div>
-                  <div class="col pr-0 pl-1">
-                    <div class="btn bg-cyan text-white btn-block py-2 opsi-nominal-pembayaran" id="uangpasPembayaran" data-reset="1" data-value="Uang Pas">Uang Pas</div>
+                  <div class="col-lg-3 col-md-4 col-sm-6 px-1">
+                    <div class="btn bg-cyan text-white btn-block py-2 mb-3 opsi-nominal-pembayaran" data-reset="0" data-value="100000">100.000</div>
                   </div>
-                </div>
-                <div class="row mb-3 mx-0">
-                  <div class="col pr-1 pl-0">
-                    <div class="btn bg-cyan text-white btn-block py-2 opsi-nominal-pembayaran" data-reset="0" data-value="1000">1.000</div>
+                  <div class="col-lg-3 col-md-4 col-sm-6 px-1">
+                    <div class="btn bg-cyan text-white btn-block py-2 mb-3 opsi-nominal-pembayaran" data-reset="0" data-value="1000">1.000</div>
                   </div>
-                  <div class="col px-1">
-                    <div class="btn bg-cyan text-white btn-block py-2 opsi-nominal-pembayaran" data-reset="0" data-value="2000">2.000</div>
+                  <div class="col-lg-3 col-md-4 col-sm-6 px-1">
+                    <div class="btn bg-cyan text-white btn-block py-2 mb-3 opsi-nominal-pembayaran" data-reset="0" data-value="2000">2.000</div>
                   </div>
-                  <div class="col px-1">
-                    <div class="btn bg-cyan text-white btn-block py-2 opsi-nominal-pembayaran" data-reset="0" data-value="5000">5.000</div>
+                  <div class="col-lg-3 col-md-4 col-sm-6 px-1">
+                    <div class="btn bg-cyan text-white btn-block py-2 mb-3 opsi-nominal-pembayaran" data-reset="0" data-value="5000">5.000</div>
                   </div>
-                  <div class="col pr-0 pl-1">
-                    <div class="btn bg-cyan text-white btn-block py-2 opsi-nominal-pembayaran" data-reset="0" data-value="10000">10.000</div>
+                  <div class="col-lg-3 col-md-4 col-sm-6 px-1">
+                    <div class="btn bg-cyan text-white btn-block py-2 mb-3 opsi-nominal-pembayaran" data-reset="0" data-value="10000">10.000</div>
                   </div>
                 </div>
               </div>
@@ -1065,16 +1067,16 @@
             <p class="text-center"><h4 class="font-weight-bold text-center kembalianPembayaran" id="kembalianSelesaiPembayaran"></h4></p>
           </div>
         </div>
-        <!-- <div class="row mb-3">
+        <div class="row mb-3">
           <div class="col-8 mx-auto">
             <div class="input-group mb-3">
-              <input type="text" class="form-control form-control-lg" placeholder="Masukkan Alamat Email" aria-label="Recipient's username" aria-describedby="button-addon2" id="inputKirimEmailStukTransaksi">
+              <input type="text" class="form-control form-control-lg" placeholder="Masukkan Alamat Email" id="inputKirimEmailStukTransaksi">
               <div class="input-group-append"  style="width: 30%">
                 <button class="btn btn-info btn-lg px-3 btn-block" type="button" id="btnKirimEmailStukTransaksi">Kirim</button>
               </div>
             </div>
           </div>
-        </div> -->
+        </div>
         <div class="row">
           <div class="col-8 mx-auto">
             <div class="d-flex " style="width: 100%">
@@ -1147,10 +1149,10 @@
           <div class="col-8 mx-auto">
             <div class="d-flex " style="width: 100%">
               <div class="py-2 pr-2" style="width: 50%">
-                <div class="btn btn-success  btn-block" data-dismiss="modal">Kembali</div>
+                <div class="btn btn-success btn-lg btn-block" data-dismiss="modal">Kembali</div>
               </div>
               <div class="py-2" style="width: 50%">
-                <div class="btn btn-danger btn-block pointer" id="btnModalHapusPesananTersimpan" data-index="0">Hapus</div>
+                <div class="btn btn-danger btn-lg btn-block pointer" id="btnModalHapusPesananTersimpan" data-index="0">Hapus</div>
               </div>
             </div>
           </div>
@@ -1165,13 +1167,15 @@
   <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
     <div class="modal-content border-0" >
       <div class="modal-header">
-        <a href="#" class="btn p-1" id="btnModalPrinterKembali">
-          <i class="fa fa-arrow-left"></i>
-        </a>
-        <p class="h5 modal-title" style="margin: 0 auto;" id="modalprintertitle">Printer</p>
-        <button style="margin: -15px !important;" type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <div class="row" style="width: 101% !important">
+          <div class="col-3">
+            <button class="btn btn-outline-info rounded-sm px-4" type="button"  data-dismiss="modal" aria-label="Close"> Tutup </button>
+          </div>
+          <div class="col-6 text-center h5 mb-0 mt-1"id="modalprintertitle">Printer</div>
+          <div class="col-3 text-right pr-0">
+            <button class="btn btn-outline-info rounded-sm px-4" id="btnModalPrinterKembali" type="button"> Kembali </button>
+          </div>
+        </div>
       </div>
       <div class="modal-body p-0" >
         <ul class="list-group rounded-0" id="modalprinterbodylist">
@@ -1281,17 +1285,12 @@
     </div>
   </div>
 </div>
-
-
       <!-- Custom scripts for all pages-->
-<script src="js/sb-admin-2.js"></script>
 <script 
   src="https://browser.sentry-cdn.com/5.6.3/bundle.min.js" 
   integrity="sha384-/Cqa/8kaWn7emdqIBLk3AkFMAHBk0LObErtMhO+hr52CntkaurEnihPmqYj3uJho" 
   crossorigin="anonymous">
 </script>
-
-
 
 <script type="text/javascript">
 
@@ -1308,7 +1307,8 @@
     });
       
     /// aplikasi only
-    function loginUser(data,no_pemesanan){
+    function loginUser(data, no_pemesanan){
+      // android.CustomToast(JSON.stringify(data.user));
       setStorage(data);
       if(getDataUser().jumlah_akses_outlet  >= 1)
        setDataAwal();
@@ -1320,8 +1320,19 @@
         'no_urut_pesanan', 
         JSON.stringify(parseInt(no_pemesanan) === 0 ? 1 : no_pemesanan )
       );
+
+      let tglSinkronisasi = datetimeEvent();
+      $('#teksSinkronisasiDataOutlet').html('Terakhir disinkronkan '+tglSinkronisasi.tanggal+' '+tglSinkronisasi.waktu);
+      $('#teksSinkronisasiDataPelanggan').html('Terakhir disinkronkan '+tglSinkronisasi.tanggal+' '+tglSinkronisasi.waktu);
+      $('#teksSinkronisasiDataProduk').html('Terakhir disinkronkan '+tglSinkronisasi.tanggal+' '+tglSinkronisasi.waktu);
+      $('#teksSinkronisasiDataPesananTersimpan').html('Terakhir disinkronkan '+tglSinkronisasi.tanggal+' '+tglSinkronisasi.waktu);
+      $('#teksSinkronisasiDataRiwayat').html('Terakhir disinkronkan '+tglSinkronisasi.tanggal+' '+tglSinkronisasi.waktu);
     }
 
+     /// aplikasi only
+    function logoutToPIN(){
+      android.logoutToPIN();
+    }
 
     /// aplikasi only
     function logoutUser(){
@@ -1329,34 +1340,27 @@
     }
 
     /// web only
-    // var login = function(){
-    //   $.ajax({
-    //     method: 'POST',
-    //     url: urlDomain + 'api/kasir/login',
-    //     header:{
-    //       'Accept' : 'application/json'
-    //     },
-    //     data: {
-    //       email: "rra.rickyresky@gmail.com",
-    //       password: "testestes",
-    //       operating_system: "android",
-    //       mac: "02:00:00:00:00:00",
-    //     },
-    //     success: function(data){
-    //       setStorage(data);
-    //       if(getDataUser().jumlah_akses_outlet  >= 1)
-    //       setDataAwal();
-    //       $('#initialUserHalamanPengaturan').html(getInitials(data.user.nama));
-    //       $('#namaUserHalamanPengaturan').html(data.user.nama);
-    //       $('#emailUserHalamanPengaturan').html(data.user.email);
-    //        localStorage.setItem('no_urut_pesanan', JSON.stringify(1));
-         
-    //     },
-    //     error :function(res){
-    //       alert('err');
-    //     }
-    //   });
-    // }
+    var login = function(){
+      $.ajax({
+        method: 'POST',
+        url: urlDomain + 'api/kasir/login',
+        header:{
+          'Accept' : 'application/json'
+        },
+        data: {
+          email: "rra.rickyresky@gmail.com",
+          password: "testestes",
+          operating_system: "android",
+          mac: "02:00:00:00:00:00",
+        },
+        success: function(data){
+          loginUser(data,0);
+        },
+        error :function(res){
+          alert('err');
+        }
+      });
+    }
     // web only
     // login();
 
@@ -1391,6 +1395,7 @@ function setStorage(res){
    is_super_admmin: user.is_super_admmin,
    bisnis_id: user.bisnis_id,
    jumlah_akses_outlet: user.outlet.length,
+   no_urut: user.no_urut,
  };
  localStorage.setItem('user', JSON.stringify(dataUser));
 
@@ -1404,9 +1409,6 @@ function setStorage(res){
      localStorage.setItem('outlet_terpilih', JSON.stringify([]));
 
 
-     /**
-     * Storage no_urut_pesanan untuk menyimpan nomor urut pesanan
-     */
 
      /**
      * Storage pesanan untuk menyimpan pesanan sementara sebelum dibayar
@@ -1473,7 +1475,6 @@ var menuOpsi = []; //variable ini untuk simpan data menu dari hasi get setdata a
 function setDataAwal(){
     var outlet_terpilih_id = JSON.parse(localStorage.getItem('data')).outlet_terpilih_id;  // ini sudah benar hanya perlu ditambahkan  di anroid save outlet terpilih
     var _perangkat = JSON.parse(localStorage.getItem('perangkat'));  // ini sudah benar hanya perlu ditambahkan  di anroid save outlet terpilih
-    //// console.log(outlet_terpilih_id);
     $.ajax({
      method: 'GET',
      url: urlDomain + 'api/kasir/outlet',
@@ -1488,8 +1489,7 @@ function setDataAwal(){
        perangkat_id : _perangkat.id_perangkat
      },
      success: async function(data){
-    // android.CustomSnackbar(JSON.parse(localStorage.getItem('no_urut_pesanan')),'red');
-  // android.CustomToast('aaaa');
+
        localStorage.setItem('menu', JSON.stringify(data.menu));
        localStorage.setItem('kategori_menu', JSON.stringify(data.kategori_menu));
        await setHTMLKategoriMenu();
@@ -1519,6 +1519,11 @@ function setDataAwal(){
         localStorage.setItem('pesanan', JSON.stringify(dataPemesanan));
 
         localStorage.setItem('riwayat', JSON.stringify(data.penjualan));
+        if(data.penjualan.length > 0){
+          _stateRiwayat.tanggal_max = data.penjualan[0]['tanggal_proses'];
+          _stateRiwayat.waktu_max = data.penjualan[0]['waktu_proses'];
+          _stateRiwayat.nomor_urut = data.penjualan.length;
+        }
 
         localStorage.setItem('printer', JSON.stringify(data.printer));
 
@@ -1634,11 +1639,10 @@ function setHTMLMenu(menu = [], filtered = false){
  for (var i = 0; i < menu.length; i++) {
   htmlList = htmlList + '<div class="px-1 col-md-3 col-sm-4 ">'+
     '<div class="card mb-3 border-0 opsi-menu card-box p-2" data-index="'+menu[i]['id_menu']+'">'+
-    ( menu[i]['gambar'].length === 0 ? 
-      '<div data-index="'+i+'" class="bd-placeholder-img card-img-top bg-grey-low inisial rounded-lg" style="height:100px;width:100%">'+
+      '<div data-index="'+i+'" class="bd-placeholder-img card-img-top bg-grey-low inisial-menu rounded-lg" style="height:100px;width:100%;display:none;">'+
         '<h3>'+getInitials(menu[i]['nama_menu'])+'</h3>'+
-      '</div>' : 
-        '<img data-index="'+i+'" src="'+(menu[i]['gambar'].length > 0 ? menu[i]['gambar'][1]['link']:'')+'" class="card-img-top rounded-lg gambar" alt="'+menu[i]['nama_menu']+'" onerror="gambarOnError(this)" />' ) +
+      '</div>' +
+        '<img data-index="'+i+'" src="'+(menu[i]['gambar'].length > 0 ? menu[i]['gambar'][1]['link']:'')+'" class="card-img-top rounded-lg gambar" alt="'+menu[i]['nama_menu']+'" onerror="gambarOnError(this)" />'+
       '<div class="card-body px-0 py-2">'+
         '<label class="mb-1"><b>'+menu[i]['nama_menu']+'</b></label>'+
         '<p class="card-text">'+ (menu[i]['variasi'].length > 1 ? menu[i]['variasi'].length+' Variasi' : 'Rp '+addCommas( menu[i]['variasi'][0]['harga'] ) )  +'</p>'+
@@ -1651,8 +1655,12 @@ function setHTMLMenu(menu = [], filtered = false){
 
 function gambarOnError(data){
   $('.gambar[data-index='+data.getAttribute('data-index')+']').hide();
-  $('.inisial[data-index='+data.getAttribute('data-index')+']').show();
+  setTimeout(function(){ 
+    $('.inisial-menu[data-index='+data.getAttribute('data-index')+']').show();
+  }, 120);
 }
+
+
 
 
 /*********** PENCARIAN MENU **************/
@@ -1863,9 +1871,11 @@ $('#pencarianMenuCrossButton').click(function(){
     data.total_item = data.total_item + parseInt(p.jumlah);
   });
   let pajak = JSON.parse(localStorage.getItem('pajak'));
-  data.pajak_id = pajak.id_pajak;
-  data.nama_pajak = pajak.nama_pajak;
-  data.jumlah_pajak = pajak.jumlah;
+  if(pajak.id_pajak){
+    data.pajak_id = pajak.id_pajak;
+    data.nama_pajak = pajak.nama_pajak;
+    data.jumlah_pajak = pajak.jumlah;
+  }
   await localStorage.setItem('pesanan_terfokus', JSON.stringify(data));
   await setListPesanan(data);
 
@@ -1884,7 +1894,8 @@ async function setListPesanan(data = null){
   if(data === null){
     data = await JSON.parse(localStorage.getItem('pesanan_terfokus'));
   }
-    await $('#btnModalHapusPesananTersimpan').attr('data-index', data.kode_pemesanan);
+  await $('#btnModalHapusPesananTersimpan').attr('data-index', data.kode_pemesanan);
+
   if(data.pesanan.length === 0){
     setDefaultPesanan();
     return;
@@ -1942,7 +1953,7 @@ async function setKalkulasi(){
       await $('#pesananDiskonLabel').html(_data.nama_diskon+' ('+_data.jumlah_diskon+'%)');
     else
       await $('#pesananDiskonLabel').html(_data.nama_diskon);
-    await $('#pesananDiskonText').html(addCommas(_data.total_diskon));
+    await $('#pesananDiskonText').html(addCommas( parseInt(_data.total_diskon) ));
   }else{
     await $('#pesananDiskonLabel').html('Diskon');
     await $('#pesananDiskonText').html('0');
@@ -1952,17 +1963,17 @@ async function setKalkulasi(){
     _data.total_biaya_tambahan = await (parseFloat(_total) * parseFloat(_data.jumlah_biaya_tambahan))/100;
     _total = await parseFloat(_total) + _data.total_biaya_tambahan ;
     await $('#pesananBiayaTambahanLabel').html(_data.nama_biaya_tambahan+' ('+_data.jumlah_biaya_tambahan+'%)');
-    await $('#pesananBiayaTambahanText').html(addCommas(_data.total_biaya_tambahan));
+    await $('#pesananBiayaTambahanText').html(addCommas( parseInt(_data.total_biaya_tambahan) ));
   }else{
     await $('#pesananBiayaTambahanLabel').html('Biaya Tambahan');
     await $('#pesananBiayaTambahanText').html('0');
   }
   
-  if(_data.pajak !== 0){
+  if(_data.pajak_id !== 0){
     _data.total_pajak = await (parseFloat(_total) * parseFloat(_data.jumlah_pajak))/100;
     _total = await parseFloat(_total) + _data.total_pajak ;
     await $('#pesananPajakLabel').html(_data.nama_pajak+' ('+_data.jumlah_pajak+'%)');
-    await $('#pesananPajakText').html(addCommas(_data.total_pajak));
+    await $('#pesananPajakText').html(addCommas( parseInt(_data.total_pajak) ));
   }else{
     await $('#pesananPajakLabel').html('Pajak');
     await $('#pesananPajakText').html(0);
@@ -1976,7 +1987,8 @@ async function setKalkulasi(){
   /// WARNING!!!!  FUNGSI INI MASIH SEMENTARA 
   async function setNomorPesanan(data=[], returnData = false){
     let noUrutPesanan = await JSON.parse(localStorage.getItem('no_urut_pesanan'));
-    let user = await JSON.parse(localStorage.getItem('user'));
+    const user = await JSON.parse(localStorage.getItem('user'));
+
     kodePesanan = await noUrutPesanan+''+user.id+''+zeroFill(Math.floor((Math.random() * 100000) + 1), 5);
 
     if(returnData === false){
@@ -1987,14 +1999,14 @@ async function setKalkulasi(){
 
     let tanggal = await datetimeEvent();
     
-    // await android.setKodePesanan(tanggal.tanggal, noUrutPesanan); 
+    // await android.setNomorPesanan(tanggal.tanggal, noUrutPesanan); 
 
 
     if(returnData === false){
       await localStorage.setItem('pesanan_terfokus', JSON.stringify(data));
     }else{
       return {
-        'no_pemesanan' : user.no_urut+'-'+zeroFill(noUrutPesanan,4),
+        'no_pemesanan' : user.no_urut + '-' +zeroFill(noUrutPesanan,4),
         'kode_pemesanan' : kodePesanan,
       };
     }
@@ -2013,7 +2025,7 @@ async function setKalkulasi(){
     let noUrutPesanan = await JSON.parse(localStorage.getItem('no_urut_pesanan'));
     noUrutPesanan =  await parseInt(noUrutPesanan) + 1;
     await localStorage.setItem('no_urut_pesanan', JSON.stringify(noUrutPesanan));
-    let _tanggal = datetimeEvent();
+    let _tanggal = await datetimeEvent();
     android.setNomorPesanan(_tanggal.tanggal, noUrutPesanan);
   }
 // daftar pesanan
@@ -2032,8 +2044,11 @@ function resetHTMLKalkulasiPesanan(){
  $('#namaPelanggan').html('Pelanggan');
  $('#namaMeja').html('Tanpa Meja');
  $('#pesananSubtotalText').html(0);
+ $('#pesananDiskonLabel').html('Diskon');
  $('#pesananDiskonText').html(0);
+ $('#pesananBiayaTambahanLabel').html('Biaya Tambahan');
  $('#pesananBiayaTambahanText').html(0);
+ $('#pesananPajakLabel').html('Pajak');
  $('#pesananPajakText').html(0);
  $('#pesananTotalBayarText').html(0);
 }
@@ -2085,7 +2100,7 @@ function resetStoragePesananTerfokus(){
 }
 /********** KATEGORI MEJA*********/
 async function pencarianMeja(){
-  console.log(_state.kategoriMejaTerpilih);
+  
   let dataMeja = await JSON.parse(localStorage.getItem('meja'));
   dataMeja = await dataMeja.filter(v => v.kategori_meja_id === _state.kategoriMejaTerpilih);
   await setHTMLMeja(dataMeja, true);
@@ -2099,6 +2114,10 @@ function setHTMLKategoriMeja(){
       '<a>'+ data[i].nama_kategori_meja +'</a>'+
     '</li>';
   }
+  htmlList = htmlList + '<li class="mui opsi-kategori-meja" data-index="0">'+
+      '<a>Tanpa Kategori</a>'+
+    '</li>';
+
   $('#listKategoriMeja').html(htmlList);
 }
 function setStorageKategoriMejaTerpilih(){
@@ -2122,34 +2141,48 @@ function setHTMLMeja(data = [], filtered = false){
   var htmlList ="";
   if(data.length === 0){
     htmlList = '<div class="text-center mt-2"><p><img src="gambar/empty-list.png" class="img-responsive" /></p><p><label>Data Tidak Tersedia</label></p> </div>';
-  }else
+  }else{
+
       htmlList = htmlList + '<div class="row mb-4">';
-       htmlList = htmlList +  '<div class="col">'+
-       '<div class="card meja opsi-meja mb-4" data-index="0">'+
-        '<div class="card-body">'+
-            '<div class="font-weight-bold w-100 text-center" style="font-size:5rem"><i class="fas fa-times-circle" style="color:#bbb;"></i></div>'+
+       htmlList = htmlList +  '<div class="col-lg-3 col-md-6 col-sm-6">'+
+        '<div class="card meja mb-4 opsi-meja" data-index="0">'+
+          '<div class="card-body p-2" >'+
+            '<div class="d-flex">'+
+              '<div style="height: 60px; width: 60px; min-width: 60px; background: #fff; border-radius: 15px; position:relative;">'+
+                '<h3 class="m-0 text-center w-100"><i class="fa fa-times" style="color:#ff4c4c"></i></h3>'+
+              '</div>'+
+              '<div class="text-left pl-3 py-1">'+
+                '<label class="mb-1 w-100 font-weight-bold" style="font-size:14px;line-height: 1.2;">Tanpa Meja</label>'+
+                '<label class="" style="line-height: 1.2;"></label>'+
+              '</div>'+
+            '</div>'+
+          '</div>'+
         '</div>'+
-      '</div></div>';
+      '</div>';
 
     let jumlahTerpotong = (data.length+1)%5;
     let jumlahTidakTerpotong = (data.length+1)-jumlahTerpotong;
     for (var i = 0; i < data.length; i++) {
       // if(i%5 == 0)
       // if( ) 
-      htmlList = htmlList +  '<div class="'+( (i+1) < jumlahTidakTerpotong ? 'col':'col-md-3  col-sm-6') +'"><div class="card meja opsi-meja mb-4" data-index="'+ data[i].id_meja +'">'+
-        '<div class="card-body">'+
-          '<h3>#'+data[i].nama_meja+'</h3>'+
-          '<br/>'+
-          '<br/>'+
-          '<br/>'+
-          '<div class="text-right">'+
-            '<label class="mb-1 w-100" style="font-size:13px;">'+ucfirst(data[i].bentuk)+'</label>'+
-            '<label class="font-weight-bold">'+data[i].pax+' Pax </label>'+
+      htmlList = htmlList +  '<div class="col-lg-3 col-md-6 col-sm-6">'+
+        '<div class="card meja mb-4 opsi-meja" data-index="'+ data[i].id_meja +'" >'+
+          '<div class="card-body p-2" >'+
+            '<div class="d-flex">'+
+              '<div style="height: 60px; width: 60px; min-width: 60px; background: #fff; border-radius: 15px;">'+
+                '<h3 class="m-0">'+data[i].nama_meja+'</h3>'+
+              '</div>'+
+              '<div class="text-left pl-3 py-1">'+
+                '<label class="mb-1 w-100 font-weight-bold" style="font-size:14px;line-height: 1.2;">'+ucfirst(data[i].bentuk)+'</label>'+
+                '<label class="" style="line-height: 1.2;">'+data[i].pax+' Pax</label>'+
+              '</div>'+
+            '</div>'+
           '</div>'+
         '</div>'+
-      '</div></div>';
+      '</div>';
     }
     htmlList = htmlList + '</div>';
+  }
   $('#listMeja').html(htmlList);
 }
 
@@ -2164,9 +2197,15 @@ function setStorageMejaTerpilih(){
         data.meja_id = m.id_meja;
         data.nama_meja = m.nama_meja;
         let kategoriMeja = dataKategoriMeja.find(v => v.id_kategori_meja === m.kategori_meja_id);
-        data.kategori_meja_id = m.kategori_meja_id;
-        data.nama_kategori_meja = kategoriMeja.nama_kategori_meja;
-        $('#namaMeja').html(m.nama_meja + (kategoriMeja.nama_kategori_meja !== undefined ? ' - '+ kategoriMeja.nama_kategori_meja:"") );
+        if(kategoriMeja){
+          data.kategori_meja_id = m.kategori_meja_id;
+          data.nama_kategori_meja = kategoriMeja.nama_kategori_meja;
+          $('#namaMeja').html(m.nama_meja + (kategoriMeja.nama_kategori_meja !== undefined ? ' - '+ kategoriMeja.nama_kategori_meja:"") );
+        }else{
+          data.kategori_meja_id = 0;
+          data.nama_kategori_meja = 'Tanpa Kategori';
+          $('#namaMeja').html(m.nama_meja);
+        }
       }
     });
   }else {
@@ -2190,31 +2229,62 @@ $('body').on('click','.opsi-meja',function(){
 });
 
 /*********** PELANGGAN ***********/
-
-function setHTMLPelanggan(){
-  let data = JSON.parse(localStorage.getItem('pelanggan'));
+$('#pencarian_modal_pelanggan').on('keyup', async function(){
+  let pencarian = await this.value;
+  let _data = await JSON.parse(localStorage.getItem('pelanggan'));
+  if(pencarian !== '' && pencarian !== null && pencarian.length >= 1 ){
+    _data = await _data.filter(item => (
+      ( item.nama_pelanggan ? (item.nama_pelanggan.toLowerCase()).indexOf(pencarian) > -1 : false ) ||
+      (  item.email ? (item.email.toLowerCase()).indexOf(pencarian) > -1 : false  ) ||
+      ( item.no_hp ? (item.no_hp.toLowerCase()).indexOf(pencarian) > -1 : false )
+    ));
+  }
+  setHTMLPelanggan(_data);
+});
+$('#btnModalPelanggan').click(function(){
+  setHTMLPelanggan();
+  $('#modalpilihpelanggan').modal('show');
+});
+async function setHTMLPelanggan(data = null){
+  await $('#btnModalKembaliPelanggan').hide();
+  if(data === null)
+    data = await JSON.parse(localStorage.getItem('pelanggan'));
   let htmlList = "";
   if(data.length === 0){
-    $('#pencarianModalPelanggan').hide();
-    htmlList = "<div class=\"text-center mt-2\"> <img src=\"gambar/empty-list.png\" class=\"img-responsive\" /> </div>";
+    htmlList = await "<div class=\"text-center mt-2\"> <img src=\"gambar/empty-list.png\" class=\"img-responsive\" /> </div>";
   }else{
-    htmlList = "<ul class=\"list-group rounded-0\">";
+    htmlList = await "<ul class=\"list-group rounded-0\">";
+
+    htmlList += await '<li class="list-group-item opsi-pelanggan '+(_state.pelangganTerpilih === 0 ? "active" : '' )+'"  data-index="0">'+
+        '<div class="row">'+
+          '<div class="col-4">Tanpa Pelanggan</div>'+
+          '<div class="col-4 text-center">-</div>'+
+          '<div class="col-4 text-right">-</div>'+
+        '</div>'+
+        
+    '</li>';
     for(let i=0; i < data.length; i++){
-      htmlList += "<li class=\"list-group-item font-weight-bold opsi-pelanggan "+(data[i].id_pelanggan === _state.pelangganTerpilih ? 'active' : '' )+" \"  data-index="+data[i]['id_pelanggan']+">"+data[i]['nama_pelanggan']+"</li>";
+      htmlList += await '<li class="list-group-item opsi-pelanggan '+(data[i].id_pelanggan === _state.pelangganTerpilih ? "active" : '' )+'"  data-index='+data[i]['id_pelanggan']+'>'+
+          '<div class="row">'+
+            '<div class="col-4 text-truncate">'+(data[i]['nama_pelanggan'] ? data[i]['nama_pelanggan'] : '') +'</div>'+
+            '<div class="col-4 text-center text-truncate">'+(data[i]['no_hp'] ? data[i]['no_hp'] : '-')+'</div>'+
+            '<div class="col-4 text-right text-truncate">'+(data[i]['email'] ? data[i]['email'] :'-')+'</div>'+
+          '</div>'+
+          
+      '</li>';
     }   
-    htmlList += "</ul>";
-    $('#pencarianModalPelanggan').show();
+    htmlList += await "</ul>";
+    await $('#pencarianModalPelanggan').show();
   }
-  $('#btnModalKembaliPelanggan').hide();
-  $('#modalpilihpelanggantitle').html('Pelanggan');
+  await $('#modalpilihpelanggantitle').html('Pelanggan');
 
 
-  $('#buttonModalSimpanPelanggan').hide();
-  $('#buttonModalTambahPelanggan').show();
+  await $('#buttonModalSimpanPelanggan').hide();
+  await $('#buttonModalTambahPelanggan').show();
 
-  $('#modalpilihpelangganbodyinput').hide();
-  $('#modalpilihpelangganbodylist').show();
-  $('#modalpilihpelangganbodylist').html(htmlList);
+  await $('#modalpilihpelangganbodyinput').hide();
+  await $('#modalpilihpelangganbodylist').show();
+  await $('#modalpilihpelangganbodylist').html(htmlList);
 }
 
 $('#btnModalKembaliPelanggan').click(function(){
@@ -2260,12 +2330,17 @@ function setStoragePelangganTerpilih(){
 
  let pelanggan = dataPelanggan.find(p => parseInt(p.id_pelanggan) === _state.pelangganTerpilih);
 
- data.pelanggan_id = pelanggan.id_pelanggan;
- data.nama_pelanggan = pelanggan.nama_pelanggan;
+  if(pelanggan){
+    data.pelanggan_id = pelanggan.id_pelanggan;
+    data.nama_pelanggan = pelanggan.nama_pelanggan;
+  }else{
+    data.pelanggan_id = 0;
+    data.nama_pelanggan = "Tanpa Pelanggan";
+  }
 
  localStorage.setItem('pesanan_terfokus', JSON.stringify(data));
 
- $('#namaPelanggan').html(pelanggan.nama_pelanggan);
+ $('#namaPelanggan').html(data.nama_pelanggan);
 }
 
 $('body').on('click','.opsi-pelanggan', function(){
@@ -2417,7 +2492,7 @@ $('body').on('click','#btnSimpanPesanan',  async function(){
    sinkronisasiDataPesanan();
    $('#modalinformasipesanandisimpan').modal('show');
  }else{
-   alert('pesanan tidak ada');
+   android.CustomToast('Tidak Ada Pesanan');
  }
 });
 $('body').on('click','#opsipilihhapuspesanan',function(){
@@ -2481,7 +2556,7 @@ $('body').on('click','#btnBayarPesanan', async function(){
         '<div class="text-left" style="width: 15%;"><b class="badge-pesanan">'+menu.jumlah+'</b></div>'+
         '<div class="pr-1 flex-grow-1 text-left" style="width: 47%">'+
         '<div class="text-truncate font-weight-bold">'+menu.nama_menu+'</div>'+
-        (menu.nama_variasi_menu !== '' ?  '<span class="text-muted">'+menu.nama_variasi_menu+'</span><br/>' : '')+
+        (menu.nama_variasi_menu  ?  '<span class="text-muted">'+menu.nama_variasi_menu+'</span><br/>' : '')+
         '</div>'+
         '<div class="text-right" style="width: 30%">'+addCommas(menu.total)+'</div>'+
         '</div>'+
@@ -2547,7 +2622,6 @@ $('body').on('click','#btnBayarPembayaran', async function(){
     if(deleteDataPesanan(detail.kode_pemesanan)){
       incNomorPesanan();
       $('#kembalianSelesaiPembayaran').html('Rp ' + addCommas(detail.kembalian));
-      console.log(detail);
       await addDataRiwayat(detail);
       await resetStoragePesananTerfokus();
       await setDefaultPesanan();
@@ -2614,6 +2688,7 @@ $('body').on('click','#btnPrintNotaSelesaiPembayaran', function(){
     }
   }
   var dataPesanan = {
+    "url_logo": _outlet.url_logo, 
     "nama_outlet": _outlet.nama_outlet, 
     "alamat": (_outlet.alamat ? _outlet.alamat : "") , 
     "telpon": (_outlet.telpon ? _outlet.telpon : ""), 
@@ -2652,7 +2727,6 @@ $('body').on('click','#btnPrintNotaSelesaiPembayaran', function(){
     "instagram": (_outlet.instagram ? _outlet.instagram : ""),
     "twitter": (_outlet.twitter ? _outlet.twitter : "")
   };
-  console.log(dataPesanan);
   resetHTMLModalSelesaiPembayaran(); 
   android.CustomToast(_perangkat.mac_printer_kasir);
   setTimeout(function(){ android.printPesanan(JSON.stringify(dataPesanan), _perangkat.mac_printer_kasir); }, 200);
@@ -2670,8 +2744,12 @@ function resetHTMLModalSelesaiPembayaran(){
 }
 
 $('#btnKirimEmailStukTransaksi').click(function(){
-  kirimEmailStruk();
-  resetHTMLModalSelesaiPembayaran(); 
+  if(IsEmail($('#inputKirimEmailStukTransaksi').val()) === false){
+    android.CustomToast('Email yang dimasukkan salah');
+    return false;
+  }
+  kirimEmailStruk(_statePembayaran);
+  
 });
 /*
 |------------------------------------------------------------------------------------------------------
@@ -2693,6 +2771,14 @@ $('#btnKirimEmailStukTransaksi').click(function(){
 |      . apa bila gagal load data maka action sinkronisasi ulang akan diberikan notifikasi untuk dapat dikonfirmasi reload atau tidak.
 |  
 */
+
+function gambarOnErrorPesanan(data){
+  $('.gambar-pesanan[data-index='+data.getAttribute('data-index')+']').hide();
+  setTimeout(function(){ 
+    $('.inisial-pesanan[data-index='+data.getAttribute('data-index')+']').show();
+  }, 50);
+}
+
 $('#pencarianPesananTersimpan').keyup(function(){
   let text = $(this).val();
   let list = [];
@@ -2736,7 +2822,7 @@ function setHTMLPesananTersimpan(dataPesanan = null){
    '<p class="mb-0 font-small">'+ (
     p.meja_id !== 0 && 
     p.kategori_meja_id !== 0  
-    ?  p.nama_meja +'-'+p.nama_kategori_meja : ''
+    ?  p.nama_meja + (p.kategori_meja_id !== 0 ? '-'+ p.nama_kategori_meja :'') : ''
     ) +' </p>'+
    '</div>'+
                 '<div>'+
@@ -2754,15 +2840,15 @@ function setDetailPesananTersimpan(data){
 
   let htmlMenu = "";
     $.each( data.pesanan , function( k, v ) {
-      htmlMenu = htmlMenu + '<li class="list-group-item p-3">'+
+      htmlMenu = htmlMenu + '<li class="list-group-item px-3 py-2">'+
         '<div class="d-flex">'+
           '<div class="pl-1 pr-3" style="width: auto;height:auto">'+
-            '<div class="card border-0 " data-index="'+k+'">'+
-              '<div data-index="2" class="bd-placeholder-img card-img-top bg-grey-low rounded" style="height:66px;width:70px">'+
+            '<div class="card border-0 inisial-pesanan" data-index="'+k+'" style="display:none;">'+
+              '<div data-index="2" class="bd-placeholder-img card-img-top bg-grey-low rounded" style="height:66px;width:70px;">'+
                 '<h5>'+getInitials(v.nama_menu)+'</h5>'+
               '</div>'+
             '</div>'+
-                // '<img data-index="'+i+'" src="'+(menu[i]['gambar'].length > 0 ? menu[i]['gambar'][1]['path']:'')+'" class="card-img-top gambar" alt="'+menu[i]['nama_menu']+'" onerror="gambarOnError(this)" />'+
+            '<img data-index="'+k+'" src="'+v.gambar+'" class="rounded-lg gambar-pesanan" style="height:66px;width:70px;"  onerror="gambarOnErrorPesanan(this)" />'+
           '</div>'+
           '<div class="pr-1 flex-grow-1 text-left" style="width: 30%">'+
             '<div class="text-truncate">'+
@@ -2902,13 +2988,10 @@ function setEmptyDetailPesananTersimpan(){
 
 $('body').on('click','.opsi-list-pesanan-tersimpan', function(){
   var dataIndex = $(this).attr('data-index');
-  $('.opsi-list-pesanan-tersimpan').removeClass('active');
   var dataPesanan = JSON.parse(localStorage.getItem('pesanan'));
 
   var data = dataPesanan.find( p => p.kode_pemesanan === dataIndex);
   setDetailPesananTersimpan(data);   
-
-  $(this).addClass('active');
 });
 
 
@@ -2933,7 +3016,7 @@ async function setReOpenPesananTerfokus(){
     $('#namaPelanggan').html("Pelanggan");
 
   if(pesanan.nama_meja !== "" && pesanan.nama_meja !== null && pesanan.nama_meja !== undefined && pesanan.nama_kategori_meja !== "" && pesanan.nama_kategori_meja !== null && pesanan.nama_kategori_meja !== undefined)
-    $('#namaMeja').html(pesanan.nama_meja+" - "+pesanan.nama_kategori_meja);
+    $('#namaMeja').html(pesanan.nama_meja+(pesanan.kategori_meja_id ? " - "+pesanan.nama_kategori_meja : "") );
   else
     $('#namaMeja').html("Tanpa Meja");
 
@@ -2980,6 +3063,8 @@ $('body').on('click','#btnModalHapusPesananTersimpan', async function(){
     detail.is_uploaded = 0;
     detail.tanggal_proses = dateTime.tanggal;
     detail.waktu_proses = dateTime.waktu;
+    detail.tunai = 0;
+    detail.kembalian = 0;
     detail.status = 'batal';
 
    if(deleteDataPesanan(dataIndex))
@@ -3009,6 +3094,52 @@ $('body').on('click','#btnModalHapusPesananTersimpan', async function(){
 |  5. fungsi printNotaRiwayat      => mencetak nota 
 |  
 */
+
+let _tgl = datetimeEvent();
+let _stateRiwayat = {
+  tanggal_max : _tgl.tanggal,
+  waktu_max : _tgl.waktu+':59',
+  nomor_urut: 0
+};
+
+$('#list-riwayat-div' ).on('scroll', function() {
+  var position = $('#list-riwayat-div').scrollTop();
+  var bottom = $('#list-riwayat').height() - $('#list-riwayat-div').height();
+  let _outlet =  JSON.parse(localStorage.getItem('outlet_terpilih'));
+  
+  if( position == bottom ){
+      $.ajax({
+        url: urlDomain + "api/kasir/penjualan",
+        type: 'get',
+        headers: {
+          'Accept':'application/json', 
+          'Authorization':'Bearer '+getToken(),
+        },
+        data: {
+          outlet_id: _outlet.id_outlet,
+          tanggal_max: _stateRiwayat.tanggal_max,
+          waktu_max: _stateRiwayat.waktu_max,
+          nomor_urut: _stateRiwayat.nomor_urut,
+        },
+        success: function(res){
+          if(res.total > 0){
+            _stateRiwayat.nomor_urut += res.data.length;
+            setHTMLTambahListRiwayat(res.data);
+            pushDataRiwayat(res.data);
+          }
+        }
+      });
+  }
+});
+
+function pushDataRiwayat(data){
+  let dataRiwayat =  JSON.parse(localStorage.getItem('riwayat'));
+  for(let i = 0; i < data.length; i++){
+    dataRiwayat.push(data[i]);
+  }
+   localStorage.setItem('riwayat', JSON.stringify(dataRiwayat));  
+}
+
 $('#pencarianRiwayat').keyup(function(){
   let text = $(this).val();
   let list = [];
@@ -3043,15 +3174,18 @@ function setHTMLRiwayat(dataRiwayat = null){
 
   let htmlList = "";
   $.each( tanggalArr, function( keyTanggal, v ) {
-    htmlList = htmlList + '<li class="list-group-item px-3 py-2" style="background: rgba(0, 142, 255, 0.26) !important">'+convertTanggalListOrder(v)+'</li>';
+    htmlList = htmlList + '<li class="list-group-item px-3 py-2 tgl-list-riwayat" data-index="'+convertTanggalListOrder(v)+'" style="background: rgba(0, 142, 255, 0.26) !important">'+convertTanggalListOrder(v)+'</li>';
     $.each( dataRiwayat, function( key, p ) {
       if(p.tanggal_proses === v )
         htmlList = htmlList + 
-      '<li class="list-group-item pl-0 pr-3 pt-3 pb-2 opsi-list-riwayat" data-index="'+p.kode_pemesanan+'">'+
+      '<li class="list-group-item pl-0 pr-3 pt-3 pb-2 opsi-list-riwayat" data-tanggal="'+convertTanggalListOrder(v)+'"  data-index="'+p.kode_pemesanan+'">'+
         '<div class="d-flex">'+
           '<div class="flex-fill text-left" style="width: 14%">'+
             '<div>'+
-              '<p class="h4 my-2 text-center" style="color:#bbb"><i class="fas fa-receipt"></i></p>'+
+              ( p.status !== null && p.status !== undefined && p.status === 'Batal' ? 
+              '<p class="h4 my-2 text-center status-batal"><i class="fas fa-receipt"></i></p>':
+              '<p class="h4 my-2 text-center status-sukses "><i class="fas fa-receipt"></i></p>'
+              )+
             '</div>'+
           '</div>'+
           '<div class="flex-fill text-left" style="width: 43%">'+
@@ -3059,12 +3193,12 @@ function setHTMLRiwayat(dataRiwayat = null){
               '<p class="font-weight-bold mb-2">Rp '+ addCommas(p.total)+'</p>'+
             '</div>'+
             '<div>'+
-              '<p class="mb-0 font-small "><i>'+(p.status ? p.status : 'Selesai') +'</i> </p>'+
+              '<p class="mb-0 font-small ">'+(p.status ? p.status : 'Selesai') +' </p>'+
             '</div>'+
           '</div>'+
           '<div class="flex-fill text-right" style="width: 43%">'+
             '<div>'+
-              '<p class="font-weight-bold mb-2">'+(p.waktu_simpan !== null && p.waktu_simpan !== undefined ? p.waktu_simpan.slice(0, 5) : '')+'</p>'+
+              '<p class="font-weight-bold mb-2">'+(p.waktu_proses !== null && p.waktu_proses !== undefined ? p.waktu_proses.slice(0, 5) : '')+'</p>'+
             '</div>'+
          
             '<div>'+
@@ -3073,25 +3207,132 @@ function setHTMLRiwayat(dataRiwayat = null){
           '</div>'+
         '</div>'+
       '</li>';
-   });
- });
+    });
+  });
   
- $('#list-riwayat').html(htmlList);
+  $('#list-riwayat').html(htmlList);
+}
+async function setHTMLTambahListRiwayat(dataRiwayat){
+  let tanggalArr = [];
+  await $.each( dataRiwayat, async function( key, value ) {
+    let jumlahSama = 0;
+    $.each( tanggalArr,  function( keyTanggal, v ) {
+      if(v === value.tanggal_proses){
+        jumlahSama = jumlahSama + 1;
+      }
+    });
+    if(jumlahSama === 0)
+      tanggalArr.push(value.tanggal_proses);
+  });
+
+  let indexRiwayatDipotong = [];
+  await $.each( tanggalArr, async function( keyTanggal, v ) {
+    if($('.tgl-list-riwayat[data-index="'+convertTanggalListOrder(v)+'"]').length >= 1 ) {   
+      $.each( dataRiwayat, function( key, p ) {
+        if(p.tanggal_proses === v ){
+            ($('.opsi-list-riwayat[data-tanggal="'+convertTanggalListOrder(v)+'"]').last()).after('<li class="list-group-item pl-0 pr-3 pt-3 pb-2 opsi-list-riwayat" data-tanggal="'+convertTanggalListOrder(v)+'" data-index="'+p.kode_pemesanan+'">'+
+              '<div class="d-flex">'+
+                '<div class="flex-fill text-left" style="width: 14%">'+
+                  '<div>'+
+                    ( p.status !== null && p.status !== undefined && p.status === 'Batal' ? 
+                    '<p class="h4 my-2 text-center status-batal"><i class="fas fa-receipt"></i></p>':
+                    '<p class="h4 my-2 text-center status-sukses "><i class="fas fa-receipt"></i></p>'
+                    )+
+                  '</div>'+
+                '</div>'+
+                '<div class="flex-fill text-left" style="width: 43%">'+
+                  '<div>'+
+                    '<p class="font-weight-bold mb-2">Rp '+ addCommas(p.total)+'</p>'+
+                  '</div>'+
+                  '<div>'+
+                    '<p class="mb-0 font-small ">'+(p.status ? p.status : 'Selesai') +' </p>'+
+                  '</div>'+
+                '</div>'+
+                '<div class="flex-fill text-right" style="width: 43%">'+
+                  '<div>'+
+                    '<p class="font-weight-bold mb-2">'+(p.waktu_proses !== null && p.waktu_proses !== undefined ? p.waktu_proses.slice(0, 5) : '')+'</p>'+
+                  '</div>'+
+               
+                  '<div>'+
+                    '<p class="mb-0 font-small">#'+p.id_penjualan+'</p>'+
+                  '</div>'+
+                '</div>'+
+              '</div>'+
+            '</li>');
+            indexRiwayatDipotong.push(p.id_penjualan);
+        }
+      });
+    }
+  });
+  await $.each( indexRiwayatDipotong, async function( key, v ) {
+    let index = dataRiwayat.findIndex(d => d.id_penjualan === v);
+    await dataRiwayat.splice(index,1);
+  });
+  tanggalArr = await [];
+  await $.each( dataRiwayat, function( key, value ) {
+    let jumlahSama = 0;
+    $.each( tanggalArr, function( keyTanggal, v ) {
+      if(v === value.tanggal_proses){
+        jumlahSama = jumlahSama + 1;
+      }
+    });
+    if(jumlahSama === 0)
+       tanggalArr.push(value.tanggal_proses);
+  });
+
+  let htmlList = await "";
+  await $.each( tanggalArr, function( keyTanggal, v ) {
+    htmlList = htmlList + '<li class="list-group-item px-3 py-2 tgl-list-riwayat" data-index="'+convertTanggalListOrder(v)+'" style="background: rgba(0, 142, 255, 0.26) !important">'+convertTanggalListOrder(v)+'</li>';
+    $.each( dataRiwayat, function( key, p ) {
+      if(p.tanggal_proses === v )
+        htmlList = htmlList + 
+      '<li class="list-group-item pl-0 pr-3 pt-3 pb-2 opsi-list-riwayat" data-tanggal="'+convertTanggalListOrder(v)+'"  data-index="'+p.kode_pemesanan+'">'+
+        '<div class="d-flex">'+
+          '<div class="flex-fill text-left" style="width: 14%">'+
+            '<div>'+
+              ( p.status !== null && p.status !== undefined && p.status === 'Batal' ? 
+              '<p class="h4 my-2 text-center status-batal"><i class="fas fa-receipt"></i></p>':
+              '<p class="h4 my-2 text-center status-sukses "><i class="fas fa-receipt"></i></p>'
+              )+
+            '</div>'+
+          '</div>'+
+          '<div class="flex-fill text-left" style="width: 43%">'+
+            '<div>'+
+              '<p class="font-weight-bold mb-2">Rp '+ addCommas(p.total)+'</p>'+
+            '</div>'+
+            '<div>'+
+              '<p class="mb-0 font-small ">'+(p.status ? p.status : 'Selesai') +' </p>'+
+            '</div>'+
+          '</div>'+
+          '<div class="flex-fill text-right" style="width: 43%">'+
+            '<div>'+
+              '<p class="font-weight-bold mb-2">'+(p.waktu_simpan !== null && p.waktu_simpan !== undefined ? p.waktu_simpan.slice(0, 5) : '')+'</p>'+
+            '</div>'+
+         
+            '<div>'+
+              '<p class="mb-0 font-small">#'+p.id_penjualan+'</p>'+
+            '</div>'+
+          '</div>'+
+        '</div>'+
+      '</li>';
+    });
+  });
+  
+  await $('#list-riwayat').append(htmlList);
 }
 
 function setDetailRiwayat(data){
-  console.log(data);
  let htmlMenu = "";
  $.each( data.item , function( key, value ) {
-   htmlMenu = htmlMenu + '<li class="list-group-item p-3">'+
+   htmlMenu = htmlMenu + '<li class="list-group-item px-3 py-2 ">'+
    '<div class="d-flex">'+
    '<div class="pl-1 pr-3" style="width: auto;height:auto">'+
-            '<div class="card border-0 " data-index="'+key+'">'+
-              '<div data-index="2" class="bd-placeholder-img card-img-top bg-grey-low rounded" style="height:66px;width:70px">'+
+            '<div class="card border-0 inisial-riwayat" data-index="'+key+'" style="display:none;">'+
+              '<div  class="bd-placeholder-img card-img-top bg-grey-low rounded" style="height:66px;width:70px">'+
                 '<h5>'+getInitials(value.nama_menu)+'</h5>'+
               '</div>'+
-            '</div>'+
-                // '<img data-index="'+i+'" src="'+(menu[i]['gambar'].length > 0 ? menu[i]['gambar'][1]['path']:'')+'" class="card-img-top gambar" alt="'+menu[i]['nama_menu']+'" onerror="gambarOnError(this)" />'+
+            '</div>' +
+            '<img data-index="'+key+'" src="'+(value.gambar ? value.gambar : '')+'" style="height:66px;width:70px" class="rounded-lg gambar-riwayat"  onerror="gambarOnErrorRiwayat(this)" />' +
           '</div>'+
    '<div class="pr-1 flex-grow-1 text-left" style="width: 30%">'+
    '<div class="text-truncate">'+
@@ -3130,7 +3371,7 @@ function setDetailRiwayat(data){
       '</div>'+
     '</div>'+
     '<div style="background: transparent; width: 100%; " class="p-0 hide-scroll ">'+
-      '<ul class="list-group list-group-flush" id="list-menu-riwayat">'+htmlMenu +'</ul>'+
+      '<ul class="list-group list-group-flush">'+htmlMenu +'</ul>'+
       '<div class="col-8 ml-auto my-2">'+
         '<ul class="list-group list-group-flush">'+
           '<li class="list-group-item px-3 py-2">'+
@@ -3196,6 +3437,7 @@ function setDetailRiwayat(data){
               '</div>'+
             '</div>'+
           '</li>'+
+          ( data.status === 'Sukses' ? 
           '<li class="list-group-item px-3 py-2">'+
             '<div class="d-flex">'+
               '<div class="pr-1 flex-fill text-left" style="width: 50%">'+
@@ -3207,7 +3449,8 @@ function setDetailRiwayat(data){
                 addCommas(data.tunai)+
               '</div>'+
             '</div>'+
-          '</li>'+
+          '</li>':'')+
+          ( data.status === 'Sukses' ? 
           '<li class="list-group-item px-3 py-2">'+
             '<div class="d-flex">'+
               '<div class="pr-1 flex-fill text-left" style="width: 50%">'+
@@ -3219,7 +3462,7 @@ function setDetailRiwayat(data){
                 addCommas(data.kembalian)+
               '</div>'+
             '</div>'+
-          '</li>'+
+          '</li>':'')+
         '</ul>'+
       '</div>'+
     '</div>';
@@ -3271,8 +3514,8 @@ $('body').on('click','.printNotaRiwayat', function(){
       }
     }
   }
-  console.log(_riwayat);
   var dataRiwayat = {
+    "url_logo": _outlet.url_logo, 
     "nama_outlet": (_outlet.nama_outlet ? _outlet.nama_outlet : ""), 
     "alamat": (_outlet.alamat ? _outlet.alamat : "") , 
     "telpon": (_outlet.telpon ? _outlet.telpon : ""), 
@@ -3312,16 +3555,93 @@ $('body').on('click','.printNotaRiwayat', function(){
     "twitter": (_outlet.twitter ? _outlet.twitter : "")
   };
   let _perangkat = JSON.parse(localStorage.getItem('perangkat'));
-  console.log(dataRiwayat);
 
   setTimeout(function(){ android.printPesanan(JSON.stringify(dataRiwayat), _perangkat.mac_printer_kasir ); }, 200);
 });
 
 $('body').on('click','.emailNotaRiwayat', function(){
-  kirimEmailStruk();
+  kirimEmailStruk(_statePembayaran);
 });
+function gambarOnErrorRiwayat(data){
+  $('.gambar-riwayat[data-index='+data.getAttribute('data-index')+']').hide();
+  setTimeout(function(){ 
+    $('.inisial-riwayat[data-index='+data.getAttribute('data-index')+']').show();
+  }, 50);
+}
+async function kirimEmailStruk(_statePembayaran){
 
-function kirimEmailStruk(data = null){
+  let _outlet = await JSON.parse(localStorage.getItem('outlet_terpilih'));
+  let _user = await JSON.parse(localStorage.getItem('user'));
+  let _dataPesanan = [];
+  for(let i = 0; i < _statePembayaran.pesanan.length; i++){
+    let jumlahSama = 0;
+    for(let a = 0; a < _dataPesanan.length; a++){
+      if(_dataPesanan[a].nama_tipe_penjualan === _statePembayaran.pesanan[i].nama_tipe_penjualan){
+        jumlahSama++;
+      }
+    }
+    if(jumlahSama === 0){
+      _dataPesanan.push({'nama_tipe_penjualan': _statePembayaran.pesanan[i].nama_tipe_penjualan, 'menu':[] });
+    }
+
+    for(let a = 0; a < _dataPesanan.length; a++){
+      if(_dataPesanan[a].nama_tipe_penjualan === _statePembayaran.pesanan[i].nama_tipe_penjualan){
+        _dataPesanan[a].menu.push(
+          {
+              "harga": ( _statePembayaran.pesanan[i].harga ? 'Rp '+addCommas(_statePembayaran.pesanan[i].harga) : ""), 
+              "jumlah": ( _statePembayaran.pesanan[i].jumlah ? _statePembayaran.pesanan[i].jumlah : ""), 
+              "nama_variasi_menu": ( _statePembayaran.pesanan[i].nama_variasi_menu ? _statePembayaran.pesanan[i].nama_variasi_menu : ""), 
+              "nama_tipe_penjualan": ( _statePembayaran.pesanan[i].nama_tipe_penjualan ? _statePembayaran.pesanan[i].nama_tipe_penjualan : "" ), 
+              "nama_menu": ( _statePembayaran.pesanan[i].nama_menu ? _statePembayaran.pesanan[i].nama_menu : ""), 
+              "total": ( _statePembayaran.pesanan[i].total ? 'Rp '+addCommas(_statePembayaran.pesanan[i].total) : "")
+          }
+        );
+      }
+    }
+  }
+  let alamat = (_outlet.alamat ? _outlet.alamat : "-") + ', ' + (_outlet.kota ? _outlet.kota : "-") + ', ' + (_outlet.provinsi ? _outlet.provinsi : "-") + ', ' + (_outlet.kode_pos ? _outlet.kode_pos : "-");
+  var dataPesanan = await {
+    "url_logo": _outlet.url_logo, 
+    "nama_outlet": _outlet.nama_outlet, 
+    "alamat": alamat , 
+    "telpon": (_outlet.telpon ? _outlet.telpon : ""), 
+    "nama_user": (_user.nama ? _user.nama : ""), 
+    "nama_pelayan": "", 
+    "email_pelanggan":$('#inputKirimEmailStukTransaksi').val(),
+    "kode_pemesanan": (_statePembayaran.kode_pemesanan ? _statePembayaran.kode_pemesanan : ""), 
+    "no_pemesanan": ( _statePembayaran.no_pemesanan ? _statePembayaran.no_pemesanan : ""), 
+    "waktu_proses": ( _statePembayaran.waktu_proses ? _statePembayaran.waktu_proses : ""), 
+    "tanggal_proses": ( _statePembayaran.tanggal_proses ? _statePembayaran.tanggal_proses : ""),
+
+    "pesanan": _dataPesanan, 
+    "subtotal": (_statePembayaran.subtotal ? "Rp "+addCommas(_statePembayaran.subtotal) :"Rp 0"), 
+    //diskon
+    "nama_diskon": (_statePembayaran.nama_diskon ? _statePembayaran.nama_diskon : ""), 
+    "jumlah_diskon": (_statePembayaran.jumlah_diskon ? _statePembayaran.jumlah_diskon+"%":""),
+    "total_diskon": ( _statePembayaran.total_diskon ? "Rp "+addCommas(_statePembayaran.total_diskon) : "Rp 0"), 
+    
+    //biaya tambahan
+    "nama_biaya_tambahan": (_statePembayaran.nama_biaya_tambahan ? _statePembayaran.nama_biaya_tambahan : ""), 
+    "jumlah_biaya_tambahan": ( _statePembayaran.jumlah_biaya_tambahan ? _statePembayaran.jumlah_biaya_tambahan + '%' : ""), 
+    "total_biaya_tambahan": (_statePembayaran.total_biaya_tambahan ?  "Rp "+addCommas(_statePembayaran.total_biaya_tambahan) : "Rp 0"),
+    
+    //pajak
+    "nama_pajak": (_statePembayaran.nama_pajak ? _statePembayaran.nama_pajak : ""), 
+    "jumlah_pajak": (_statePembayaran.jumlah_pajak ? _statePembayaran.jumlah_pajak + '%' : "-"),
+    "total_pajak": (_statePembayaran.total_pajak ? "Rp "+addCommas(_statePembayaran.total_pajak):"Rp 0"),
+
+    "total": ( _statePembayaran.total ? "Rp "+addCommas(_statePembayaran.total) :"Rp 0"), 
+    "tunai": (_statePembayaran.tunai ? "Rp "+addCommas(_statePembayaran.tunai):"Rp 0"), 
+    "kembalian": (_statePembayaran.kembalian ? "Rp "+addCommas(_statePembayaran.kembalian) : "Rp 0"), 
+
+    "catatan": (_outlet.catatan ? _outlet.catatan : "TERIMA KASIH"),
+    //-----------------------
+    "website": (_outlet.website ? _outlet.website : ""), 
+    "facebook": (_outlet.facebook ? _outlet.facebook : ""), 
+    "instagram": (_outlet.instagram ? _outlet.instagram : ""),
+    "twitter": (_outlet.twitter ? _outlet.twitter : "")
+  };
+
   $.ajax({
     url: urlDomain + 'api/kasir/email-nota',
     headers: {
@@ -3330,15 +3650,27 @@ function kirimEmailStruk(data = null){
     },
     method: 'POST',
     data: {
-      email:'rra.rickyresky@gmail.com'
+      pesanan: dataPesanan,
+      email: $('#inputKirimEmailStukTransaksi').val()
     },
     success: function(res){
-      android.CustomToast('Emailtelah dikirim');
+      android.CustomToast('Email telah dikirim');
     },
     error: function(res){
-      android.CustomSnackbar('Terjadi kesalahan koneksi','red');
+      android.CustomSnackbar('Email gagal dikirim','red');
     }
  });
+  setTimeout(function(){ resetHTMLModalSelesaiPembayaran(); }, 100);
+  
+
+}
+function IsEmail(email) {
+  var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+  if(!regex.test(email)) {
+    return false;
+  }else{
+    return true;
+  }
 }
 /*
 |----------------------------------------------------------------------------------------
@@ -3601,7 +3933,7 @@ $('body').on('click','.opsi-list-bluetooth-terdeteksi', async function(){
       $('#edMacModalPrinter').attr('readonly','true');
       _statePengaturan.data_from = 'pencarian';
       setHTMLTambahPrinter('sambungkan');
-      android.connectingToBluetooth(_statePengaturan.printer_terpilih.mac);
+      // android.connectingToBluetooth(_statePengaturan.printer_terpilih.mac);
     }else{
       android.CustomToast("Pilih printer terlebih dahulu");
     }
@@ -3641,7 +3973,6 @@ $('#formModalPrinter').submit( async function(e){
   var form = $(this);
   var dt = await form.serializeArray()
               .reduce(function(a, x) { a[x.name] = x.value; return a; }, {});
-  console.log(dt);
   let _perangkat = await JSON.parse(localStorage.getItem('perangkat'));
   let _outlet = await JSON.parse(localStorage.getItem('outlet_terpilih'));
   var _data = {};
@@ -3809,7 +4140,8 @@ async function tesPrint(mac){
     (outletTerpilih.telpon !== null ? outletTerpilih.telpon:'-'),
     (outletTerpilih.alamat !== null ? outletTerpilih.alamat:'-'),
     'Bluetooth', 
-    mac
+    mac,
+    outletTerpilih.url_logo
   );
 }
 
@@ -3885,6 +4217,7 @@ $('body').on('click','.list-sinkronisasi', async function(){
     await sinkronisasiDataMenu();
 
     await sinkronisasiDataMeja();
+    await sinkronisasiDataJenisPemesanan();
     await sinkronisasiDataDiskon();
     await sinkronisasiDataBiayaTambahan();
 
@@ -4014,6 +4347,10 @@ function sinkronisasiDataMenu(){
       setHTMLMenu(data.menu, true);
       setHTMLKategoriMenu(data.kategori_menu);
       $(".btn-sinkronisasi[data-index='produk']").removeClass('fa-spin');
+
+      let tglSinkronisasi = datetimeEvent();
+      
+      $('#teksSinkronisasiDataProduk').html('Terakhir disinkronkan '+tglSinkronisasi.tanggal+' '+tglSinkronisasi.waktu);
     },
     error: function(res){
       android.CustomSnackbar('Terjadi kesalahan sinkronisasi','red');
@@ -4049,6 +4386,9 @@ async function sinkronisasiDataPelanggan(){
       localStorage.setItem('pelanggan', JSON.stringify(res));
       setHTMLPelanggan(res);
       $(".btn-sinkronisasi[data-index='pelanggan']").removeClass('fa-spin');
+
+      let tglSinkronisasi = datetimeEvent();
+      $('#teksSinkronisasiDataPelanggan').html('Terakhir disinkronkan '+tglSinkronisasi.tanggal+' '+tglSinkronisasi.waktu);
     },
     error: function(res){
       
@@ -4083,8 +4423,17 @@ function sinkronisasiDataMeja(){
     success: function(data){
       localStorage.setItem('meja', JSON.stringify(data.meja));
       localStorage.setItem('kategori_meja', JSON.stringify(data.kategori_meja));
-      setHTMLMeja(data.meja, true);
-      setHTMLKategoriMeja(data.kategori_meja);
+
+      setHTMLKategoriMeja();
+      if(data.kategori_meja && data.kategori_meja.length > 0){
+        _state.kategoriMejaTerpilih = data.kategori_meja[0].id_kategori_meja;
+        pencarianMeja();
+      }
+
+
+      let tglSinkronisasi = datetimeEvent();
+      $('#teksSinkronisasiDataOutlet').html('Terakhir disinkronkan '+tglSinkronisasi.tanggal+' '+tglSinkronisasi.waktu);
+    
     },
     error: function(res){
       android.CustomSnackbar('Terjadi kesalahan sinkronisasi','red');
@@ -4147,6 +4496,36 @@ function sinkronisasiDataBiayaTambahan(){
     success: function(data){
       localStorage.setItem('biaya_tambahan', JSON.stringify(data));
       setHTMLBiayaTambahan(data);
+    },
+    error: function(res){
+      android.CustomSnackbar('Terjadi kesalahan sinkronisasi','red');
+    }
+  });
+}
+
+/*
+|--------------------------------------------------------------------------
+|          SINKRONISASI DATA BIAYA TAMBAHAN
+|--------------------------------------------------------------------------
+|
+*/
+
+function sinkronisasiDataJenisPemesanan(){   
+  let data = JSON.parse(localStorage.getItem('outlet_terpilih'));
+  $.ajax({
+    async:true,
+    url: urlDomain + 'api/kasir/jenis-pemesanan',
+    headers: {
+      'Accept':'application/json',
+      'Authorization':'Bearer '+getToken(),
+    },
+    method: 'GET',
+    dataType: 'json',
+    data: {
+      outlet_id : data.id_outlet,
+    },
+    success: function(data){
+      localStorage.setItem('jenis_pemesanan', JSON.stringify(data));
     },
     error: function(res){
       android.CustomSnackbar('Terjadi kesalahan sinkronisasi','red');
@@ -4233,6 +4612,11 @@ async function sinkronisasiDataPesanan(syncRiwayat = false){
       setHTMLPesananTersimpan(datas);
       $(".btn-sinkronisasi[data-index='pesanan_tersimpan']").removeClass('fa-spin');
       if(syncRiwayat === true) sinkronisasiDataRiwayat();
+
+
+      let tgl = datetimeEvent();
+      $('#teksSinkronisasiDataPesananTersimpan').html('Terakhir disinkronkan '+tgl.tanggal+' '+tgl.waktu);
+      
     },
     error: function(res){
       $(".btn-sinkronisasi[data-index='pesanan_tersimpan']").removeClass('fa-spin');
@@ -4287,13 +4671,20 @@ async function sinkronisasiDataRiwayat(){
       penjualan : dataRiwayat
    },
    success: function(res){
-       // set storage pesanan di taruh di success karena harus cek apakah data terupload atau tidak gitueee
+      if(res.length > 0){
+        _stateRiwayat.tanggga_max = res[0]['tanggal_proses']; 
+        _stateRiwayat.waktu_max = res[0]['waktu_proses']; 
+      }
+      _stateRiwayat.nomor_urut = res.length; 
       $.each( res, function( key, value ) {
         res[key].is_uploaded = 1;
       });
       localStorage.setItem('riwayat', JSON.stringify(res)); 
       setHTMLRiwayat(res);
       $(".btn-sinkronisasi[data-index='riwayat']").removeClass('fa-spin');
+
+      let tglSinkronisasi = datetimeEvent();
+      $('#teksSinkronisasiDataRiwayat').html('Terakhir disinkronkan '+tglSinkronisasi.tanggal+' '+tglSinkronisasi.waktu);
     },
     error: function(res){
       $(".btn-sinkronisasi[data-index='riwayat']").removeClass('fa-spin');
@@ -4413,7 +4804,4 @@ Sentry.init({ dsn: 'https://e363dec19daa410ea6a2f168871a3cc3@sentry.io/1722700' 
 
 </script>
 </body>
-
 </html>
-
-

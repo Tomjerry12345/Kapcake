@@ -86,7 +86,13 @@ public class SplashScreen extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ModelVersion> call, Throwable t) {
-                customSnackbar(t.getMessage().toString(), R.drawable.snakbar_red);
+                if ((t.getMessage().toString().contains("Unable to resolve host")) || (t.getMessage().toString().contains("timed out"))
+                        || (t.getMessage().toString().contains("stream was reset"))){
+                    customSnackbar("Periksa koneksi internet Anda", R.drawable.snakbar_red);
+                }
+                else {
+                    customSnackbar(t.getMessage().toString(), R.drawable.snakbar_red);
+                }
             }
         });
     }
@@ -123,7 +129,6 @@ public class SplashScreen extends AppCompatActivity {
     private void init() {
         userSave = new UserSave(this);
         view = findViewById(android.R.id.content);
-        overridePendingTransition(0, 0);
     }
 
     private void hideStatusBar() {
@@ -133,7 +138,7 @@ public class SplashScreen extends AppCompatActivity {
     }
 
     private void customSnackbar(String text, int background) {
-        Snackbar snackbar = Snackbar.make(view, "", Snackbar.LENGTH_LONG);
+        Snackbar snackbar = Snackbar.make(view, "", Snackbar.LENGTH_INDEFINITE);
 
         // Get the Snackbar view
         View view = snackbar.getView();
@@ -144,6 +149,13 @@ public class SplashScreen extends AppCompatActivity {
         tv.setTextColor(Color.parseColor("#FFFFFF"));
 
         snackbar.setText(text);
+        snackbar.setAction("Coba lagi", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cekVersion();
+            }
+        });
+        snackbar.setActionTextColor(getResources().getColor(R.color.putih));
         snackbar.show();
     }
 
@@ -153,12 +165,10 @@ public class SplashScreen extends AppCompatActivity {
             public void run()
             {
                 if (userSave.getKEY_USER() == null){
-                    Intent intent = new Intent(getApplicationContext(), ActSignIn.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    Intent intent = new Intent(SplashScreen.this, ActSignIn.class);
                     startActivity(intent);
                 }else {
-                    Intent intent = new Intent(getApplicationContext(), ActAuthPin.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    Intent intent = new Intent(SplashScreen.this, ActAuthPin.class);
                     startActivity(intent);
                 }
                 finish();

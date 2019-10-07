@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -16,6 +17,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kapcake.pos.Featured.UserSave;
 import com.kapcake.pos.Activity.MainActivity;
@@ -57,6 +59,7 @@ public class ActAuthPin extends AppCompatActivity {
     private TextView textUser;
     private CountDownTimer time;
     private boolean timeRun = false;
+    private boolean exit = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,14 +105,36 @@ public class ActAuthPin extends AppCompatActivity {
 
         userSave = new UserSave(this);
 
-        textUser.setText(userSave.getKEY_USER().getUser().getNama());
+        if (userSave.getKEY_USER() != null){
+            textUser.setText(userSave.getKEY_USER().getUser().getNama());
+        }
 
         img1.setImageResource(R.drawable.border_hitam_putih);
         img2.setImageResource(R.drawable.border_hitam_putih);
         img3.setImageResource(R.drawable.border_hitam_putih);
         img4.setImageResource(R.drawable.border_hitam_putih);
+    }
 
-        overridePendingTransition(0, 0);
+    public void minimizeApp() {
+        moveTaskToBack(true);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (exit) {
+            minimizeApp();
+            return;
+        } else {
+            Toast toast = Toast.makeText(ActAuthPin.this, "Tekan Cepat 2 Kali untuk Minimize", Toast.LENGTH_SHORT);
+            toast.show();
+            exit = true;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    exit = false;
+                }
+            }, 2000);
+        }
     }
 
     private void hideStatusBar() {
