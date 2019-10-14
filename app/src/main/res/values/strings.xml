@@ -32,4 +32,5 @@
     <string name="progress_title1">Mohon Tunggu...</string>
     <string name="progress_text1">Proses</string>
     <string name="sharedPreferences_token">sharedPreferences_token</string>
+    <string name="lupa_password">Lupa kata sandi?</string>
 </resources>

@@ -15,6 +15,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
 import com.kapcake.pos.Adapter.SwipeAdapter;
 import com.kapcake.pos.Featured.UserSave;
 import com.kapcake.pos.Model.ModelUser;
@@ -36,6 +39,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ActSignIn extends AppCompatActivity {
     private Button btnLogin, btnSignUp;
+    private TextView btnForgetPass;
     private ProgressDialog progressDialog;
     private TextInputLayout etInputEmail, etInputPass;
     private View view;
@@ -66,6 +70,7 @@ public class ActSignIn extends AppCompatActivity {
         view = (View) findViewById(android.R.id.content);
         viewPager = (AutoViewPager) findViewById(R.id.viewPager);
         dotsIndicator = (WormDotsIndicator) findViewById(R.id.dotsIndicator);
+        btnForgetPass = findViewById(R.id.btnForgetPass);
 
         userSave = new UserSave(this);
         overridePendingTransition(0, 0);
@@ -120,7 +125,19 @@ public class ActSignIn extends AppCompatActivity {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Answers.getInstance().logCustom(new CustomEvent("Sign Up Clicked"));
+                Crashlytics.setUserIdentifier("Sign Up");
                 String url = "https://backoffice.kapcake.com/daftar";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            }
+        });
+
+        btnForgetPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = "https://backoffice.kapcake.com/lupa-password";
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(url));
                 startActivity(i);

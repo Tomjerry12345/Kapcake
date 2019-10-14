@@ -98,48 +98,26 @@ public class WebViewJavaScriptInterface {
      * This method can be called from Android. @JavascriptInterface
      * required after SDK version 17.
      */
-    private void alertLogout(int request) {
+    private void alertLogout() {
         AlertDialog.Builder alert = new AlertDialog.Builder(activity, R.style.MyProgressDialogTheme);
 
-        if (request == 1){
-            alert.setTitle("Keluar");
-            alert.setMessage("Apakah anda yakin ingin keluar dari akun?");
-            alert.setPositiveButton("Iya", new DialogInterface.OnClickListener() {
-                @RequiresApi(api = Build.VERSION_CODES.M)
-                @Override
-                public void onClick(final DialogInterface dialog, int which) {
-                    postLogoutUser();
-                }
-            });
-            alert.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
+        alert.setTitle("Keluar");
+        alert.setMessage("Apakah anda yakin ingin keluar dari akun?");
+        alert.setPositiveButton("Iya", new DialogInterface.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(final DialogInterface dialog, int which) {
+                postLogoutUser();
+            }
+        });
+        alert.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
 
-            alert.show();
-        }
-        else if (request == 2) {
-            alert.setTitle("Keluar");
-            alert.setMessage("Apakah anda yakin ingin keluar?");
-            alert.setPositiveButton("Iya", new DialogInterface.OnClickListener() {
-                @RequiresApi(api = Build.VERSION_CODES.M)
-                @Override
-                public void onClick(final DialogInterface dialog, int which) {
-                    activity.startActivity(new Intent(activity, ActAuthPin.class));
-                    activity.finish();
-                }
-            });
-            alert.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-
-            alert.show();
-        }
+        alert.show();
     }
 
     private void postLogoutUser() {
@@ -240,6 +218,16 @@ public class WebViewJavaScriptInterface {
     }
 
     @JavascriptInterface
+    public String getVariabel(String key) {
+        return userSave.getVariabel(key);
+    }
+
+    @JavascriptInterface
+    public void setVariabel(String Key, String Value) {
+        userSave.setVariabel(Value, Key);
+    }
+
+    @JavascriptInterface
     public String getTanggal() {
         return userSave.getKEY_TANGGAL();
     }
@@ -255,12 +243,13 @@ public class WebViewJavaScriptInterface {
 
     @JavascriptInterface
     public void logoutToPIN() {
-        alertLogout(2);
+        activity.startActivity(new Intent(activity, ActAuthPin.class));
+        activity.finish();
     }
 
     @JavascriptInterface
     public void logout() {
-        alertLogout(1);
+        alertLogout();
     }
 
     @JavascriptInterface
@@ -384,7 +373,7 @@ public class WebViewJavaScriptInterface {
                                 dataSocket = MainActivity.listSocket.get(a);
                             }
                         }
-                        if (dataSocket != null){
+                        if (dataSocket != null) {
                             printClass = new Print(bluetoothAdapter.getRemoteDevice(macAddress), activity, bluetoothAdapter, progressDialog, web, dataSocket);
                             printClass.printData(obj, macAddress, dataSocket);
 //                        if (dataSocket != null) {
@@ -392,8 +381,7 @@ public class WebViewJavaScriptInterface {
 //                            printClass.hubungkanDevice(macAddress);
 //                        }
                             progressDismiss();
-                        }
-                        else {
+                        } else {
                             progressDismiss();
                             Toast.makeText(context, "Belum ada printer yang terhubung", Toast.LENGTH_SHORT).show();
                         }

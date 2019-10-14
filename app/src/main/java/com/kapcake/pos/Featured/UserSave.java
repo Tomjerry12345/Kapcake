@@ -43,16 +43,25 @@ public class UserSave {
     public String getKEY_TANGGAL() {
         return this.preferences.getString(this.KEY_TANGGAL, "0");
     }
-
     public void setKEY_KODE(String paramString) {
         Editor localEditor = this.preferences.edit();
         localEditor.putString(this.KEY_KODE, paramString);
         localEditor.apply();
     }
+
     public void setKEY_TANGGAL(String paramString) {
         Editor localEditor = this.preferences.edit();
         localEditor.putString(this.KEY_TANGGAL, paramString);
         localEditor.apply();
+    }
+    public void setVariabel(String paramString, String KEY) {
+        Editor localEditor = this.preferences.edit();
+        localEditor.putString(KEY, paramString);
+        localEditor.apply();
+    }
+
+    public String getVariabel(String KEY) {
+        return this.preferences.getString(KEY, "0");
     }
 
 

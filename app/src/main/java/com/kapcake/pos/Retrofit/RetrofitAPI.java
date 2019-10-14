@@ -16,6 +16,7 @@ import retrofit2.http.Url;
 
 public interface RetrofitAPI {
     String BASE_URL = "https://api.telkomreg7.id/api/";
+//    String BASE_URL = "http://192.168.43.196/kapcake/api/public/api/";
     String URL_LOGOUT = BASE_URL + "kasir/";
 
     @POST

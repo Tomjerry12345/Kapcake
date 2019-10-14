@@ -70,6 +70,8 @@ public class SplashScreen extends AppCompatActivity {
         Call<ModelVersion> call = api.cekVersion("version",
                 "application/json");
 
+        Log.e("Base Url", retrofit.toString());
+
         call.enqueue(new Callback<ModelVersion>() {
             @Override
             public void onResponse(Call<ModelVersion> call, Response<ModelVersion> response) {

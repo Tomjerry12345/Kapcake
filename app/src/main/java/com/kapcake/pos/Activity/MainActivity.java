@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
         web.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
 
         web.loadUrl("file:///android_asset/index.html");
+//        web.loadUrl("http://192.168.43.196/kapcake/kasir/index.html");
         web.setWebViewClient(new WebViewClient() {
             public void onPageFinished(WebView view, String weburl) {
                 if (jalan) {

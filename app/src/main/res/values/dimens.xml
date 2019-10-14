@@ -13,6 +13,7 @@
     <dimen name="margin_standard_big">15.0dip</dimen>
     <dimen name="width70">70.0dip</dimen>
 
+    <dimen name="text_font_small">12.0sp</dimen>
     <dimen name="text_font">14.0sp</dimen>
     <dimen name="title_font">17.0sp</dimen>
     <dimen name="title_big_font">20.0sp</dimen>

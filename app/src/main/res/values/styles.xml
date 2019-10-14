@@ -10,7 +10,7 @@
 
     <style name="Theme.Design.CustomNoActionBar" parent="Theme.Design.NoActionBar" >
         <item name="android:windowAnimationStyle">@null</item>
-        <item name="colorPrimary">@color/customThemePrimary</item>
+        <item name="colorPrimary">@color/putih</item>
         <item name="colorPrimaryDark">@color/customThemePrimaryDark</item>
         <item name="colorAccent">@color/customThemeAccent</item>
         <item name="android:colorBackground">@color/customThemeBackground</item>

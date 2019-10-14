@@ -203,11 +203,24 @@
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/ln_pass"
+                    android:text="@string/lupa_password"
+                    android:textColor="@color/orange"
+                    android:textSize="@dimen/text_font_small"
+                    android:layout_marginTop="@dimen/margin_standard"
+                    android:layout_marginRight="@dimen/margin_standard"
+                    android:id="@+id/btnForgetPass"
+                    />
+
                 <Button
                     android:id="@+id/btn_login"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/width50"
-                    android:layout_below="@+id/ln_pass"
+                    android:layout_below="@+id/btnForgetPass"
                     android:layout_marginTop="@dimen/margin_sign_in"
                     android:background="@drawable/border_round_full_orange"
                     android:elevation="@dimen/margin_standard"
@@ -260,7 +273,6 @@
                     android:text="@string/text_sign_up"
                     android:textColor="@color/orange"
                     android:textSize="@dimen/title_font" />
-
             </RelativeLayout>
         </RelativeLayout>
     </androidx.core.widget.NestedScrollView>
